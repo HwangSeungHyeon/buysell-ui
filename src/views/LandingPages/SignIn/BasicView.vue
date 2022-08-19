@@ -5,9 +5,8 @@ import { onMounted } from "vue";
 import DefaultNavbar from "@/examples/navbars/NavbarDefault.vue";
 import Header from "@/examples/Header.vue";
 
-//Vue Material Kit 2 Pro components
+//Vue Material Kit 2 components
 import MaterialInput from "@/components/MaterialInput.vue";
-import MaterialSwitch from "@/components/MaterialSwitch.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
 
 // material-input
@@ -41,19 +40,22 @@ onMounted(() => {
                   <h4
                     class="text-white font-weight-bolder text-center mt-2 mb-0"
                   >
-                    Sign in
+                    로그인 하세요!
                   </h4>
                   <div class="row mt-3">
+                    <!-- //카카오 로그인-->
                     <div class="col-2 text-center ms-auto">
                       <a class="btn btn-link px-3" href="javascript:;">
                         <i class="fa fa-facebook text-white text-lg"></i>
                       </a>
                     </div>
+                    <!-- //네이버 로그인-->
                     <div class="col-2 text-center px-1">
                       <a class="btn btn-link px-3" href="javascript:;">
                         <i class="fa fa-github text-white text-lg"></i>
                       </a>
                     </div>
+                    <!--  //구글 로그인-->
                     <div class="col-2 text-center me-auto">
                       <a class="btn btn-link px-3" href="javascript:;">
                         <i class="fa fa-google text-white text-lg"></i>
@@ -76,13 +78,6 @@ onMounted(() => {
                     :label="{ text: 'Password', class: 'form-label' }"
                     type="password"
                   />
-                  <MaterialSwitch
-                    class="d-flex align-items-center mb-3"
-                    id="rememberMe"
-                    labelClass="mb-0 ms-3"
-                    checked
-                    >Remember me</MaterialSwitch
-                  >
 
                   <div class="text-center">
                     <MaterialButton
@@ -90,15 +85,15 @@ onMounted(() => {
                       variant="gradient"
                       color="success"
                       fullWidth
-                      >Sign in</MaterialButton
+                      >로그인</MaterialButton
                     >
                   </div>
                   <p class="mt-4 text-sm text-center">
-                    Don't have an account?
+                    계정이 없으신가요?
                     <a
                       href="#"
                       class="text-success text-gradient font-weight-bold"
-                      >Sign up</a
+                      >회원가입!</a
                     >
                   </p>
                 </form>

@@ -1,5 +1,5 @@
 <script setup>
-//Vue Material Kit 2 Pro components
+//Vue Material Kit 2 components
 import MaterialButton from "@/components/MaterialButton.vue";
 
 // image
@@ -75,7 +75,7 @@ const bgImage =
     <div
       class="page-header min-vh-100"
       :style="{
-        backgroundImage: `url(${bgImage})`,
+        backgroundImage: `url(${bgImage})`
       }"
       loading="lazy"
     >
@@ -85,17 +85,18 @@ const bgImage =
           <div
             class="col-lg-6 col-md-7 d-flex justify-content-center flex-column"
           >
-            <h1 class="text-white mb-4">Material Kit</h1>
+            <h1 class="text-white mb-4">Buy&Sell</h1>
             <p class="text-white opacity-8 lead pe-5 me-5">
-              The time is now for it be okay to be great. People in this world
-              shun people for being nice.
+              버리지마세요.
+              필요한 사람을 찾아보세요.
+              지금.
             </p>
             <div class="buttons">
               <MaterialButton color="white" class="mt-4"
-                >Get Started</MaterialButton
+                >가입하기</MaterialButton
               >
               <MaterialButton color="none" class="text-white shadow-none mt-4"
-                >Read more</MaterialButton
+                >구경하기</MaterialButton
               >
             </div>
           </div>

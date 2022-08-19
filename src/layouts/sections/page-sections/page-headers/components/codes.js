@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 export const header1Code = `<setup>
-//Vue Material Kit 2 Pro components
+//Vue Material Kit 2 components
 import MaterialButton from "@/components/MaterialButton.vue";
 <\/script>
 <template>
@@ -65,8 +65,9 @@ import MaterialButton from "@/components/MaterialButton.vue";
           <div class="col-lg-6 col-md-7 d-flex justify-content-center flex-column">
             <h1 class="text-white mb-4">Material Kit</h1>
             <p class="text-white opacity-8 lead pe-5 me-5">
-              The time is now for it be okay to be great. People in this world
-              shun people for being nice.
+              버리지 마세요.
+              필요한 사람에게 판매하세요.
+              지금.
             </p>
             <div class="buttons">
               <MaterialButton color="white" class="mt-4"

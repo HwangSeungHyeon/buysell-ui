@@ -1,10 +1,11 @@
+<!--하단에 리뷰 남긴 화면-->
 <script setup>
 import DefaultReviewCard from "@/examples/cards/reviewCards/DefaultReviewCard.vue";
 </script>
 <template>
   <section class="py-7">
     <div class="container">
-      <div class="row">
+      <!--      <div class="row">
         <div class="col-lg-6 mx-auto text-center">
           <h2 class="mb-0">Trusted by over</h2>
           <h2 class="text-gradient text-success mb-3">
@@ -15,13 +16,12 @@ import DefaultReviewCard from "@/examples/cards/reviewCards/DefaultReviewCard.vu
             institutions love Creative Tim's products.
           </p>
         </div>
-      </div>
+      </div>-->
       <div class="row mt-6">
         <DefaultReviewCard
           name="Nick Willever"
           date="1 day ago"
-          review='"This is an excellent product, the documentation is excellent and
-          helped me get things done more efficiently."'
+          review='"새 것 사기 부담스러웠는데 좋은 가격에 구매 할 수 있었습니다. 감사합니다."'
           :rating="5.0"
         />
         <DefaultReviewCard
@@ -29,25 +29,20 @@ import DefaultReviewCard from "@/examples/cards/reviewCards/DefaultReviewCard.vu
           color="bg-gradient-success"
           name="Shailesh Kushwaha"
           date="1 week ago"
-          review='"I found solution to all my design needs from Creative Tim. I
-                  use them as a freelancer in my hobby projects for fun! And its
-                  really affordable, very humble guys !!!"'
-          :rating="5.0"
+          review='"오 레어템 건짐 ㄱㅇㄷ"'
+          :rating="2.0"
         />
 
         <DefaultReviewCard
           name="Samuel Kamuli"
           date="3 weeks ago"
-          review='"Great product. Helped me cut the time to set up a site. I
-                  used the components within instead of starting from scratch. I
-                  highly recommend for developers who want to spend more time on
-                  the backend!."'
-          :rating="5.0"
+          review='"가짜물건을 팔면 어떻게 합니까!"'
+          :rating="1.0"
         />
       </div>
       <hr class="horizontal dark my-5" />
       <div class="row">
-        <div class="col-lg-2 col-md-4 col-6 ms-auto">
+        <!--        <div class="col-lg-2 col-md-4 col-6 ms-auto">
           <img
             class="w-100 opacity-6"
             src="@/assets/img/logos/gray-logos/logo-apple.svg"
@@ -81,7 +76,7 @@ import DefaultReviewCard from "@/examples/cards/reviewCards/DefaultReviewCard.vu
             src="@/assets/img/logos/gray-logos/logo-digitalocean.svg"
             alt="Logo"
           />
-        </div>
+        </div>-->
       </div>
     </div>
   </section>

@@ -1,3 +1,4 @@
+<!--여기가 70+ 15+ 4 써 있는 곳-->
 <script setup>
 import DefaultCounterCard from "../../../examples/cards/counterCards/DefaultCounterCard.vue";
 </script>

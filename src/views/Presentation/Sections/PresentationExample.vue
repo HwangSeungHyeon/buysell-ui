@@ -1,44 +1,22 @@
 <script setup>
 import ExampleCard from "../Components/ExampleCard.vue";
-import MaterialBadge from "../../../components/MaterialBadge.vue";
 
 defineProps({
   data: {
     type: Array,
     required: true,
-    heading: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
+    heading: { type: String, required: true },
+    description: { type: String, required: true },
     items: {
       type: Array,
       required: true,
-      image: {
-        type: String,
-        required: true,
-      },
-      title: {
-        type: String,
-        required: true,
-      },
-      subtitle: {
-        type: String,
-        required: true,
-      },
+      image: { type: String, required: true },
+      title: { type: String, required: true },
+      subtitle: { type: String, required: true },
     },
   },
-  col1: {
-    type: String,
-    default: "col-lg-3",
-  },
-  col2: {
-    type: String,
-    default: "col-lg-9",
-  },
+  col1: { type: String, default: "col-lg-3" },
+  col2: { type: String, default: "col-lg-9" },
 });
 </script>
 <script>
@@ -48,12 +26,13 @@ export default {
 </script>
 <template>
   <section class="my-5 py-5">
-    <div class="container">
+    <!--    <div class="container">
       <div class="row">
         <div class="row justify-content-center text-center my-sm-5">
           <div class="col-lg-6">
             <MaterialBadge color="success" class="mb-3"
-              >Infinite combinations</MaterialBadge
+            >
+            </MaterialBadge
             >
 
             <h2 class="text-dark mb-0">Huge collection of sections</h2>
@@ -64,7 +43,7 @@ export default {
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
     <div class="container mt-sm-5 mt-3">
       <div
         v-for="({ heading, description, items }, index) in data"
