@@ -42,26 +42,6 @@ onMounted(() => {
                   >
                     로그인 하세요!
                   </h4>
-                  <div class="row mt-3">
-                    <!-- //카카오 로그인-->
-                    <div class="col-2 text-center ms-auto">
-                      <a class="btn btn-link px-3" href="javascript:;">
-                        <i class="fa fa-facebook text-white text-lg"></i>
-                      </a>
-                    </div>
-                    <!-- //네이버 로그인-->
-                    <div class="col-2 text-center px-1">
-                      <a class="btn btn-link px-3" href="javascript:;">
-                        <i class="fa fa-github text-white text-lg"></i>
-                      </a>
-                    </div>
-                    <!--  //구글 로그인-->
-                    <div class="col-2 text-center me-auto">
-                      <a class="btn btn-link px-3" href="javascript:;">
-                        <i class="fa fa-google text-white text-lg"></i>
-                      </a>
-                    </div>
-                  </div>
                 </div>
               </div>
               <div class="card-body">
@@ -95,6 +75,26 @@ onMounted(() => {
                       class="text-success text-gradient font-weight-bold"
                       >회원가입!</a
                     >
+                    <div class="row mt-3">
+                      <!-- //카카오 로그인-->
+                      <div class="col-2 text-center ms-auto">
+                        <a class="btn btn-link px-3" href="javascript:;">
+                          <i class="fa fa-facebook text-yellow text-lg"></i>
+                        </a>
+                      </div>
+                      <!-- //네이버 로그인-->
+                      <div class="col-2 text-center px-1">
+                        <a class="btn btn-link px-3" href="javascript:;">
+                          <i class="fa fa-github text-green text-lg"></i>
+                        </a>
+                      </div>
+                      <!--  //구글 로그인-->
+                      <div class="col-2 text-center me-auto">
+                        <a class="btn btn-link px-3" href="javascript:;">
+                          <i class="fa fa-google text-red text-lg"></i>
+                        </a>
+                      </div>
+                    </div>
                   </p>
                 </form>
               </div>

@@ -49,7 +49,6 @@ onMounted(() => {
     <div
       class="page-header min-vh-35"
       :style="`background-image: url(${vueMkHeader})`"
-      loading="lazy"
     >
       <div class="container">
         <div class="row">
@@ -77,7 +76,7 @@ onMounted(() => {
               <a
                 class="nav-link mb-0 px-0 py-1 active"
                 data-bs-toggle="tab"
-                href="#profile-tabs-simple"
+                href="#profile-tabs-simpl"
                 role="tab"
                 aria-controls="profile"
                 aria-selected="true"
