@@ -2,7 +2,6 @@
 import { onMounted } from "vue";
 
 // example components
-import DefaultNavbar from "@/examples/navbars/NavbarDefault.vue";
 import Header from "@/examples/Header.vue";
 
 //Vue Material Kit 2 components
@@ -39,62 +38,29 @@ onMounted(() => {
                   <h4
                     class="text-white font-weight-bolder text-center mt-2 mb-0"
                   >
-                    로그인 하세요!
+                    회원가입
                   </h4>
                 </div>
               </div>
               <div class="card-body">
                 <form role="form" class="text-start">
                   <MaterialInput
-                    id="email"
+                    id="Emailcode"
                     class="input-group-outline my-3"
-                    :label="{ text: 'Email', class: 'form-label' }"
-                    type="email"
-                  />
-                  <MaterialInput
-                    id="password"
-                    class="input-group-outline mb-3"
-                    :label="{ text: 'Password', class: 'form-label' }"
-                    type="password"
+                    :label="{ text: 'Emailcode', class: 'form-label' }"
+                    type="Emailcode"
                   />
 
                   <div class="text-center">
                     <MaterialButton
                       class="my-4 mb-2"
+                      href="/auth"
                       variant="gradient"
                       color="success"
                       fullWidth
-                      >로그인</MaterialButton
+                      >인증하기</MaterialButton
                     >
                   </div>
-                  <p class="mt-4 text-sm text-center">
-                    계정이 없으신가요?
-                    <a
-                      href="/signup"
-                      class="text-success text-gradient font-weight-bold"
-                      >회원가입!</a
-                    >
-                    <div class="row mt-3">
-                      <!-- //카카오 로그인-->
-                      <div class="col-2 text-center ms-auto">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-facebook text-yellow text-lg"></i>
-                        </a>
-                      </div>
-                      <!-- //네이버 로그인-->
-                      <div class="col-2 text-center px-1">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-github text-green text-lg"></i>
-                        </a>
-                      </div>
-                      <!--  //구글 로그인-->
-                      <div class="col-2 text-center me-auto">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-google text-red text-lg"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </p>
                 </form>
               </div>
             </div>

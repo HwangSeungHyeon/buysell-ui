@@ -6,7 +6,6 @@ import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
 import MaterialInput from "@/components/MaterialInput.vue";
 // images
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
-import downArrow from "@/assets/img/down-arrow.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
 
 const props = defineProps({
