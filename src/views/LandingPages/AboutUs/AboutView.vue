@@ -30,7 +30,6 @@ onMounted(() => {
     });
   }
 });
-
 onUnmounted(() => {
   body.classList.remove("about-us");
   body.classList.remove("bg-gray-200");
