@@ -76,14 +76,15 @@ onMounted(() => {
                   />
 
                   <div class="text-center">
-                    <MaterialButton
-                        href="/auth"
+                    <router-link to="/auth">
+                      <MaterialButton
                         class="my-4 mb-2"
                         variant="gradient"
                         color="success"
                         fullWidth
-                    >이메일 인증하기</MaterialButton
-                    >
+                    > 이메일 인증하기 </MaterialButton>
+                      </router-link>
+
                   </div>
                   <p class="mt-4 text-sm text-center">
                     소셜 로그인
