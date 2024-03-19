@@ -198,19 +198,7 @@ watch(
                         :to="{ name: 'about' }"
                         class="dropdown-item border-radius-md"
                       >
-                        <span>About Us</span>
-                      </RouterLink>
-                      <RouterLink
-                        :to="{ name: 'contactus' }"
-                        class="dropdown-item border-radius-md"
-                      >
-                        <span>Contact Us</span>
-                      </RouterLink>
-                      <RouterLink
-                        :to="{ name: 'author' }"
-                        class="dropdown-item border-radius-md"
-                      >
-                        <span>Author</span>
+                        <span>My Page</span>
                       </RouterLink>
                     </div>
                   </div>
