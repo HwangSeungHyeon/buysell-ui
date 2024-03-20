@@ -17,15 +17,8 @@ onMounted(() => {
 </script>
 <template>
   <Header>
-    <div
-      class="page-header align-items-start min-vh-65"
-      :style="{
-        backgroundImage:
-          'url(https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80)',
-      }"
-      loading="lazy"
-    >
-      <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="page-header min-vh-50">
+      <span class="mask bg-gradient-drk opacity-6"></span>
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -47,8 +40,11 @@ onMounted(() => {
                 <form role="form" class="text-start">
                   <MaterialInput
                     id="입금액"
-                    class="input-group-outline my-3"
-                    :label="{ text: '숫자만 입력 하세요.', class: 'form-label' }"
+                    class="input-group-outline my-5"
+                    :label="{
+                      text: '숫자만 입력 하세요.',
+                      class: 'form-label',
+                    }"
                     type="입금액"
                   />
                   현재 잔액 : 0,000원
@@ -59,6 +55,6 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <ModalD></ModalD>
   </Header>
-  <ModalD></ModalD>
 </template>

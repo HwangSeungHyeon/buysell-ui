@@ -16,14 +16,14 @@ import image from "@/assets/img/city-profile.jpg";
   <DefaultNavbar transparent />
   <Header>
     <div
-      class="page-header min-height-400"
+      class="page-header min-height-200"
       :style="{ backgroundImage: `url(${image})` }"
       loading="lazy"
     >
       <span class="mask bg-gradient-dark opacity-8"></span>
     </div>
   </Header>
-  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
+  <div class="card card-body blur shadow-blur mx-9 mx-md-9 mt-n6 mb-4">
     <Profile />
   </div>
 </template>

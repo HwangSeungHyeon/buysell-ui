@@ -40,7 +40,7 @@ onUnmounted(() => {
   <header class="bg-gradient-dark">
     <div
       :style="{ backgroundImage: `url(${bg0})` }"
-      class="page-header min-vh-95"
+      class="page-header min-vh-100"
     >
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container">
@@ -56,7 +56,7 @@ onUnmounted(() => {
               <h1>⭐⭐⭐⭐</h1>
             </div>
             <button class="btn bg-white text-dark" type="submit">
-              My Itemes?
+              My Sales products
             </button>
             <div>
               <button class="btn bg-white text-dark" type="submit">
@@ -73,12 +73,13 @@ onUnmounted(() => {
             <div>
               <router-link to="/pages/landing-pages/author">
                 <button class="btn bg-white text-dark" type="submit">
-                  Profile Edit</button>
+                  Profile Edit
+                </button>
               </router-link>
             </div>
             <div>
               <button class="btn bg-white text-dark" type="submit">
-                Withdrawal
+                Secession
               </button>
             </div>
           </div>
