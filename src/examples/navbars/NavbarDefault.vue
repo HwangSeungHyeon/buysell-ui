@@ -130,11 +130,6 @@ watch(
           placeholder="Search"
         />
       </section>
-      <a
-        href="https://www.creative-tim.com/product/vue-material-kit-pro"
-        class="btn btn-sm bg-gradient-success mb-0 ms-auto d-lg-none d-block"
-        >Buy Now</a
-      >
       <button
         class="navbar-toggler shadow-none ms-2"
         type="button"
@@ -169,7 +164,7 @@ watch(
                 :class="getTextColor()"
                 >dashboard</i
               >
-              Pages
+
               <img
                 :src="getArrowColor()"
                 alt="down-arrow"
@@ -192,7 +187,7 @@ watch(
                       <div
                         class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1"
                       >
-                        Landing Pages
+                        개인
                       </div>
                       <RouterLink
                         :to="{ name: 'about' }"
@@ -200,32 +195,38 @@ watch(
                       >
                         <span>My Page</span>
                       </RouterLink>
+                      <RouterLink
+                        :to="{ name: 'four-t-pay' }"
+                        class="dropdown-item border-radius-md">
+                        <span>Four-T-Pay</span>
+                      </RouterLink>
+                      <RouterLink
+                        :to="{ name: 'author' }"
+                        class="dropdown-item border-radius-md">
+                        <span>Author</span>
+                      </RouterLink>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="d-lg-none">
                 <div
-                  class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-0"
-                >
-                  Landing Pages
+                  class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-0">
+                  개인
                 </div>
                 <RouterLink
                   :to="{ name: 'about' }"
-                  class="dropdown-item border-radius-md"
-                >
-                  <span>About Us</span>
+                  class="dropdown-item border-radius-md">
+                  <span>My Page</span>
                 </RouterLink>
                 <RouterLink
-                  :to="{ name: 'contactus' }"
-                  class="dropdown-item border-radius-md"
-                >
-                  <span>Contact Us</span>
+                  :to="{ name: 'four-t-pay' }"
+                  class="dropdown-item border-radius-md">
+                  <span>Four-T-Pay</span>
                 </RouterLink>
                 <RouterLink
                   :to="{ name: 'author' }"
-                  class="dropdown-item border-radius-md"
-                >
+                  class="dropdown-item border-radius-md">
                   <span>Author</span>
                 </RouterLink>
               </div>
@@ -239,8 +240,7 @@ watch(
               class="btn btn-sm mb-0"
               :class="action.color"
               onclick="smoothToPricing('pricing-soft-ui')"
-              >{{ action.label }}</a
-            >
+              >{{ action.label }}</a>
           </li>
         </ul>
       </div>

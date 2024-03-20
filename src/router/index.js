@@ -26,6 +26,9 @@ import ElTypography from "../layouts/sections/elements/typography/TypographyView
 import SignIn from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUp from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUpAuth from "@/views/LandingPages/SignIn/SignUpAuth.vue";
+import FourTPay from "@/views/Presentation/FourTPay.vue";
+import Deposit from "@/views/Presentation/Deposit.vue";
+import Withdraw from "@/views/Presentation/Withdraw.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -158,6 +161,21 @@ const router = createRouter({
       path: "/auth",
       name: "auth",
       component: SignUpAuth,
+    },
+    {
+      path: "/four-t-pay",
+      name: "four-t-pay",
+      component: FourTPay,
+    },
+    {
+      path: "/deposit",
+      name: "deposit",
+      component: Deposit,
+    },
+    {
+      path: "/withdraw",
+      name: "withdraw",
+      component: Withdraw,
     },
   ],
 });

@@ -26,7 +26,7 @@ onMounted(() => {
       backSpeed: 90,
       backDelay: 200,
       startDelay: 500,
-      loop: true
+      loop: true,
     });
   }
 });
@@ -64,9 +64,12 @@ onUnmounted(() => {
               </button>
             </div>
             <div>
-              <button class="btn bg-white text-dark" type="submit">
-                FourT Pay
-              </button>
+              <router-link to="/four-t-pay">
+              <button
+                class="btn bg-white text-dark"
+                type="submit">
+                Four-T Pay</button>
+              </router-link>
             </div>
             <div>
               <button class="btn bg-white text-dark" type="submit">

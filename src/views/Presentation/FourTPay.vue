@@ -38,28 +38,35 @@ onMounted(() => {
                   <h4
                     class="text-white font-weight-bolder text-center mt-2 mb-0"
                   >
-                    인증코드를 입력하세요.
+                    잔액을 확인하세요.
                   </h4>
                 </div>
               </div>
               <div class="card-body">
                 <form role="form" class="text-start">
-                  <MaterialInput
-                    id="Emailcode"
-                    class="input-group-outline my-3"
-                    :label="{ text: 'Emailcode', class: 'form-label' }"
-                    type="Emailcode"
-                  />
-
                   <div class="text-center">
-                    <MaterialButton
-                      class="my-4 mb-2"
-                      href="/auth"
-                      variant="gradient"
-                      color="success"
-                      fullWidth
-                      >인증하기</MaterialButton
-                    >
+                    <h3 class="text-center">현재 잔액 : 0,000원</h3>
+                    <router-link to="/deposit">
+                      <MaterialButton
+                        class="my-4 mb-2"
+                        variant="gradient"
+                        color="success"
+                        fullWidth
+                      >
+                        입금하기</MaterialButton
+                      >
+                    </router-link>
+                  </div>
+                  <div class="text-center">
+                    <router-link to="/withdraw">
+                      <MaterialButton
+                        class="my-4 mb-2"
+                        variant="gradient"
+                        color="success"
+                        fullWidth
+                        >출금하기</MaterialButton
+                      >
+                    </router-link>
                   </div>
                 </form>
               </div>
