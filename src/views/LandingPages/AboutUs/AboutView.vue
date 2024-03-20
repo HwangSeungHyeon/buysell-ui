@@ -72,9 +72,11 @@ onUnmounted(() => {
               </router-link>
             </div>
             <div>
+              <router-link to="/pages/landing-pages/author">
               <button class="btn bg-white text-dark" type="submit">
                 Profile Edit
               </button>
+              </router-link>
             </div>
             <div>
               <button class="btn bg-white text-dark" type="submit">
