@@ -203,7 +203,7 @@ watch(
                       <RouterLink
                         :to="{ name: 'author' }"
                         class="dropdown-item border-radius-md">
-                        <span>Author</span>
+                        <span>Profile</span>
                       </RouterLink>
                     </div>
                   </div>
@@ -227,7 +227,7 @@ watch(
                 <RouterLink
                   :to="{ name: 'author' }"
                   class="dropdown-item border-radius-md">
-                  <span>Author</span>
+                  <span>Profile</span>
                 </RouterLink>
               </div>
             </div>

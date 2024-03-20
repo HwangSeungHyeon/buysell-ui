@@ -10,6 +10,7 @@ import profilePic from "@/assets/img/bruce-mars.jpg";
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
+import MaterialInput from "@/components/MaterialInput.vue";
 onMounted(() => {
   setMaterialInput();
 });
@@ -33,19 +34,16 @@ onMounted(() => {
             <div
               class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto"
             >
+              <MaterialButton
+                variant="contained"
+                color="success"
+                class="w-auto me-2">
+                프로필 수정
+              </MaterialButton>
               <div
                 class="d-flex justify-content-between align-items-center mb-2"
               >
-                <h3 class="mb-0">Michael Roven</h3>
-                <div class="d-block">
-                  <MaterialButton
-                    class="text-nowrap mb-0"
-                    variant="outline"
-                    color="success"
-                    size="sm"
-                    >Follow</MaterialButton
-                  >
-                </div>
+                <h3 class="mb-0">Hyunjoo Kim</h3>
               </div>
               <div class="row mb-4">
                 <div class="col-auto">
@@ -53,7 +51,7 @@ onMounted(() => {
                   <span>Posts</span>
                 </div>
                 <div class="col-auto">
-                  <span class="h6 me-1">3.5k</span>
+                  <span class="h6 me-1">399.5k</span>
                   <span>Followers</span>
                 </div>
                 <div class="col-auto">
@@ -61,18 +59,31 @@ onMounted(() => {
                   <span>Following</span>
                 </div>
               </div>
+
               <p class="text-lg mb-0">
-                Decisions: If you can’t decide, the answer is no. If two equally
-                difficult paths, choose the one more painful in the short term
-                (pain avoidance is creating an illusion of equality). Choose the
-                path that leaves you more equanimous.
+                저는 귀엽습니다!
+                현재의 주인공 김현주입니다!
+                소통능력을 갖춘 인재를 원하신다면 바로 저를 데려가세요!
                 <br /><a
-                  href="javascript:;"
+                  href="https://hyunzoo123123.github.io/IntroduceHJ/"
                   class="text-success icon-move-right"
-                  >More about me
+                  >김현주 응원하기
                   <i class="fas fa-arrow-right text-sm ms-1"></i>
                 </a>
               </p>
+              <section class="py-7">
+                <div class="container">
+                  <div class="row py-2">
+                    <div class="col-lg-4 mx-auto">
+                      <MaterialInput
+                        class="input-group-outline mb-4"
+                        :label="{ text: '닉네임', class: 'form-label' }"
+                        type="text"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </section>
             </div>
           </div>
         </div>
