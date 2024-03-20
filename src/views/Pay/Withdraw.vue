@@ -6,11 +6,10 @@ import Header from "@/examples/Header.vue";
 
 //Vue Material Kit 2 components
 import MaterialInput from "@/components/MaterialInput.vue";
-import MaterialButton from "@/components/MaterialButton.vue";
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
-import ModalD from "@/views/Presentation/Components/ModalD.vue";
+import ModalD from "@/views/Pay/Components/ModalD.vue";
 onMounted(() => {
   setMaterialInput();
 });
@@ -32,20 +31,20 @@ onMounted(() => {
                   <h4
                     class="text-white font-weight-bolder text-center mt-2 mb-0"
                   >
-                    입금할 금액을 입력하세요.
+                    출금할 금액을 입력하세요.
                   </h4>
                 </div>
               </div>
               <div class="card-body">
                 <form role="form" class="text-start">
                   <MaterialInput
-                    id="입금액"
+                    id="출금액"
                     class="input-group-outline my-5"
                     :label="{
                       text: '숫자만 입력 하세요.',
                       class: 'form-label',
                     }"
-                    type="입금액"
+                    type="출금액"
                   />
                   현재 잔액 : 0,000원
                 </form>

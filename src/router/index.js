@@ -23,12 +23,11 @@ import ElDropdowns from "../layouts/sections/elements/dropdowns/DropdownsView.vu
 import ElProgressBars from "../layouts/sections/elements/progress-bars/ProgressBarsView.vue";
 import ElToggles from "../layouts/sections/elements/toggles/TogglesView.vue";
 import ElTypography from "../layouts/sections/elements/typography/TypographyView.vue";
-import SignIn from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUp from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUpAuth from "@/views/LandingPages/SignIn/SignUpAuth.vue";
-import FourTPay from "@/views/Presentation/FourTPay.vue";
-import Deposit from "@/views/Presentation/Deposit.vue";
-import Withdraw from "@/views/Presentation/Withdraw.vue";
+import FourTPay from "@/views/Pay/FourTPay.vue";
+import Deposit from "@/views/Pay/Deposit.vue";
+import Withdraw from "@/views/Pay/Withdraw.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
