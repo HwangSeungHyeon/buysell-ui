@@ -65,17 +65,15 @@ onUnmounted(() => {
             </div>
             <div>
               <router-link to="/four-t-pay">
-              <button
-                class="btn bg-white text-dark"
-                type="submit">
-                Four-T Pay</button>
+                <button class="btn bg-white text-dark" type="submit">
+                  Four-T Pay
+                </button>
               </router-link>
             </div>
             <div>
               <router-link to="/pages/landing-pages/author">
-              <button class="btn bg-white text-dark" type="submit">
-                Profile Edit
-              </button>
+                <button class="btn bg-white text-dark" type="submit">
+                  Profile Edit</button>
               </router-link>
             </div>
             <div>
