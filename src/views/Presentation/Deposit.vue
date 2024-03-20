@@ -10,6 +10,7 @@ import MaterialButton from "@/components/MaterialButton.vue";
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
+import ModalD from "@/views/Presentation/Components/ModalD.vue";
 onMounted(() => {
   setMaterialInput();
 });
@@ -17,7 +18,7 @@ onMounted(() => {
 <template>
   <Header>
     <div
-      class="page-header align-items-start min-vh-100"
+      class="page-header align-items-start min-vh-65"
       :style="{
         backgroundImage:
           'url(https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80)',
@@ -51,15 +52,6 @@ onMounted(() => {
                     type="입금액"
                   />
                   현재 잔액 : 0,000원
-                  <div class="text-center">
-                    <MaterialButton
-                      variant="gradient"
-                      color="success"
-                      data-bs-toggle="modal"
-                      data-bs-target="#exampleModal">
-                      입금하기</MaterialButton
-                    >
-                  </div>
                 </form>
               </div>
             </div>
@@ -68,4 +60,5 @@ onMounted(() => {
       </div>
     </div>
   </Header>
+  <ModalD></ModalD>
 </template>
