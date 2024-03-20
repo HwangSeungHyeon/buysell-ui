@@ -7,6 +7,7 @@ import MaterialInput from "@/components/MaterialInput.vue";
 // images
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
+import MaterialButton from "@/components/MaterialButton.vue";
 
 const props = defineProps({
   action: {
@@ -130,11 +131,17 @@ watch(
           placeholder="Search"
         />
       </section>
-      <a
-        href="https://www.creative-tim.com/product/vue-material-kit-pro"
-        class="btn btn-sm bg-gradient-success mb-0 ms-auto d-lg-none d-block"
-        >Buy Now</a
-      >
+      <div class="d-flex align-items-center">
+        <div role="button" class="nav-link ps-2 d-flex cursor-pointer align-items-end justify-content-end" :class="getTextColor()" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
+          `
+        </div>
+      </div>
+
+<!--      <a-->
+<!--        href="https://www.creative-tim.com/product/vue-material-kit-pro"-->
+<!--        class="btn btn-sm bg-gradient-success mb-0 ms-auto d-lg d-block"-->
+<!--        >Buy Now</a-->
+<!--      >-->
       <button
         class="navbar-toggler shadow-none ms-2"
         type="button"
@@ -155,6 +162,16 @@ watch(
         id="navigation"
       >
         <ul class="navbar-nav navbar-nav-hover ms-auto">
+          <router-link to="/posts/orders">
+            <MaterialButton
+              class="my-4 mb-2"
+              variant="gradient"
+              color="success"
+              fullWidth
+            >
+              상품등록
+            </MaterialButton>
+          </router-link>
           <li class="nav-item dropdown dropdown-hover mx-2">
             <a
               role="button"

@@ -23,9 +23,10 @@ import ElDropdowns from "../layouts/sections/elements/dropdowns/DropdownsView.vu
 import ElProgressBars from "../layouts/sections/elements/progress-bars/ProgressBarsView.vue";
 import ElToggles from "../layouts/sections/elements/toggles/TogglesView.vue";
 import ElTypography from "../layouts/sections/elements/typography/TypographyView.vue";
-import SignIn from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUp from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUpAuth from "@/views/LandingPages/SignIn/SignUpAuth.vue";
+import OrderForm from "@/views/LandingPages/posts/orders/OrderForm.vue";
+import PostDetailForm from "@/views/LandingPages/posts/PostDetailForm.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -158,6 +159,16 @@ const router = createRouter({
       path: "/auth",
       name: "auth",
       component: SignUpAuth,
+    },
+    {
+      path: "/posts/orders",
+      name: "orders",
+      component: OrderForm,
+    },
+    {
+      path: "/posts",
+      name: "postdetail",
+      component: PostDetailForm,
     },
   ],
 });
