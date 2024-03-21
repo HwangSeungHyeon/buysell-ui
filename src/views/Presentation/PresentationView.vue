@@ -35,6 +35,7 @@ import setNavPills from "@/assets/js/nav-pills.js";
 onMounted(() => {
   setNavPills();
 });
+// eslint-disable-next-line vue/no-export-in-script-setup
 </script>
 
 <template>

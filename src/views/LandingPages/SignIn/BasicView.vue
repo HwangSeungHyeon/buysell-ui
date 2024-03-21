@@ -2,18 +2,35 @@
 import { onMounted } from "vue";
 
 // example components
-import DefaultNavbar from "@/examples/navbars/NavbarDefault.vue";
 import Header from "@/examples/Header.vue";
 
 //Vue Material Kit 2 components
 import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
-
+// axios 라이브러리 가져오기
+import axios from 'axios';
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
 onMounted(() => {
   setMaterialInput();
 });
+
+// eslint-disable-next-line vue/no-export-in-script-setup
+ const loginApi=()=>{
+   const loginInfo={
+     email: this.email,
+     password: this.password
+   }
+   axios.post('http://54.180.153.110:8080/swagger-ui/index.html', loginInfo)
+     .then(response => {
+       console.log(response)
+     })
+     .catch(error => {
+       // 에러 처리
+       console.error('API 호출 에러:', error);
+     });
+ }
+
 </script>
 <template>
   <Header>
