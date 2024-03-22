@@ -26,8 +26,8 @@ import ElTypography from "../layouts/sections/elements/typography/TypographyView
 import SignUp from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUpAuth from "@/views/LandingPages/SignIn/SignUpAuth.vue";
 import OrderForm from "@/views/LandingPages/posts/orders/OrderForm.vue";
-import PostDetailForm from "@/views/LandingPages/posts/PostDetailForm.vue";
 import PurchaseForm from "@/views/LandingPages/posts/orders/PurchaseForm.vue";
+import ProductForm from "@/views/LandingPages/posts/ProductForm.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -167,9 +167,9 @@ const router = createRouter({
       component: OrderForm,
     },
     {
-      path: "/posts",
-      name: "postdetail",
-      component: PostDetailForm,
+      path: "/products",
+      name: "products",
+      component: ProductForm,
     },
     {
       path: "/purchase",

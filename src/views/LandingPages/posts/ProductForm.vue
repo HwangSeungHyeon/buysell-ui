@@ -1,33 +1,30 @@
 <template>
   <section>
     <div class="container py-3" style="width: 60%;">
-      <!-- 여기부터 게시글 제목과 작성자 이름 -->
+      <!-- 상품 정보 표시 -->
       <div class="post-header text-center mb-5">
-        <div class="post-title"><h4>게시글 제목</h4></div>
-        <div class="post-author"><h4>작성자: 이름</h4></div>
+        <div class="post-title"><h4>{{ product.title }}</h4></div>
+        <div class="post-author"><h4>작성자: {{ product.author }}</h4></div>
       </div>
-      <!-- 여기까지 게시글 제목과 작성자 이름 -->
-      <div class="product-info py-6" >
+      <div class="product-info py-6">
         <div class="product-image-container">
           <img
-            src=""
+            :src="product.imageUrl"
             alt="제품 이미지"
             class="product-image mb-3"
           />
         </div>
         <div class="product-details">
-          <p style="font-weight: bold">가격: ₩가격정보</p>
-          <p style="font-weight: bold; margin-right: 50px">제품 설명</p>
+          <p style="font-weight: bold">가격: ₩{{ product.price }}</p>
+          <p style="font-weight: bold; margin-right: 50px">{{ product.description }}</p>
         </div>
       </div>
 
       <!-- 구매하기 버튼 -->
       <div class="text-sm-end mb-5">
-        <router-link to="/purchase" class="no-style-link">
-          <material-button variant="gradient" color="primary" style="margin-right: 100px"
-            >구매하기</material-button
-          >
-        </router-link>
+        <material-button variant="gradient" color="primary" style="margin-right: 100px"
+        >구매하기</material-button
+        >
       </div>
 
       <!-- 게시글 수정, 찜하기 -->
@@ -39,12 +36,12 @@
         </router-link>
         <router-link to="/" class="no-style-link">
           <material-button variant="gradient" color="secondary" style="justify-content: end"
-            >게시글 수정</material-button
+          >게시글 수정</material-button
           >
         </router-link>
         <router-link to="/" class="no-style-link">
           <material-button variant="gradient" color="info"
-            >찜하기</material-button
+          >찜하기</material-button
           >
         </router-link>
       </div>
@@ -74,15 +71,22 @@
 </template>
 
 <script setup>
-// 필요한 컴포넌트와 데이터를 가져옵니다.
-import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
+import MaterialInput from "@/components/MaterialInput.vue";
 
-// 예시 데이터
+// 상품과 댓글 데이터 예시
+const product = {
+  title: "게시글 제목",
+  author: "작성자",
+  imageUrl: "이미지 URL",
+  price: "상품 가격",
+  description: "상품 설명",
+};
+
 const comments = [
   { id: 1, content: "정말 멋진 제품이네요!" },
   { id: 2, content: "가격이 조금 비싼 것 같아요." },
-  // 더 많은 댓글...
+  // 추가적인 댓글 데이터...
 ];
 </script>
 

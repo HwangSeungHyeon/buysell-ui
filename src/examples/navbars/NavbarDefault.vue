@@ -1,121 +1,9 @@
-<script setup>
-import { RouterLink } from "vue-router";
-import { ref, watch } from "vue";
-import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
-//Vue Material Kit 2 components
-import MaterialInput from "@/components/MaterialInput.vue";
-// images
-import ArrDark from "@/assets/img/down-arrow-dark.svg";
-import DownArrWhite from "@/assets/img/down-arrow-white.svg";
-import MaterialButton from "@/components/MaterialButton.vue";
-
-const props = defineProps({
-  action: {
-    type: Object,
-    route: String,
-    color: String,
-    label: String,
-    default: () => ({
-      route: "/pages/landing-pages/basic",
-      color: "bg-gradient-success",
-      label: "Log in",
-    }),
-  },
-  transparent: {
-    type: Boolean,
-    default: false,
-  },
-  light: {
-    type: Boolean,
-    default: false,
-  },
-  dark: {
-    type: Boolean,
-    default: false,
-  },
-  sticky: {
-    type: Boolean,
-    default: false,
-  },
-  darkText: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-// set arrow  color
-function getArrowColor() {
-  if (props.transparent && textDark.value) {
-    return ArrDark;
-  } else if (props.transparent) {
-    return DownArrWhite;
-  } else {
-    return ArrDark;
-  }
-}
-
-// set text color
-const getTextColor = () => {
-  let color;
-  if (props.transparent && textDark.value) {
-    color = "text-dark";
-  } else if (props.transparent) {
-    color = "text-white";
-  } else {
-    color = "text-dark";
-  }
-
-  return color;
-};
-
-// set nav color on mobile && desktop
-
-let textDark = ref(props.darkText);
-const { type } = useWindowsWidth();
-
-if (type.value === "mobile") {
-  textDark.value = true;
-} else if (type.value === "desktop" && textDark.value == false) {
-  textDark.value = false;
-}
-
-watch(
-  () => type.value,
-  (newValue) => {
-    if (newValue === "mobile") {
-      textDark.value = true;
-    } else {
-      textDark.value = false;
-    }
-  }
-);
-</script>
 <template>
-  <nav
-    class="navbar navbar-expand-lg top-0"
-    :class="{
-      'z-index-3 w-100 shadow-none navbar-transparent position-absolute my-3':
-        props.transparent,
-      'my-3 blur border-radius-lg z-index-3 py-2 shadow py-2 start-0 end-0 mx-4 position-absolute mt-4':
-        props.sticky,
-      'navbar-light bg-white py-3': props.light,
-      ' navbar-dark bg-gradient-dark z-index-3 py-3': props.dark,
-    }"
-  >
-    <div
-      :class="
-        props.transparent || props.light || props.dark
-          ? 'container'
-          : 'container-fluid px-0'
-      "
-    >
+  <nav class="navbar navbar-expand-lg top-0">
+    <div :class="getContainerClass()">
       <RouterLink
         class="navbar-brand d-none d-md-block"
-        :class="[
-          (props.transparent && textDark.value) || !props.transparent
-            ? 'text-dark font-weight-bolder ms-sm-3'
-            : 'text-white font-weight-bolder ms-sm-3',
-        ]"
+        :class="getBrandClass()"
         :to="{ name: 'presentation' }"
         rel="tooltip"
         title="Designed and Coded by Creative Tim"
@@ -132,16 +20,17 @@ watch(
         />
       </section>
       <div class="d-flex align-items-center">
-        <div role="button" class="nav-link ps-2 d-flex cursor-pointer align-items-end justify-content-end" :class="getTextColor()" id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
+        <div
+          role="button"
+          class="nav-link ps-2 d-flex cursor-pointer align-items-end justify-content-end"
+          :class="getTextColor()"
+          id="dropdownMenuPages"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
           `
         </div>
       </div>
-
-<!--      <a-->
-<!--        href="https://www.creative-tim.com/product/vue-material-kit-pro"-->
-<!--        class="btn btn-sm bg-gradient-success mb-0 ms-auto d-lg d-block"-->
-<!--        >Buy Now</a-->
-<!--      >-->
       <button
         class="navbar-toggler shadow-none ms-2"
         type="button"
@@ -260,21 +149,132 @@ watch(
               </div>
             </div>
           </li>
-        </ul>
-        <ul class="navbar-nav d-lg-block d-none">
           <li class="nav-item">
-            <a
-              :href="action.route"
+            <button
+              v-if="isAuthenticated"
               class="btn btn-sm mb-0"
+              @click="logout"
               :class="action.color"
-              onclick="smoothToPricing('pricing-soft-ui')"
-              >{{ action.label }}</a
             >
+              로그아웃
+            </button>
+            <router-link v-else :to="action.route">
+              <button class="btn btn-sm mb-0" :class="action.color">
+                {{ action.label }}
+              </button>
+            </router-link>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-
-  <!-- End Navbar -->
 </template>
+
+<script setup>
+import { RouterLink } from "vue-router";
+import { ref, defineProps, watch } from "vue";
+import MaterialInput from "@/components/MaterialInput.vue";
+import ArrDark from "@/assets/img/down-arrow-dark.svg";
+import DownArrWhite from "@/assets/img/down-arrow-white.svg";
+import MaterialButton from "@/components/MaterialButton.vue";
+import { useWindowsWidth } from "@/assets/js/useWindowsWidth";
+
+const isAuthenticated = ref(false);
+
+if (localStorage.getItem("token")) {
+  isAuthenticated.value = true;
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  isAuthenticated.value = false;
+}
+
+const props = defineProps({
+  action: {
+    type: Object,
+    route: String,
+    color: String,
+    label: String,
+    default: () => ({
+      route: "/pages/landing-pages/basic",
+      color: "bg-gradient-success",
+      label: "로그인",
+    }),
+  },
+  transparent: {
+    type: Boolean,
+    default: false,
+  },
+  light: {
+    type: Boolean,
+    default: false,
+  },
+  dark: {
+    type: Boolean,
+    default: false,
+  },
+  sticky: {
+    type: Boolean,
+    default: false,
+  },
+  darkText: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+let textDark = ref(props.darkText);
+const { type } = useWindowsWidth();
+
+if (type.value === "mobile") {
+  textDark.value = true;
+} else if (type.value === "desktop" && textDark.value === false) {
+  textDark.value = false;
+}
+watch(
+  () => type.value,
+  (newValue) => {
+    if (newValue === "mobile") {
+      textDark.value = true;
+    } else {
+      textDark.value = false;
+    }
+  }
+);
+
+const getArrowColor = () => {
+  if (props.transparent && textDark.value) {
+    return ArrDark;
+  } else if (props.transparent) {
+    return DownArrWhite;
+  } else {
+    return ArrDark;
+  }
+};
+
+const getTextColor = () => {
+  let color;
+  if (props.transparent && textDark.value) {
+    color = "text-dark";
+  } else if (props.transparent) {
+    color = "text-white";
+  } else {
+    color = "text-dark";
+  }
+
+  return color;
+};
+
+const getBrandClass = () => [
+  (props.transparent && textDark.value) || !props.transparent
+    ? "text-dark font-weight-bolder ms-sm-3"
+    : "text-white font-weight-bolder ms-sm-3",
+];
+
+const getContainerClass = () => [
+  props.transparent || props.light || props.dark
+    ? "container"
+    : "container-fluid px-0",
+];
+</script>
