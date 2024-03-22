@@ -1,42 +1,6 @@
 <script setup>
-// /*여기가 바로 메인 페이지 입니다!*/
-// import { onMounted, onUnmounted } from "vue";
-//
-// //example components
-// import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
-// import DefaultFooter from "../../examples/footers/FooterDefault.vue";
-// import Header from "../../examples/Header.vue";
-//
-// // sections
-// import PresentationExample from "./Sections/PresentationExample.vue";
-// import data from "./Sections/Data/designBlocksData";
-//
-// //images
-// import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
-// import { RouterLink } from "vue-router";
-//
-// //hooks
-// const body = document.getElementsByTagName("body")[0];
-// onMounted(() => {
-//   body.classList.add("presentation-page");
-//   body.classList.add("bg-gray-200");
-// });
-// onUnmounted(() => {
-//   body.classList.remove("presentation-page");
-//   body.classList.remove("bg-gray-200");
-// });
-//
-// //Vue Material Kit 2 components
-// import MaterialPagination from "@/components/MaterialPagination.vue";
-// import MaterialPaginationItem from "@/components/MaterialPaginationItem.vue";
-//
-// // nav-pill
-// import setNavPills from "@/assets/js/nav-pills.js";
-// onMounted(() => {
-//   setNavPills();
-// });
-import { onMounted, onUnmounted, ref } from "vue";
-import { RouterLink } from "vue-router";
+/*여기가 바로 메인 페이지 입니다!*/
+import { onMounted, onUnmounted } from "vue";
 
 //example components
 import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
@@ -49,6 +13,18 @@ import data from "./Sections/Data/designBlocksData";
 
 //images
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
+import { RouterLink } from "vue-router";
+
+//hooks
+const body = document.getElementsByTagName("body")[0];
+onMounted(() => {
+  body.classList.add("presentation-page");
+  body.classList.add("bg-gray-200");
+});
+onUnmounted(() => {
+  body.classList.remove("presentation-page");
+  body.classList.remove("bg-gray-200");
+});
 
 //Vue Material Kit 2 components
 import MaterialPagination from "@/components/MaterialPagination.vue";
@@ -56,25 +32,11 @@ import MaterialPaginationItem from "@/components/MaterialPaginationItem.vue";
 
 // nav-pill
 import setNavPills from "@/assets/js/nav-pills.js";
-
-const body = document.getElementsByTagName("body")[0];
-const posts = ref([]);
-
 onMounted(() => {
-  body.classList.add("presentation-page");
-  body.classList.add("bg-gray-200");
   setNavPills();
-
-  const postsData = localStorage.getItem("postsData");
-  if (postsData) {
-    posts.value = JSON.parse(postsData);
-  }
 });
 
-onUnmounted(() => {
-  body.classList.remove("presentation-page");
-  body.classList.remove("bg-gray-200");
-});
+
 </script>
 
 <template>
@@ -152,16 +114,6 @@ onUnmounted(() => {
       <div class="container">
         <div class="row justify-space-between py-2">
           <div class="col-lg-4 mx-auto">
-            <div>
-              <h1>게시글 목록</h1>
-              <ul>
-                <li v-for="post in posts" :key="post.id">
-                  <h2>{{ post.image }}</h2>
-                  <p>{{ post.price }}</p>
-                  <!-- 이미지와 가격 정보 등을 추가로 표시할 수 있음 -->
-                </li>
-              </ul>
-            </div>
             <MaterialPagination>
               <MaterialPaginationItem prev class="ms-auto" />
               <MaterialPaginationItem label="1" />

@@ -162,7 +162,7 @@ watch(
         id="navigation"
       >
         <ul class="navbar-nav navbar-nav-hover ms-auto">
-          <router-link to="/posts/orders">
+          <router-link to="/orders">
             <MaterialButton
               class="my-4 mb-2"
               variant="gradient"
