@@ -1,21 +1,19 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import router from '@/router';
+import { ref } from "vue";
+import axios from "axios";
 import setMaterialInput from "@/assets/js/material-input";
+import { useRouter } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
-import axios from "axios";
 
-const email = ref('');
-const password = ref('');
-const errorMessage = ref('');
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
+const router = useRouter();
 
-onMounted(() => {
-  setMaterialInput();
-});
+setMaterialInput();
 
 const API_URL = "http://localhost:8080"; // 서버의 주소
-
 
 const login = async () => {
   try {
@@ -23,23 +21,23 @@ const login = async () => {
       email: email.value,
       password: password.value
     };
-
-    // 여기서 userData 객체를 콘솔로 출력하여 확인
-    console.log(userData);
-
-    const response = await axios.post(`${API_URL}/members/login`, userData);
-    const token = response.data.token; // 서버에서 반환한 토큰
-
+    axios.defaults.withCredentials = true;
+    // 로그인 요청 보내기
+    const response = await axios.post(`${API_URL}/members/login`, userData)
+    const token = response.headers['authorization'];
     // 토큰을 로컬 스토리지에 저장
     localStorage.setItem('token', token);
-
+    console.log("token2", token)
+    axios.defaults.headers.common[
+      'Authorization'
+      ] = `Bearer $[token]`
     // 로그인 성공 후 필요한 작업 수행 (예: 페이지 리디렉션 등)
-    await router.push("/");
+    await router.push("/"); // 로그인 후 리다이렉트할 페이지
+
   } catch (error) {
     errorMessage.value = error.message; // 로그인 실패 시 에러 메시지 표시
   }
 };
-
 </script>
 <template>
   <Header>
