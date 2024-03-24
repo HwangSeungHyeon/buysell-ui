@@ -28,6 +28,7 @@ import SignUpAuth from "@/views/LandingPages/SignIn/SignUpAuth.vue";
 import OrderForm from "@/views/LandingPages/posts/orders/OrderForm.vue";
 import PurchaseForm from "@/views/LandingPages/posts/orders/PurchaseForm.vue";
 import ProductForm from "@/views/LandingPages/posts/ProductForm.vue";
+import PostEditForm from "@/views/LandingPages/posts/PostEditForm.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -167,14 +168,19 @@ const router = createRouter({
       component: OrderForm,
     },
     {
-      path: "/products",
-      name: "products",
+      path: "/posts",
+      name: "posts",
       component: ProductForm,
     },
     {
       path: "/purchase",
       name: "purchase",
       component: PurchaseForm,
+    },
+    {
+      path: "/postedit",
+      name: "postedit",
+      component: PostEditForm,
     },
   ],
 });

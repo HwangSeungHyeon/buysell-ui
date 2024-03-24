@@ -62,7 +62,7 @@ const submitForm = async () => {
     });
 
     // 성공적으로 등록되면 상품 목록 페이지로 리디렉션합니다.
-    await router.push("/products");
+    await router.push("/");
   } catch (error) {
     console.error("게시글 등록 실패:", error);
   }

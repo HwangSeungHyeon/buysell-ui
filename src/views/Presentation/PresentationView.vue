@@ -36,7 +36,7 @@ const fetchPosts = async () => {
 onMounted(fetchPosts);
 
 const navigateToDetail = (postId) => {
-  router.push({ name: "products", params: { postId } });
+  router.push({ name: "posts", params: { postId } });
 };
 
 const formatDate = (dateString) => {
@@ -48,6 +48,17 @@ const formatDate = (dateString) => {
   const minutes = String(date.getMinutes()).padStart(2, "0");
 
   return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
+};
+const increaseViewCount = async (postId) => {
+  try {
+    await axios.post(`/posts/${postId}/views`);
+  } catch (error) {
+    console.error("조회수를 증가하는데 실패했습니다:", error);
+  }
+};
+const handlePostClick = async (postId) => {
+  await increaseViewCount(postId);
+  navigateToDetail(postId);
 };
 </script>
 
@@ -67,7 +78,7 @@ const formatDate = (dateString) => {
             v-for="post in posts"
             :key="post.id"
             class="card shadow-sm mb-4"
-            @click="navigateToDetail(post.id)"
+            @click="handlePostClick(post.id)"
           >
             <div class="card-body">
               <h5 class="card-title">{{ post.title }}</h5>
