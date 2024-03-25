@@ -1,5 +1,110 @@
+<template>
+  <section>
+    <div class="container" style="border: 2px solid #000000">
+      <div class="row">
+        <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
+          <form role="form" id="post-form" method="post" autocomplete="off" @submit.prevent="submitForm">
+            <div class="card-body py-3">
+              <h3 class="text-dark" style="margin-bottom: 50px">게시글 수정</h3>
+              <div class="row">
+                <div class="col-md-6">
+                  <h6>게시글 제목</h6>
+                  <MaterialInput
+                    v-model="formData.title"
+                    class="input-group-dynamic"
+                    id="title"
+                    style="
+                      border: 2px solid #000000;
+                      width: 100%;
+                      max-width: 400px;
+                    "
+                    :value="formData.title"
+                    @input="formData.title = $event.target.value"
+                  />
+                </div>
+                <!-- 추가 필드 입력 -->
+              </div>
+              <!-- 추가 필드 입력 -->
+              <div class="row">
+                <div class="mb-4 col-md-6">
+                  <h6>가격</h6>
+                  <MaterialInput
+                    v-model="formData.price"
+                    class="input-group-dynamic"
+                    id="price"
+                    style="
+                      border: 2px solid #000000;
+                      width: 100%;
+                      max-width: 400px;
+                    "
+                    :value="formData.price"
+                    @input="formData.price = $event.target.value"
+                  />
+                </div>
+                <div class="mb-4 col-md-6">
+                  <h6>카테고리</h6>
+                  <select v-model="formData.category" class="form-select" aria-label="카테고리 선택">
+                    <option disabled value="">카테고리 선택</option>
+                    <option v-for="category in categories" :key="category.value" :value="category.value">
+                      {{ category.label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <!-- 제품 설명 입력란 -->
+              <div class="mb-4 col-md-6">
+                <h6>제품 설명</h6>
+                <MaterialTextArea
+                  v-model="formData.content"
+                  class="input-group-static mb-4"
+                  id="content"
+                  style="
+                    border: 2px solid #000000;
+                    width: 100%;
+                    max-width: 400px;
+                  "
+                  :rows="10"
+                  :value="formData.content"
+                  @input="formData.content = $event.target.value"
+                />
+              </div>
+              <!-- 여기까지 -->
+              <div class="row">
+                <div class="col-md-12">
+                  <section>
+                    <div class="">
+                      <div class="row">
+                        <div class="col">
+                          <div class="text-center">
+                            <!-- 취소 버튼 -->
+                            <button @click="cancelEdit">
+                              <MaterialButton variant="gradient" color="secondary">
+                                취소
+                              </MaterialButton>
+                            </button>
+                            <!-- 수정 버튼 -->
+                            <button type="submit">
+                              <MaterialButton variant="gradient" color="dark">
+                                수정
+                              </MaterialButton>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
 import setMaterialInput from "@/assets/js/material-input";
@@ -7,7 +112,6 @@ import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialTextArea from "@/components/MaterialTextArea.vue";
 
-// 카테고리 목록
 const categories = [
   { value: "OTHERS", label: "기타" },
   { value: "KITCHEN", label: "주방" },
@@ -23,11 +127,8 @@ const categories = [
   { value: "PET", label: "애완동물" }
 ];
 
-onMounted(() => {
-  setMaterialInput();
-});
+setMaterialInput();
 
-const API_URL = "http://localhost:8080";
 const formData = ref({
   title: "",
   content: "",
@@ -46,145 +147,33 @@ const submitForm = async () => {
       await router.push("/pages/landing-pages/basic");
       return;
     }
-
-    // 게시글 등록 요청 보내기
+    // 게시글 수정 요청 보내기
     const postData = {
       title: formData.value.title,
       content: formData.value.content,
       price: formData.value.price,
       category: formData.value.category
     };
-
-    await axios.post(`${API_URL}/posts`, postData, {
+    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    console.log("postID", postId)
+    // Axios를 사용하여 API 호출
+    const response = await axios.put(`/posts/${postId}`, postData, {
       headers: {
         Authorization: `${token}`
-      },
+      }
     });
-
-    // 성공적으로 등록되면 상품 목록 페이지로 리디렉션합니다.
-    await router.push("/");
+    response.data.id = postId;
+    // 성공적으로 수정되면 게시글 페이지로 리디렉션
+    await router.push(`/posts`);
   } catch (error) {
-    console.error("게시글 등록 실패:", error);
+    console.error("게시글 수정 실패:", error);
   }
 };
+
+const cancelEdit = () => {
+  router.back(); // 이전 페이지로 이동
+};
 </script>
-
-<template>
-  <section>
-    <div class="container" style="border: 2px solid #000000">
-      <div class="row">
-        <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
-          <form role="form" id="contact-form" method="post" autocomplete="off" @submit.prevent="submitForm">
-            <div class="card-body py-3">
-              <h3 class="text-dark" style="margin-bottom: 50px">게시글 제목</h3>
-              <div class="row">
-                <div class="col-md-6">
-                  <h6>게시글 제목</h6>
-                  <MaterialInput
-                    v-model="formData.title"
-                    :value="formData.title"
-                    @input="formData.title = $event.target.value"
-                    class="input-group-dynamic"
-                    id="title"
-                    style="
-                      border: 2px solid #000000;
-                      width: 100%;
-                      max-width: 400px;
-                    "
-                  />
-                </div>
-                <div class="col-md-6"></div>
-              </div>
-              <div class="row">
-<!--                <div class="col-md-6">-->
-<!--                  <h6>이미지 선택</h6>-->
-<!--                  <input type="file" accept="image/*" @change="handleFileUpload">-->
-<!--                </div>-->
-              </div>
-              <div class="row">
-                <div class="mb-4 col-md-6">
-                  <h6>가격</h6>
-                  <MaterialInput
-                    v-model="formData.price"
-                    :value="formData.price"
-                    @input="formData.price = $event.target.value"
-                    class="input-group-dynamic"
-                    id="price"
-                    style="
-                      border: 2px solid #000000;
-                      width: 100%;
-                      max-width: 400px;
-                    "
-                  />
-                </div>
-                <div class="mb-4 col-md-6">
-                  <h6>카테고리</h6>
-                  <select v-model="formData.category" class="form-select" aria-label="카테고리 선택">
-                    <option disabled value="">카테고리 선택</option>
-                    <option v-for="category in categories" :key="category.value" :value="category.value">
-                      {{ category.label }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <!-- 제품 설명 입력란 -->
-              <div class="mb-4 col-md-6">
-                <h6>제품 설명</h6>
-                <MaterialTextArea
-                  v-model="formData.content"
-                  :value="formData.content"
-                  @input="formData.content = $event.target.value"
-                  class="input-group-static mb-4"
-                  id="message"
-                  style="
-                    border: 2px solid #000000;
-                    width: 100%;
-                    max-width: 400px;
-                    justify-content: right;
-                  "
-                  :rows="10"
-                />
-              </div>
-              <!-- 여기까지 -->
-              <div class="row">
-                <div class="col-md-12">
-                  <section>
-                    <div class="">
-                      <div class="row">
-                        <div class="col">
-                          <div class="text-center">
-                            <!-- 목록으로 이동하는 버튼 -->
-                            <button @click="router.push('/')">
-                              <MaterialButton variant="gradient" color="secondary">
-                                목록
-                              </MaterialButton>
-                            </button>
-                            <!-- 등록 버튼 -->
-                            <button type="submit">
-                              <MaterialButton variant="gradient" color="dark">
-                                등록
-                              </MaterialButton>
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="image-preview-container">
-      <div v-if="imageSrc" class="image-preview">
-        <img :src="imageSrc" alt="Image preview">
-      </div>
-    </div>
-  </section>
-</template>
-
 
 <style scoped>
 .container {
@@ -192,9 +181,6 @@ const submitForm = async () => {
   max-width: 1200px;
 }
 
-.card-body{
-  border: 2px solid #000000
-}
 .card-body {
   border: 2px solid #000000;
 }

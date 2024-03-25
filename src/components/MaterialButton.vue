@@ -1,11 +1,12 @@
 <script setup>
+import { defineProps } from "vue";
 defineProps({
   variant: {
     type: String,
-    validator(variant) {
-      return ["contained", "gradient", "outline"].includes(variant);
+    validator: (value) => {
+      return ["text", "gradient"].includes(value);
     },
-    default: "contained",
+    default: "text",
   },
   color: {
     validator(color) {
@@ -39,7 +40,9 @@ defineProps({
     type: Boolean,
     default: false,
   },
+
 });
+
 function getClasses(variant, color, size, fullWidth, disabled) {
   let colorValue, sizeValue, fullWidthValue, activeValue;
 
@@ -60,6 +63,7 @@ function getClasses(variant, color, size, fullWidth, disabled) {
 
   return `${colorValue} ${sizeValue} ${fullWidthValue} ${activeValue}`;
 }
+
 </script>
 <template>
   <button

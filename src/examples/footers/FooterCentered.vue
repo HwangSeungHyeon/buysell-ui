@@ -37,7 +37,7 @@ defineProps({
       { href: "https://www.creative-tim.com/presentation", name: "Team" },
       {
         href: "https://www.creative-tim.com/templates/vuejs",
-        name: "Products",
+        name: "posts",
       },
       { href: "https://www.creative-tim.com/blog", name: "Blog" },
       { href: "https://www.creative-tim.com/license", name: "License" },

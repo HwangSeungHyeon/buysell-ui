@@ -1,10 +1,14 @@
 <template>
   <section>
     <!-- 상품 정보 표시 -->
-    <div class="container py-3" style="width: 60%;">
+    <div class="container py-3" style="width: 60%">
       <div class="post-header text-center mb-5">
-        <div class="post-title"><h4>{{ post.title }}</h4></div>
-        <div class="post-author"><h4>작성자: {{ post.createdName }}</h4></div>
+        <div class="post-title">
+          <h4>상품명: {{ post.title }}</h4>
+        </div>
+        <div class="post-author">
+          <h4>작성자: {{ post.createdName }}</h4>
+        </div>
       </div>
       <div class="product-info py-6">
         <div class="product-details">
@@ -16,7 +20,10 @@
       </div>
       <!-- 구매하기 버튼 -->
       <div class="text-sm-end mb-5">
-        <material-button variant="gradient" color="primary" style="margin-right: 100px"
+        <material-button
+          variant="gradient"
+          color="primary"
+          style="margin-right: 100px"
           >구매하기</material-button
         >
       </div>
@@ -24,40 +31,84 @@
       <!-- 게시글 수정, 찜하기 -->
       <div>
         <router-link :to="{ name: 'presentation' }" class="no-style-link">
-          <MaterialButton variant="gradient" color="secondary" style="justify-content: left">
+          <MaterialButton
+            variant="gradient"
+            color="secondary"
+            style="justify-content: left"
+          >
             목록
           </MaterialButton>
         </router-link>
-<!--        &lt;!&ndash; postId를 postEdit 라우트에 전달 &ndash;&gt;-->
-<!--        <router-link :to="{ name: 'postEdit', params: { postId: post.id } }" class="no-style-link">-->
-<!--          <material-button variant="gradient" color="secondary" style="justify-content: end"-->
-<!--            >게시글 수정</material-button-->
-<!--          >-->
-<!--        </router-link>-->
-<!--        <router-link to="/" class="no-style-link">-->
-<!--          <material-button variant="gradient" color="info"-->
-<!--          >찜하기</material-button-->
-<!--          >-->
-<!--        </router-link>-->
+        <!-- postId를 postEdit 라우트에 전달 -->
+        <router-link
+          :to="{ name: 'postedit', params: { postId: post.id } }"
+          class="no-style-link"
+        >
+          <material-button
+            variant="gradient"
+            color="secondary"
+            style="justify-content: end"
+            >게시글 수정</material-button
+          >
+        </router-link>
+        <material-button
+          @click="deletePost"
+          variant="gradient"
+          color="danger"
+          style="margin-left: 10px;"
+          >게시글 삭제</material-button
+        >
+        <router-link to="/" class="no-style-link">
+          <material-button variant="gradient" color="info"
+            >찜하기</material-button
+          >
+        </router-link>
       </div>
 
       <!-- 댓글 작성칸 -->
       <div class="comment-form mb-5">
         <div class="input-group">
-          <material-input v-model="newComment" class="material-input mb-3" placeholder="댓글을 입력하세요..." style="border: 2px solid #000000;"></material-input>
-          <material-button @click="addComment" variant="gradient" color="dark">댓글 등록</material-button>
+          <material-input
+            v-model="newComment"
+            class="material-input mb-3"
+            placeholder="댓글을 입력하세요..."
+            style="border: 2px solid #000000"
+            :value="newComment"
+            @input="newComment = $event.target.value"
+          ></material-input>
+          <material-button @click="addComment" variant="gradient" color="dark"
+            >댓글 등록</material-button
+          >
         </div>
       </div>
       <!-- 댓글 내용 -->
       <h5>전체 댓글</h5>
-      <div class="comments mb-5" style="border: 2px solid #000000;">
-        <div class="comment mb-3" v-for="comment in post.comments" :key="comment.id" style="display: flex; align-items: center; margin-top:20px">
+      <div class="comments mb-5" style="border: 2px solid #000000">
+        <div
+          class="comment mb-3"
+          v-if="post.comment && post.comment.length === 0"
+        >
+          <p>댓글이 없습니다.</p>
+        </div>
+        <div
+          class="comment mb-3"
+          v-for="(comment, index) in post.comment"
+          :key="index"
+          style="display: flex; align-items: center; margin-top: 20px"
+        >
           <p style="flex: 1; border: 2px solid #000000; margin-left: 10px">
             {{ comment.content }}
           </p>
-          <div class = p-md-2>
-            <material-button variant="text" color="info" style="margin-right: 8px;">좋아요</material-button>
-            <material-button variant="text" color="danger">신고</material-button>
+          <div class="p-md-2">
+            <material-button
+              variant="text"
+              color="info"
+              style="margin-right: 8px"
+              >좋아요</material-button
+            >
+            <material-button variant="text" color="danger"
+              >신고</material-button
+            >
           </div>
         </div>
       </div>
@@ -71,6 +122,7 @@ import axios from "axios";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
+import router from "@/router";
 
 const route = useRoute();
 const post = ref({
@@ -78,7 +130,7 @@ const post = ref({
   createdName: "",
   content: "",
   price: 0,
-  //comments: [],
+  comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
 });
 
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
@@ -86,12 +138,9 @@ const fetchPost = async (postId) => {
   try {
     const response = await axios.get(`/posts/${postId}`);
     post.value = response.data;
-
-    // 게시글 정보를 세션 스토리지에 저장
     sessionStorage.setItem("post", JSON.stringify(post.value));
-    console.log("post", JSON.stringify(post.value))
+    console.log("post", post.value);
   } catch (error) {
-    console.log("res", await axios.get(`/posts/${postId}`));
     console.error("게시글을 불러오는데 실패했습니다:", error);
   }
 };
@@ -100,7 +149,6 @@ const fetchPost = async (postId) => {
 onMounted(() => {
   let postId = route.params.postId;
 
-  // URL에서 postId가 정의되지 않았을 경우 세션스토리지에서 시도
   if (!postId) {
     const savedPost = JSON.parse(sessionStorage.getItem("post"));
     if (savedPost) {
@@ -109,38 +157,68 @@ onMounted(() => {
   }
 
   if (postId) {
-    const savedPost = JSON.parse(sessionStorage.getItem("post"));
-    if (savedPost && savedPost.id === postId) {
-      post.value = savedPost;
-    } else {
-      fetchPost(postId);
-    }
+    fetchPost(postId);
   } else {
     console.error("게시글 ID를 찾을 수 없습니다.");
   }
 });
-const newComment = ref("");
-const addComment = () => {
-  axios.post(`/posts/${route.params.postId}/comments`, { content: newComment.value })
-    .then((response) => {
-      const newComment = response.data;
-      post.value.comments.push(newComment);
 
-      // 게시글 정보를 로컬 스토리지에 저장
-      localStorage.setItem("post", JSON.stringify(post.value));
-    })
-    .catch(error => {
-      console.error("댓글을 등록하는데 실패했습니다:", error);
+// 게시글 삭제 함수
+const deletePost = async () => {
+  try {
+    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      await router.push("/login");
+      return;
+    }
+
+    await axios.delete(`/posts/${postId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
     });
+
+    // 삭제 후 리다이렉트
+    await router.push("/");
+  } catch (error) {
+    console.error("게시글 삭제에 실패했습니다:", error);
+  }
 };
 
-const setupData = {
-  newComment,
-  addComment
-};
+const newComment = ref("");
 
-// setup() 함수에서 정의한 변수와 함수를 객체로 반환
-setupData;
+const addComment = async () => {
+  try {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      await router.push("/login");
+      return;
+    }
+
+    const postId = post.value.id;
+    const response = await axios.post(
+      `/posts/${postId}/comments`,
+      { content: newComment.value },
+      {
+        headers: {
+          Authorization: `${token}`,
+        },
+      }
+    );
+
+    const addedComment = response.data;
+    if (!post.value.comments) {
+      post.value.comments = []; // 빈 배열로 초기화
+    }
+    post.value.comments.push(addedComment);
+    sessionStorage.setItem("post", JSON.stringify(post.value));
+    location.reload();
+  } catch (error) {
+    console.error("댓글을 등록하는데 실패했습니다:", error);
+  }
+};
 </script>
 
 <style>
