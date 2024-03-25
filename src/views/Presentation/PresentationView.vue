@@ -2,26 +2,36 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
-import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
-import setNavPills from "@/assets/js/nav-pills";
+
+//example components
+import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
+import DefaultFooter from "../../examples/footers/FooterDefault.vue";
+import Header from "../../examples/Header.vue";
+
+// sections
+import PresentationExample from "./Sections/PresentationExample.vue";
+import data from "./Sections/Data/designBlocksData";
+
+//images
+import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
+import { RouterLink } from "vue-router";
 
 const router = useRouter();
 const body = document.getElementsByTagName("body")[0];
-
 onMounted(() => {
   body.classList.add("presentation-page");
   body.classList.add("bg-gray-200");
 });
-
 onUnmounted(() => {
   body.classList.remove("presentation-page");
   body.classList.remove("bg-gray-200");
 });
 
+// nav-pill
+import setNavPills from "@/assets/js/nav-pills.js";
 onMounted(() => {
   setNavPills();
 });
-
 const posts = ref([]);
 
 const fetchPosts = async () => {
@@ -59,6 +69,62 @@ const formatDate = (dateString) => {
       </div>
     </div>
   </div>
+  <Header>
+    <div
+      class="page-header min-vh-35"
+      :style="`background-image: url(${vueMkHeader})`"
+    >
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7 text-center mx-auto position-relative">
+            <h1
+              class="text-white pt-5 mt-n5 me-2"
+              :style="{ display: 'inline-block ' }"
+            >
+              BuySell
+            </h1>
+            <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '500' }">
+              버리지마세요. 필요한 사람을 찾아보세요. 지금.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Header>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 mx-auto">
+        <div class="nav-wrapper position-relative end-0">
+          <ul class="nav nav-pills nav-fill p-1" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link mb-0 px-0 py-1 active"
+                data-bs-toggle="tab"
+                href="#profile-tabs-simple"
+                role="tab"
+                aria-controls="profile"
+                aria-selected="true"
+              >
+                최신 순
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link mb-0 px-0 py-1"
+                data-bs-toggle="tab"
+                href="#dashboard-tabs-simple"
+                role="tab"
+                aria-controls="dashboard"
+                aria-selected="false"
+              >
+                많이 본 순
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
@@ -80,4 +146,13 @@ const formatDate = (dateString) => {
       </div>
     </div>
   </div>
+  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
+    <PresentationExample :data="data" />
+    <RouterLink
+      class="dropdown-item ps-3 border-radius-md mb-1"
+      :to="{ name: 'navigation-pagination' }"
+    >
+    </RouterLink>
+  </div>
+  <DefaultFooter />
 </template>
