@@ -29,6 +29,9 @@ import OrderForm from "@/views/LandingPages/posts/orders/OrderForm.vue";
 import PurchaseForm from "@/views/LandingPages/posts/orders/PurchaseForm.vue";
 import ProductForm from "@/views/LandingPages/posts/ProductForm.vue";
 import PostEditForm from "@/views/LandingPages/posts/PostEditForm.vue";
+import FourTPay from "@/views/Pay/FourTPay.vue";
+import Deposit from "@/views/Pay/Deposit.vue";
+import Withdraw from "@/views/Pay/Withdraw.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -181,6 +184,21 @@ const router = createRouter({
       path: "/postedit",
       name: "postedit",
       component: PostEditForm,
+    },
+    {
+      path: "/four-t-pay",
+      name: "four-t-pay",
+      component: FourTPay,
+    },
+    {
+      path: "/deposit",
+      name: "deposit",
+      component: Deposit,
+    },
+    {
+      path: "/withdraw",
+      name: "withdraw",
+      component: Withdraw,
     },
   ],
 });

@@ -19,7 +19,7 @@ const login = async () => {
   try {
     const userData = {
       email: email.value,
-      password: password.value
+      password: password.value,
     };
     axios.defaults.withCredentials = true;
     // 로그인 요청 보내기
@@ -33,7 +33,6 @@ const login = async () => {
       ] = `Bearer $[token]`
     // 로그인 성공 후 필요한 작업 수행 (예: 페이지 리디렉션 등)
     await router.push("/"); // 로그인 후 리다이렉트할 페이지
-
   } catch (error) {
     errorMessage.value = error.message; // 로그인 실패 시 에러 메시지 표시
   }
@@ -47,7 +46,6 @@ const login = async () => {
         backgroundImage:
           'url(https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80)',
       }"
-      loading="lazy"
     >
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container my-auto">
@@ -110,19 +108,19 @@ const login = async () => {
                   <div class="row mt-3">
                     <!-- //카카오 로그인-->
                     <div class="col-2 text-center ms-auto">
-                      <a class="btn btn-link px-3" href="javascript:;">
+                      <a class="btn btn-link px-3" href="javascript:">
                         <i class="fa fa-facebook text-yellow text-lg"></i>
                       </a>
                     </div>
                     <!-- //네이버 로그인-->
                     <div class="col-2 text-center px-1">
-                      <a class="btn btn-link px-3" href="javascript:;">
+                      <a class="btn btn-link px-3" href="javascript:">
                         <i class="fa fa-github text-green text-lg"></i>
                       </a>
                     </div>
                     <!--  //구글 로그인-->
                     <div class="col-2 text-center me-auto">
-                      <a class="btn btn-link px-3" href="javascript:;">
+                      <a class="btn btn-link px-3" href="javascript:">
                         <i class="fa fa-google text-red text-lg"></i>
                       </a>
                     </div>

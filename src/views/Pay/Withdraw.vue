@@ -6,25 +6,18 @@ import Header from "@/examples/Header.vue";
 
 //Vue Material Kit 2 components
 import MaterialInput from "@/components/MaterialInput.vue";
-import MaterialButton from "@/components/MaterialButton.vue";
 
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
+import ModalD from "@/views/Pay/Components/ModalD.vue";
 onMounted(() => {
   setMaterialInput();
 });
 </script>
 <template>
   <Header>
-    <div
-      class="page-header align-items-start min-vh-100"
-      :style="{
-        backgroundImage:
-          'url(https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80)',
-      }"
-      loading="lazy"
-    >
-      <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="page-header min-vh-50">
+      <span class="mask bg-gradient-drk opacity-6"></span>
       <div class="container my-auto">
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -38,29 +31,22 @@ onMounted(() => {
                   <h4
                     class="text-white font-weight-bolder text-center mt-2 mb-0"
                   >
-                    인증코드를 입력하세요.
+                    출금할 금액을 입력하세요.
                   </h4>
                 </div>
               </div>
               <div class="card-body">
                 <form role="form" class="text-start">
                   <MaterialInput
-                    id="Emailcode"
-                    class="input-group-outline my-3"
-                    :label="{ text: 'Emailcode', class: 'form-label' }"
-                    type="Emailcode"
+                    id="출금액"
+                    class="input-group-outline my-5"
+                    :label="{
+                      text: '숫자만 입력 하세요.',
+                      class: 'form-label',
+                    }"
+                    type="출금액"
                   />
-
-                  <div class="text-center">
-                    <MaterialButton
-                      class="my-4 mb-2"
-                      href="/auth"
-                      variant="gradient"
-                      color="success"
-                      fullWidth
-                      >인증하기</MaterialButton
-                    >
-                  </div>
+                  현재 잔액 : 0,000원
                 </form>
               </div>
             </div>
@@ -68,5 +54,6 @@ onMounted(() => {
         </div>
       </div>
     </div>
+    <ModalD></ModalD>
   </Header>
 </template>
