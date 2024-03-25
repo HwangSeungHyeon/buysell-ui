@@ -7,6 +7,9 @@ import Header from "@/examples/Header.vue";
 //Vue Material Kit 2 components
 import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
+
+import { ref } from "vue";
+
 // axios 라이브러리 가져오기
 import axios from 'axios';
 // material-input
@@ -15,22 +18,25 @@ onMounted(() => {
   setMaterialInput();
 });
 
-// eslint-disable-next-line vue/no-export-in-script-setup
- const loginApi=()=>{
-   const loginInfo={
-     email: this.email,
-     password: this.password
-   }
-   axios.post('http://54.180.153.110:8080/swagger-ui/index.html', loginInfo)
-     .then(response => {
-       console.log(response)
-     })
-     .catch(error => {
-       // 에러 처리
-       console.error('API 호출 에러:', error);
-     });
- }
+// 이메일과 비밀번호 상태 변수 생성
+const email = ref('');
+const password = ref('');
 
+// 로그인 API 호출 함수
+  const loginInfo = {
+    email: email.value,
+    password: password.value
+  }
+  axios.post('http://localhost:8080/members/login', loginInfo)
+    .then(response => {
+      console.log(response)
+      // 여기에 로그인 성공 시의 처리 작성
+      this.$router.push({name:"about"})
+    })
+    .catch(error => {
+      // 에러 처리
+      console.error('API 호출 에러:', error);
+    });
 </script>
 <template>
   <Header>
@@ -47,19 +53,10 @@ onMounted(() => {
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div
-                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"
-              >
-                <div
-                  class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1"
-                >
-                  <h4
-                    class="text-white font-weight-bolder text-center mt-2 mb-0"
-                  >
-                    로그인 하세요!
-                  </h4>
-                </div>
-              </div>
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                    로그인 하세요!</h4></div></div>
               <div class="card-body">
                 <form role="form" class="text-start">
                   <MaterialInput
@@ -67,12 +64,14 @@ onMounted(() => {
                     class="input-group-outline my-3"
                     :label="{ text: 'Email', class: 'form-label' }"
                     type="email"
+                    v-model="email"
                   />
                   <MaterialInput
                     id="password"
                     class="input-group-outline mb-3"
                     :label="{ text: 'Password', class: 'form-label' }"
                     type="password"
+                    v-model="password"
                   />
 
                   <div class="text-center">
