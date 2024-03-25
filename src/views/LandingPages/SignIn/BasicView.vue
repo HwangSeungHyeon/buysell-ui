@@ -24,9 +24,9 @@ const login = async () => {
     axios.defaults.withCredentials = true;
     // 로그인 요청 보내기
     const response = await axios.post(`${API_URL}/members/login`, userData)
-    const token = response.headers['authorization'];
+    const token = response.headers["authorization"];
     // 토큰을 로컬 스토리지에 저장
-    localStorage.setItem('token', token);
+    sessionStorage.setItem("token", token);
     console.log("token2", token)
     axios.defaults.headers.common[
       'Authorization'

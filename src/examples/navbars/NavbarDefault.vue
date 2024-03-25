@@ -181,12 +181,12 @@ import { useWindowsWidth } from "@/assets/js/useWindowsWidth";
 
 const isAuthenticated = ref(false);
 
-if (localStorage.getItem("token")) {
+if (sessionStorage.getItem("token")) {
   isAuthenticated.value = true;
 }
 
 function logout() {
-  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
   isAuthenticated.value = false;
 }
 

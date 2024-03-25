@@ -140,7 +140,7 @@ const router = useRouter();
 
 const submitForm = async () => {
   try {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     console.log("token:", token);
     if (!token) {
       // 토큰이 없으면 로그인 페이지로 리디렉션

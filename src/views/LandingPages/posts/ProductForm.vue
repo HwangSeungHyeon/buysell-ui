@@ -51,6 +51,13 @@
             >게시글 수정</material-button
           >
         </router-link>
+        <material-button
+          @click="deletePost"
+          variant="gradient"
+          color="danger"
+          style="margin-left: 10px;"
+          >게시글 삭제</material-button
+        >
         <router-link to="/" class="no-style-link">
           <material-button variant="gradient" color="info"
             >찜하기</material-button
@@ -132,6 +139,7 @@ const fetchPost = async (postId) => {
     const response = await axios.get(`/posts/${postId}`);
     post.value = response.data;
     sessionStorage.setItem("post", JSON.stringify(post.value));
+    console.log("post", post.value);
   } catch (error) {
     console.error("게시글을 불러오는데 실패했습니다:", error);
   }
@@ -155,11 +163,35 @@ onMounted(() => {
   }
 });
 
+// 게시글 삭제 함수
+const deletePost = async () => {
+  try {
+    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const token = sessionStorage.getItem("token");
+
+    if (!token) {
+      await router.push("/login");
+      return;
+    }
+
+    await axios.delete(`/posts/${postId}`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+
+    // 삭제 후 리다이렉트
+    await router.push("/");
+  } catch (error) {
+    console.error("게시글 삭제에 실패했습니다:", error);
+  }
+};
+
 const newComment = ref("");
 
 const addComment = async () => {
   try {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
     if (!token) {
       await router.push("/login");
       return;
@@ -181,7 +213,7 @@ const addComment = async () => {
       post.value.comments = []; // 빈 배열로 초기화
     }
     post.value.comments.push(addedComment);
-    localStorage.setItem("post", JSON.stringify(post.value));
+    sessionStorage.setItem("post", JSON.stringify(post.value));
     location.reload();
   } catch (error) {
     console.error("댓글을 등록하는데 실패했습니다:", error);
