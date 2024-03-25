@@ -1,42 +1,43 @@
 <script setup>
-import { onMounted } from "vue";
-
-// example components
-import Header from "@/examples/Header.vue";
-
-//Vue Material Kit 2 components
+import { ref } from "vue";
+import axios from "axios";
+import setMaterialInput from "@/assets/js/material-input";
+import { useRouter } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
+import Header from "@/examples/Header.vue";
+const email = ref("");
+const password = ref("");
+const errorMessage = ref("");
+const router = useRouter();
 
-import { ref } from "vue";
+setMaterialInput();
 
-// axios 라이브러리 가져오기
-import axios from 'axios';
-// material-input
-import setMaterialInput from "@/assets/js/material-input";
-onMounted(() => {
-  setMaterialInput();
-});
+const API_URL = "http://localhost:8080"; // 서버의 주소
 
-// 이메일과 비밀번호 상태 변수 생성
-const email = ref('');
-const password = ref('');
+const login = async () => {
+  try {
+    const userData = {
+      email: email.value,
+      password: password.value
+    };
+    axios.defaults.withCredentials = true;
+    // 로그인 요청 보내기
+    const response = await axios.post(`${API_URL}/members/login`, userData)
+    const token = response.headers['authorization'];
+    // 토큰을 로컬 스토리지에 저장
+    localStorage.setItem('token', token);
+    console.log("token2", token)
+    axios.defaults.headers.common[
+      'Authorization'
+      ] = `Bearer $[token]`
+    // 로그인 성공 후 필요한 작업 수행 (예: 페이지 리디렉션 등)
+    await router.push("/"); // 로그인 후 리다이렉트할 페이지
 
-// 로그인 API 호출 함수
-  const loginInfo = {
-    email: email.value,
-    password: password.value
+  } catch (error) {
+    errorMessage.value = error.message; // 로그인 실패 시 에러 메시지 표시
   }
-  axios.post('http://localhost:8080/members/login', loginInfo)
-    .then(response => {
-      console.log(response)
-      // 여기에 로그인 성공 시의 처리 작성
-      this.$router.push({name:"about"})
-    })
-    .catch(error => {
-      // 에러 처리
-      console.error('API 호출 에러:', error);
-    });
+};
 </script>
 <template>
   <Header>
@@ -53,10 +54,19 @@ const password = ref('');
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
-                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
-                    로그인 하세요!</h4></div></div>
+              <div
+                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"
+              >
+                <div
+                  class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1"
+                >
+                  <h4
+                    class="text-white font-weight-bolder text-center mt-2 mb-0"
+                  >
+                    로그인 하세요!
+                  </h4>
+                </div>
+              </div>
               <div class="card-body">
                 <form role="form" class="text-start">
                   <MaterialInput
@@ -65,6 +75,8 @@ const password = ref('');
                     :label="{ text: 'Email', class: 'form-label' }"
                     type="email"
                     v-model="email"
+                    :value="email"
+                    @input="email = $event.target.value"
                   />
                   <MaterialInput
                     id="password"
@@ -72,6 +84,8 @@ const password = ref('');
                     :label="{ text: 'Password', class: 'form-label' }"
                     type="password"
                     v-model="password"
+                    :value="password"
+                    @input="password = $event.target.value"
                   />
 
                   <div class="text-center">
@@ -80,8 +94,10 @@ const password = ref('');
                       variant="gradient"
                       color="success"
                       fullWidth
-                      >로그인</MaterialButton
+                      @click.prevent="login"
                     >
+                      로그인
+                    </MaterialButton>
                   </div>
                   <p class="mt-4 text-sm text-center">
                     계정이 없으신가요?
@@ -90,27 +106,27 @@ const password = ref('');
                       class="text-success text-gradient font-weight-bold"
                       >회원가입!</a
                     >
-                    <div class="row mt-3">
-                      <!-- //카카오 로그인-->
-                      <div class="col-2 text-center ms-auto">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-facebook text-yellow text-lg"></i>
-                        </a>
-                      </div>
-                      <!-- //네이버 로그인-->
-                      <div class="col-2 text-center px-1">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-github text-green text-lg"></i>
-                        </a>
-                      </div>
-                      <!--  //구글 로그인-->
-                      <div class="col-2 text-center me-auto">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-google text-red text-lg"></i>
-                        </a>
-                      </div>
-                    </div>
                   </p>
+                  <div class="row mt-3">
+                    <!-- //카카오 로그인-->
+                    <div class="col-2 text-center ms-auto">
+                      <a class="btn btn-link px-3" href="javascript:;">
+                        <i class="fa fa-facebook text-yellow text-lg"></i>
+                      </a>
+                    </div>
+                    <!-- //네이버 로그인-->
+                    <div class="col-2 text-center px-1">
+                      <a class="btn btn-link px-3" href="javascript:;">
+                        <i class="fa fa-github text-green text-lg"></i>
+                      </a>
+                    </div>
+                    <!--  //구글 로그인-->
+                    <div class="col-2 text-center me-auto">
+                      <a class="btn btn-link px-3" href="javascript:;">
+                        <i class="fa fa-google text-red text-lg"></i>
+                      </a>
+                    </div>
+                  </div>
                 </form>
               </div>
             </div>
