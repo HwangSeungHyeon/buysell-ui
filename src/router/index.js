@@ -171,7 +171,7 @@ const router = createRouter({
       component: OrderForm,
     },
     {
-      path: "/posts",
+      path: `/posts/:postId`,
       name: "posts",
       component: ProductForm,
     },

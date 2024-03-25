@@ -13,8 +13,6 @@ const router = useRouter();
 
 setMaterialInput();
 
-const API_URL = "http://localhost:8080"; // 서버의 주소
-
 const login = async () => {
   try {
     const userData = {
@@ -23,14 +21,14 @@ const login = async () => {
     };
     axios.defaults.withCredentials = true;
     // 로그인 요청 보내기
-    const response = await axios.post(`${API_URL}/members/login`, userData)
+    const response = await axios.defaults.baseURL.post(
+      `/members/login`,
+      userData
+    );
     const token = response.headers["authorization"];
     // 토큰을 로컬 스토리지에 저장
     sessionStorage.setItem("token", token);
     console.log("token2", token)
-    axios.defaults.headers.common[
-      'Authorization'
-      ] = `Bearer $[token]`
     // 로그인 성공 후 필요한 작업 수행 (예: 페이지 리디렉션 등)
     await router.push("/"); // 로그인 후 리다이렉트할 페이지
   } catch (error) {
