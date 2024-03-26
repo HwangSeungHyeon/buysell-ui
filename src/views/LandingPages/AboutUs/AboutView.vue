@@ -59,9 +59,11 @@ onUnmounted(() => {
               My Sales products
             </button>
             <div>
-              <button class="btn bg-white text-dark" type="submit">
-                WishList
-              </button>
+              <router-link to="/wishlist">
+                <button class="btn bg-white text-dark" type="submit">
+                  WishList
+                </button>
+              </router-link>
             </div>
             <div>
               <router-link to="/four-t-pay">

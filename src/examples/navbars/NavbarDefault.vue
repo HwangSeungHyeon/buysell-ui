@@ -229,6 +229,18 @@ const getContainerClass = () => [
                         >
                           <span>profile</span>
                         </RouterLink>
+                        <RouterLink
+                          :to="{ name: 'wishlist' }"
+                          class="dropdown-item border-radius-md"
+                        >
+                          <span>wishlist</span>
+                        </RouterLink>
+                        <RouterLink
+                          :to="{ name: 'mysales' }"
+                          class="dropdown-item border-radius-md"
+                        >
+                          <span>MySales</span>
+                        </RouterLink>
                       </div>
                     </div>
                   </div>
@@ -256,6 +268,18 @@ const getContainerClass = () => [
                     class="dropdown-item border-radius-md"
                   >
                     <span>profile</span>
+                  </RouterLink>
+                  <RouterLink
+                    :to="{ name: 'wishlist' }"
+                    class="dropdown-item border-radius-md"
+                  >
+                    <span>wishlist</span>
+                  </RouterLink>
+                  <RouterLink
+                    :to="{ name: 'mysales' }"
+                    class="dropdown-item border-radius-md"
+                  >
+                    <span>MySales</span>
                   </RouterLink>
                 </div>
               </div>
