@@ -1,19 +1,3 @@
-<script setup>
-import { onMounted } from "vue";
-
-// example components
-import Header from "@/examples/Header.vue";
-
-//Vue Material Kit 2 components
-import MaterialInput from "@/components/MaterialInput.vue";
-import MaterialButton from "@/components/MaterialButton.vue";
-
-// material-input
-import setMaterialInput from "@/assets/js/material-input";
-onMounted(() => {
-  setMaterialInput();
-});
-</script>
 <template>
   <Header>
     <div
@@ -29,15 +13,9 @@ onMounted(() => {
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div
-                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"
-              >
-                <div
-                  class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1"
-                >
-                  <h4
-                    class="text-white font-weight-bolder text-center mt-2 mb-0"
-                  >
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
                     잔액을 확인하세요.
                   </h4>
                 </div>
@@ -45,7 +23,7 @@ onMounted(() => {
               <div class="card-body">
                 <form role="form" class="text-start">
                   <div class="text-center">
-                    <h3 class="text-center">현재 잔액 : 0,000원</h3>
+                    <h3 class="text-center">현재 잔액 : {{ accountBalance }}원</h3>
                     <router-link to="/deposit">
                       <MaterialButton
                         class="my-4 mb-2"
@@ -53,8 +31,8 @@ onMounted(() => {
                         color="success"
                         fullWidth
                       >
-                        입금하기</MaterialButton
-                      >
+                        입금하기
+                      </MaterialButton>
                     </router-link>
                   </div>
                   <div class="text-center">
@@ -64,8 +42,8 @@ onMounted(() => {
                         variant="gradient"
                         color="success"
                         fullWidth
-                        >출금하기</MaterialButton
-                      >
+                        >출금하기
+                      </MaterialButton>
                     </router-link>
                   </div>
                 </form>
@@ -77,3 +55,9 @@ onMounted(() => {
     </div>
   </Header>
 </template>
+<script setup>
+import Header from "@/examples/Header.vue";
+import MaterialButton from "@/components/MaterialButton.vue";
+import { getAccountBalance } from "@/views/Pay/getAccountBalance";
+const { accountBalance } = getAccountBalance();
+</script>
