@@ -1,18 +1,30 @@
 <script setup>
-import { onMounted } from "vue";
-
-// example components
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
 import Header from "@/examples/Header.vue";
-
-//Vue Material Kit 2 components
 import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
-
-// material-input
 import setMaterialInput from "@/assets/js/material-input";
-onMounted(() => {
+
+// 데이터를 저장할 반응형 참조 생성
+const accountBalance = ref('0,000');
+
+
+onMounted(async () => {
   setMaterialInput();
+
+  // 세션 저장소에서 인증 토큰을 가져온다.
+  const token = sessionStorage.getItem('token');
+
+  try {
+    const response = await axios.get(`/members/my/accounts`);
+    console.log(response);
+    accountBalance.value = response.data.accountBalance;
+  } catch (error) {
+    console.error('잔액 정보를 가져오지 못했습니다:', error);
+  }
 });
+
 </script>
 <template>
   <Header>
@@ -45,7 +57,7 @@ onMounted(() => {
               <div class="card-body">
                 <form role="form" class="text-start">
                   <div class="text-center">
-                    <h3 class="text-center">현재 잔액 : 0,000원</h3>
+                    <h3 class="text-center">현재 잔액 : {{ accountBalance }}원</h3>
                     <router-link to="/deposit">
                       <MaterialButton
                         class="my-4 mb-2"
