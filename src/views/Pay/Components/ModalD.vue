@@ -1,21 +1,17 @@
-<script setup>
-//Vue Material Kit 2 components
-import MaterialButton from "@/components/MaterialButton.vue";
-</script>
 <template>
-  <div class="container py-7">
+  <div class="container py-1">
     <div class="row mt-5">
-      <div class="col-sm-3 col-6 mx-auto">
+      <div class="col-sm-3 col-6 mx-auto text-center ">
         <!-- Button trigger modal -->
         <MaterialButton
           variant="gradient"
           color="success"
           data-bs-toggle="modal"
           data-bs-target="#exampleModal"
+          class="w-40"
         >
           입금하기
         </MaterialButton>
-
         <!-- Modal -->
         <div
           class="modal fade"
@@ -39,9 +35,7 @@ import MaterialButton from "@/components/MaterialButton.vue";
                 </MaterialButton>
               </div>
               <div class="modal-body">
-                입력하신 금액을 입금 요청합니다.
-                <br /><br />
-                0,000원 입금을 요청합니다.
+                <p>입금하시겠습니까?</p>
               </div>
               <div class="modal-footer justify-content-between">
                 <MaterialButton
@@ -51,7 +45,11 @@ import MaterialButton from "@/components/MaterialButton.vue";
                 >
                   취소
                 </MaterialButton>
-                <MaterialButton variant="gradient" color="success" class="mb-0">
+                <MaterialButton
+                    variant="gradient"
+                    color="success"
+                    class="mb-0"
+                >
                   입금 신청
                 </MaterialButton>
               </div>
@@ -62,3 +60,6 @@ import MaterialButton from "@/components/MaterialButton.vue";
     </div>
   </div>
 </template>
+<script setup>
+import MaterialButton from '@/components/MaterialButton.vue';
+</script>

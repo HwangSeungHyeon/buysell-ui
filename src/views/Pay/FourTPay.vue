@@ -1,31 +1,3 @@
-<script setup>
-import { onMounted, ref } from 'vue';
-import axios from 'axios';
-import Header from "@/examples/Header.vue";
-import MaterialInput from "@/components/MaterialInput.vue";
-import MaterialButton from "@/components/MaterialButton.vue";
-import setMaterialInput from "@/assets/js/material-input";
-
-// 데이터를 저장할 반응형 참조 생성
-const accountBalance = ref('0,000');
-
-
-onMounted(async () => {
-  setMaterialInput();
-
-  // 세션 저장소에서 인증 토큰을 가져온다.
-  const token = sessionStorage.getItem('token');
-
-  try {
-    const response = await axios.get(`/members/my/accounts`);
-    console.log(response);
-    accountBalance.value = response.data.accountBalance;
-  } catch (error) {
-    console.error('잔액 정보를 가져오지 못했습니다:', error);
-  }
-});
-
-</script>
 <template>
   <Header>
     <div
@@ -41,15 +13,9 @@ onMounted(async () => {
         <div class="row">
           <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div
-                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"
-              >
-                <div
-                  class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1"
-                >
-                  <h4
-                    class="text-white font-weight-bolder text-center mt-2 mb-0"
-                  >
+              <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+                  <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
                     잔액을 확인하세요.
                   </h4>
                 </div>
@@ -65,8 +31,8 @@ onMounted(async () => {
                         color="success"
                         fullWidth
                       >
-                        입금하기</MaterialButton
-                      >
+                        입금하기
+                      </MaterialButton>
                     </router-link>
                   </div>
                   <div class="text-center">
@@ -76,8 +42,8 @@ onMounted(async () => {
                         variant="gradient"
                         color="success"
                         fullWidth
-                        >출금하기</MaterialButton
-                      >
+                        >출금하기
+                      </MaterialButton>
                     </router-link>
                   </div>
                 </form>
@@ -89,3 +55,9 @@ onMounted(async () => {
     </div>
   </Header>
 </template>
+<script setup>
+import Header from "@/examples/Header.vue";
+import MaterialButton from "@/components/MaterialButton.vue";
+import { getAccountBalance } from "@/views/Pay/getAccountBalance";
+const { accountBalance } = getAccountBalance();
+</script>
