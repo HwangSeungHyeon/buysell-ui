@@ -58,11 +58,23 @@
           style="margin-left: 10px;"
           >게시글 삭제</material-button
         >
-        <router-link to="/" class="no-style-link">
-          <material-button variant="gradient" color="info"
-            >찜하기</material-button
-          >
-        </router-link>
+        <!-- 게시글 찜 버튼 -->
+        <div class="d-flex align-items-center">
+          <img
+            v-if="!post.isLiked"
+            src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
+            alt="빈 하트"
+            @click="toggleLike"
+            class="heart-icon mr-1"
+          />
+          <img
+            v-else
+            src="https://velog.velcdn.com/images/codekmj/post/4bbae38a-1ca5-4f6b-add4-7ead3cd70d71/image.jpg"
+            alt="꽉 찬 하트"
+            @click="toggleLike"
+            class="heart-icon mr-1"
+          />
+        </div>
       </div>
 
       <!-- 댓글 작성칸 -->
@@ -131,13 +143,20 @@ const post = ref({
   content: "",
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
+  isLiked: false, // 찜 여부를 나타내는 변수 추가
 });
+
 
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
   try {
     const response = await axios.get(`/posts/${postId}`);
+    console.log("res1", response.data);
     post.value = response.data;
+
+    // 포스트를 가져온 후 찜 상태를 업데이트
+    await updateLikeStatus();
+
     sessionStorage.setItem("post", JSON.stringify(post.value));
     console.log("post", post.value);
   } catch (error) {
@@ -145,42 +164,63 @@ const fetchPost = async (postId) => {
   }
 };
 
-// 컴포넌트가 마운트될 때 해당 게시글의 ID를 가져와서 데이터 조회
-onMounted(() => {
-  let postId = route.params.postId;
+const updateLikeStatus = async () => {
+  try {
+    const postId = route.params.postId;
+    const response = await axios.get(`/posts/${postId}/my/wishlist`);
+    const wishData = response.data;
+    console.log("wishdata", wishData);
+    post.value.isLiked = wishData.id !== -9;
+    // wishData가 존재하면 true, 존재하지 않으면 false로 설정
+    console.log("pvi", post.value.isLiked);
+  } catch (error) {
+    console.error("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
+  }
+};
 
+const toggleLike = async () => {
+  try {
+    const postId = route.params.postId;
+    const response = await axios.get(`/posts/${postId}/my/wishlist`);
+    const wishData = response.data;
+    console.log("wis", wishData);
+    // wishData가 postId와 일치하는 경우 찜 상태가 이미 존재하므로 찜을 해제해야 함
+    if (wishData.id !== -9) {
+      await axios.delete(`/posts/${postId}/my/wishlist`);
+      post.value.isLiked = false; // 찜 상태를 false로 변경
+    } else {
+      // wishData가 존재하지 않거나 postId와 일치하지 않는 경우 찜을 추가해야 함
+      await axios.post(`/posts/${postId}/my/wishlist`, {});
+      post.value.isLiked = true; // 찜 상태를 true로 변경
+    }
+  } catch (error) {
+    console.error("게시글 찜 상태를 변경하는데 실패했습니다:", error);
+  }
+};
+onMounted(async () => {
+  let postId = route.params.postId;
   if (!postId) {
     const savedPost = JSON.parse(sessionStorage.getItem("post"));
     if (savedPost) {
       postId = savedPost.id;
     }
   }
-
   if (postId) {
-    fetchPost(postId);
+    await fetchPost(postId);
   } else {
     console.error("게시글 ID를 찾을 수 없습니다.");
   }
 });
 
-// 게시글 삭제 함수
 const deletePost = async () => {
   try {
     const postId = JSON.parse(sessionStorage.getItem("post")).id;
     const token = sessionStorage.getItem("token");
-
     if (!token) {
       await router.push("/login");
       return;
     }
-
-    await axios.delete(`/posts/${postId}`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-
-    // 삭제 후 리다이렉트
+    await axios.delete(`/posts/${postId}`);
     await router.push("/");
   } catch (error) {
     console.error("게시글 삭제에 실패했습니다:", error);
@@ -191,28 +231,15 @@ const newComment = ref("");
 
 const addComment = async () => {
   try {
-    const token = sessionStorage.getItem("token");
-    if (!token) {
-      await router.push("/login");
-      return;
-    }
-
     const postId = post.value.id;
     const response = await axios.post(
-      `/posts/${postId}/comments`,
-      { content: newComment.value },
-      {
-        headers: {
-          Authorization: `${token}`,
-        },
-      }
+      `/posts/${postId}/comments`, { content: newComment.value }
     );
-
     const addedComment = response.data;
-    if (!post.value.comments) {
-      post.value.comments = []; // 빈 배열로 초기화
+    if (!post.value.comment) {
+      post.value.comments = [];
     }
-    post.value.comments.push(addedComment);
+    post.value.comment.push(addedComment);
     sessionStorage.setItem("post", JSON.stringify(post.value));
     location.reload();
   } catch (error) {

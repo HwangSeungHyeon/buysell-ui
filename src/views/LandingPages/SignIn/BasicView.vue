@@ -12,7 +12,6 @@ const errorMessage = ref("");
 const router = useRouter();
 
 setMaterialInput();
-const API_URL = "http://localhost:8080";
 const login = async () => {
   try {
     const userData = {
@@ -20,7 +19,7 @@ const login = async () => {
       password: password.value,
     };
     // 로그인 요청 보내기
-    const response = await axios.post(`${API_URL}/members/login`, userData);
+    const response = await axios.post(`/members/login`, userData);
     const token = response.headers["authorization"];
     // 토큰을 로컬 스토리지에 저장
     sessionStorage.setItem("token", token);

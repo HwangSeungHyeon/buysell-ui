@@ -9,12 +9,10 @@ import DefaultFooter from "../../examples/footers/FooterDefault.vue";
 import Header from "../../examples/Header.vue";
 
 // sections
-import PresentationExample from "./Sections/PresentationExample.vue";
-import data from "./Sections/Data/designBlocksData";
+
 
 //images
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
-import { RouterLink } from "vue-router";
 
 const router = useRouter();
 const body = document.getElementsByTagName("body")[0];
@@ -37,6 +35,7 @@ const posts = ref([]);
 const fetchPosts = async () => {
   try {
     const response = await axios.get("/posts");
+    console.log("response", response);
     posts.value = response.data.content;
   } catch (error) {
     console.error("게시물을 불러오는데 실패했습니다:", error);
@@ -157,13 +156,6 @@ const handlePostClick = async (postId) => {
       </div>
     </div>
   </div>
-  <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6">
-    <PresentationExample :data="data" />
-    <RouterLink
-      class="dropdown-item ps-3 border-radius-md mb-1"
-      :to="{ name: 'navigation-pagination' }"
-    >
-    </RouterLink>
-  </div>
+
   <DefaultFooter />
 </template>
