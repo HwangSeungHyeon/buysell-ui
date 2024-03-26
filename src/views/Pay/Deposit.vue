@@ -64,5 +64,4 @@ import { chargeAccount } from "@/views/Pay/chargeAccount";
 
 const { accountBalance } = getAccountBalance();
 const { formData, submitForm } = chargeAccount();
-
 </script>
