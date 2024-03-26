@@ -17,7 +17,7 @@ axios.interceptors.request.use(
     // 요청을 보내기 전에 수행할 작업을 여기에 작성합니다.
     const token = sessionStorage.getItem("token");
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `${token}`;
     }
     return config;
   },
