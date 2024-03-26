@@ -38,17 +38,20 @@ onMounted(() => {
                   <h4
                     class="text-white font-weight-bolder text-center mt-2 mb-0"
                   >
-                    인증코드를 입력하세요.
+                    이메일 인증 링크 전송
                   </h4>
                 </div>
               </div>
               <div class="card-body">
                 <form role="form" class="text-start">
                   <MaterialInput
-                    id="Emailcode"
+                    v-model="email"
+                    id="Email"
                     class="input-group-outline my-3"
-                    :label="{ text: 'Emailcode', class: 'form-label' }"
-                    type="Emailcode"
+                    :label="{ text: 'Email', class: 'form-label' }"
+                    type="Email"
+                    :value="email"
+                    @input="email = $event.target.value"
                   />
 
                   <div class="text-center">
