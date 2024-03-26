@@ -8,6 +8,7 @@ import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 
 import materialKit from "./material-kit";
+import Header from "@/examples/Header.vue";
 
 axios.defaults.baseURL = "http://localhost:8080";
 
@@ -40,7 +41,8 @@ axios.interceptors.response.use(
 );
 
 const app = createApp(App);
-
+// eslint-disable-next-line vue/no-reserved-component-names
+app.component("Header", Header);
 app.use(createPinia());
 app.use(router);
 app.use(materialKit);

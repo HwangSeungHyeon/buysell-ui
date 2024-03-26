@@ -144,7 +144,7 @@ const submitForm = async () => {
     console.log("token:", token);
     if (!token) {
       // 토큰이 없으면 로그인 페이지로 리디렉션
-      await router.push("/pages/landing-pages/basic");
+      await router.push("/login");
       return;
     }
     // 게시글 수정 요청 보내기

@@ -27,9 +27,9 @@ const props = defineProps({
     color: String,
     label: String,
     default: () => ({
-      route: "/pages/landing-pages/basic",
+      route: "/login",
       color: "bg-gradient-success",
-      label: "Log in",
+      label: "로그인",
     }),
   },
   transparent: {
