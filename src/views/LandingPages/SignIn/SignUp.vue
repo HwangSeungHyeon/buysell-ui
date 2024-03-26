@@ -18,7 +18,7 @@ onMounted(() => {
 });
 const email = ref("");
 const password = ref("");
-const nickName = ref("");
+const nickname = ref("");
 const gender = ref("");
 const birthday = ref("");
 const signUp = async () => {
@@ -27,7 +27,7 @@ const signUp = async () => {
     const formData = {
       email: email.value,
       password: password.value,
-      nickName: nickName.value,
+      nickname: nickname.value,
       gender: gender.value,
       birthday: birthday.value
     };
@@ -40,6 +40,10 @@ const signUp = async () => {
   } catch (error) {
     console.error("회원가입 실패:", error);
   }
+};
+
+const back = async () => {
+  router.back();
 };
 </script>
 <template>
@@ -91,13 +95,13 @@ const signUp = async () => {
                     @input="password = $event.target.value"
                   />
                   <MaterialInput
-                    v-model="nickName"
-                    id="nickName"
+                    v-model="nickname"
+                    id="nickname"
                     class="input-group-outline mb-3"
                     :label="{ text: 'Nickname', class: 'form-label' }"
                     type="text"
-                    :value="nickName"
-                    @input="nickName = $event.target.value"
+                    :value="nickname"
+                    @input="nickname = $event.target.value"
                   />
                   <MaterialInput
                     v-model="gender"
@@ -117,17 +121,24 @@ const signUp = async () => {
                     :value="birthday"
                     @input="birthday = $event.target.value"
                   />
-
                   <div class="text-center">
                     <MaterialButton
                       class="my-4 mb-2"
                       variant="gradient"
                       color="success"
-                      fullWidth
+                      type="submit"
+                      style="margin-right: 100px"
+                      @click.prevent="back"
+                    > 뒤로 가기 </MaterialButton>
+                    <MaterialButton
+                      class="my-4 mb-2"
+                      variant="gradient"
+                      color="success"
                       type="submit"
                       @click.prevent="signUp"
-                    > 이메일 인증하기 </MaterialButton>
+                    > 이메일 인증 </MaterialButton>
                   </div>
+
                   <div class="mt-4 text-sm text-center">
                     소셜 로그인
                     <div class="row mt-3">

@@ -3,7 +3,6 @@ import PresentationView from "../views/Presentation/PresentationView.vue";
 import AboutView from "../views/LandingPages/AboutUs/AboutView.vue";
 import ContactView from "../views/LandingPages/ContactUs/ContactView.vue";
 import AuthorView from "../views/LandingPages/Author/AuthorView.vue";
-import SignInBasicView from "../views/LandingPages/SignIn/BasicView.vue";
 import PageHeaders from "../layouts/sections/page-sections/page-headers/HeadersView.vue";
 import PageFeatures from "../layouts/sections/page-sections/features/FeaturesView.vue";
 import NavigationNavbars from "../layouts/sections/navigation/navbars/NavbarsView.vue";
@@ -32,6 +31,7 @@ import PostEditForm from "@/views/LandingPages/posts/PostEditForm.vue";
 import FourTPay from "@/views/Pay/FourTPay.vue";
 import Deposit from "@/views/Pay/Deposit.vue";
 import Withdraw from "@/views/Pay/Withdraw.vue";
+import Login from "@/views/LandingPages/SignIn/Login.vue";
 import WishListView from "@/views/WishList/WishListView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,9 +57,9 @@ const router = createRouter({
       component: AuthorView,
     },
     {
-      path: "/pages/landing-pages/basic",
-      name: "signin-basic",
-      component: SignInBasicView,
+      path: "/login",
+      name: "login",
+      component: Login,
     },
     {
       path: "/sections/page-sections/page-headers",

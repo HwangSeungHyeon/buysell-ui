@@ -1,19 +1,34 @@
 <script setup>
-import { onMounted } from "vue";
-
-// example components
-import Header from "@/examples/Header.vue";
-
-//Vue Material Kit 2 components
-import MaterialInput from "@/components/MaterialInput.vue";
+import { ref } from "vue";
+import axios from "axios";
 import MaterialButton from "@/components/MaterialButton.vue";
+import MaterialInput from "@/components/MaterialInput.vue";
+import router from "@/router";
 
-// material-input
-import setMaterialInput from "@/assets/js/material-input";
-onMounted(() => {
-  setMaterialInput();
-});
+const email = ref("");
+
+const sendEmailVerification = async () => {
+  try {
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    };
+    console.log("email", email.value);
+    const response = await axios.post(
+      `/members/sendemail`,
+      email.value,
+      {},
+      config
+    );
+    console.log(response.data);
+    await router.push("/login");
+  } catch (error) {
+    console.log(error);
+  }
+};
 </script>
+
 <template>
   <Header>
     <div
@@ -57,12 +72,13 @@ onMounted(() => {
                   <div class="text-center">
                     <MaterialButton
                       class="my-4 mb-2"
-                      href="/auth"
                       variant="gradient"
                       color="success"
                       fullWidth
-                      >인증하기</MaterialButton
+                      @click.prevent="sendEmailVerification"
                     >
+                      인증하기
+                    </MaterialButton>
                   </div>
                 </form>
               </div>

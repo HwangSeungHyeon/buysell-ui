@@ -51,11 +51,13 @@ const login = async () => {
                 <div
                   class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1"
                 >
-                  <h4
-                    class="text-white font-weight-bolder text-center mt-2 mb-0"
-                  >
-                    로그인 하세요!
-                  </h4>
+                  <router-link to="/">
+                    <h4
+                      class="text-white font-weight-bolder text-center mt-2 mb-0"
+                    >
+                      Buysell
+                    </h4>
+                  </router-link>
                 </div>
               </div>
               <div class="card-body">

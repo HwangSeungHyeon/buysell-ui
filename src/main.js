@@ -8,8 +8,10 @@ import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 
 import materialKit from "./material-kit";
+import Header from "@/examples/Header.vue";
 
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
+axios.defaults.baseURL = "http://localhost:8080"
+//axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
 
 // 요청 인터셉터 설정
 axios.interceptors.request.use(
@@ -40,7 +42,8 @@ axios.interceptors.response.use(
 );
 
 const app = createApp(App);
-
+// eslint-disable-next-line vue/no-reserved-component-names
+app.component("Header", Header);
 app.use(createPinia());
 app.use(router);
 app.use(materialKit);
