@@ -251,49 +251,49 @@ const addComment = async () => {
 <style>
 .post-header {
   display: flex;
-  justify-content: space-between; /* 양쪽으로 요소를 분산 배치 */
-  align-items: center; /* 세로 축에서 중앙 정렬 */
+  justify-content: space-between;
+  align-items: center;
   border: 2px solid #000000;
 }
 .text-center {
-  text-align: center; /* 텍스트 중앙 정렬 */
+  text-align: center;
 }
 
 .mb-5 {
-  margin-bottom: 3rem; /* 하단 여백 */
+  margin-bottom: 3rem;
 }
 
 .post-title,
 .post-author {
-  display: flex; /* Flexbox를 사용하여 요소를 가로로 나란히 배치 */
-  flex-direction: column; /* 요소들을 세로로 배치 */
-  justify-content: center; /* 세로 방향으로 가운데 정렬 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .post-title {
-  text-align: left; /* 제목을 왼쪽 정렬 */
+  text-align: left;
   margin-left: 20px;
 }
 
 .post-author {
-  text-align: right; /* 작성자 이름을 오른쪽 정렬 */
+  text-align: right;
   margin-right: 20px;
 }
 .product-info {
   display: flex;
   text-align: center;
-  align-items: center; /* 세로 축에서 중앙 정렬 */
-  gap: 20px; /* 이미지와 텍스트 사이의 간격 */
+  align-items: center;
+  gap: 20px;
   background-color: #e2e2e2;
 }
 
 .product-details {
-  flex-grow: 1; /* 남은  공간을 모두 차지하도록 함 */
+  flex-grow: 1;
 }
 // 댓글 스타일
 .comment-form {
   display: flex;
-  flex-direction: column; /* 댓글 입력창과 버튼을 세로로 배치 */
+  flex-direction: column;
 }
 
 .input-group {
@@ -302,12 +302,12 @@ const addComment = async () => {
 }
 
 .material-input {
-  flex: 1; /* 입력창이 남은 공간을 모두 차지하도록 설정 */
-  max-width: calc(100% - 120px); /* 버튼 너비를 고려한 최대 너비 설정 */
-  margin-right: 8px; /* 버튼과의 간격 조정 */
+  flex: 1;
+  max-width: calc(100% - 120px);
+  margin-right: 8px;
 }
 
 material-button {
-  flex-shrink: 0; /* 버튼이 내용에 따라 축소되지 않도록 설정 */
+  flex-shrink: 0;
 }
 </style>

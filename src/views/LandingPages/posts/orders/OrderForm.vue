@@ -27,7 +27,6 @@ onMounted(() => {
   setMaterialInput();
 });
 
-const API_URL = "http://localhost:8080";
 const formData = ref({
   title: "",
   content: "",
@@ -55,7 +54,7 @@ const submitForm = async () => {
       category: formData.value.category
     };
 
-    await axios.post(`${API_URL}/posts`, postData, {
+    await axios.post(`/posts`, postData, {
       headers: {
         Authorization: `${token}`
       },
