@@ -41,7 +41,7 @@
         </router-link>
         <!-- postId를 postEdit 라우트에 전달 -->
         <router-link
-          v-if="userId === postAuthorId"
+          v-if="parseInt(userId) === parseInt(postAuthorId)"
           :to="{ name: 'postedit', params: { postId: post.id } }"
           class="no-style-link"
         >
@@ -140,6 +140,7 @@ import router from "@/router";
 
 const route = useRoute();
 const post = ref({
+  memberId: 0,
   title: "",
   createdName: "",
   content: "",
@@ -152,12 +153,13 @@ import { useJwt } from "@vueuse/integrations/useJwt";
 const token = sessionStorage.getItem("token");
 const decoded = useJwt(token);
 const userId = decoded.payload.value.sub;
-console.log(userId);
+console.log("user", userId);
 console.log(decoded);
 
-const postData = sessionStorage.getItem("post"); // 게시글의 작성자 ID
-const postAuthorId = postData;
-console.log("postAuthorId", postAuthorId);
+const postData = JSON.parse(sessionStorage.getItem("post")); // 게시글의 작성자 ID
+console.log("postdata", postData);
+const postAuthorId = postData.memberId;
+console.log("p", postAuthorId);
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
   try {
