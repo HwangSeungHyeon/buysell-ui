@@ -1,60 +1,67 @@
-<script setup>
-import { onMounted } from "vue";
-
-// example components
-import Header from "@/examples/Header.vue";
-
-//Vue Material Kit 2 components
-import MaterialInput from "@/components/MaterialInput.vue";
-import MaterialButton from "@/components/MaterialButton.vue";
-
-// material-input
-import setMaterialInput from "@/assets/js/material-input";
-import ModalD from "@/views/Pay/Components/ModalD.vue";
-onMounted(() => {
-  setMaterialInput();
-});
-</script>
 <template>
-  <Header>
-    <div class="page-header min-vh-50">
-      <span class="mask bg-gradient-drk opacity-6"></span>
-      <div class="container my-auto">
-        <div class="row">
-          <div class="col-lg-4 col-md-8 col-12 mx-auto">
-            <div class="card z-index-0 fadeIn3 fadeInBottom">
-              <div
-                class="card-header p-0 position-relative mt-n4 mx-3 z-index-2"
-              >
-                <div
-                  class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1"
-                >
-                  <h4
-                    class="text-white font-weight-bolder text-center mt-2 mb-0"
-                  >
-                    입금할 금액을 입력하세요.
-                  </h4>
-                </div>
-              </div>
-              <div class="card-body">
-                <form role="form" class="text-start">
-                  <MaterialInput
-                    id="입금액"
-                    class="input-group-outline my-5"
-                    :label="{
-                      text: '숫자만 입력 하세요.',
-                      class: 'form-label',
-                    }"
-                    type="입금액"
-                  />
-                  현재 잔액 : 0,000원
-                </form>
-              </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4 col-md-8 col-12 mx-auto">
+        <div class="card z-index-0 fadeIn3 fadeInBottom mt-8">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
+              <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">
+                입금할 금액을 입력하세요
+              </h4>
             </div>
+          </div>
+          <div class="card-body d-flex justify-content-center align-items-center" >
+            <form role="form" class="text-start" style="width: 400px;" autocomplete="off" @submit.prevent="submitForm">
+              <div class="text-center mt-2"> <!-- 현재 잔액을 가운데 정렬하기 위한 부분 -->
+                <h4>현재 잔액 : {{ accountBalance }}원</h4>
+              </div>
+              <MaterialInput
+                  id="deposit"
+                  v-model="formData.money"
+                  :value="formData.money"
+                  @input="formData.money = $event.target.value"
+                  class="input-group-outline my-4"
+                  :label="{
+                  text: '충전 금액',
+                  class: 'form-label',
+                }"
+                  type="number"
+              >
+              </MaterialInput>
+              <div class="text-center">
+                <MaterialButton
+                    variant="gradient"
+                    color="success"
+                    style="margin-top: 12px;"
+                    type="submit"
+                >
+                  입금
+                </MaterialButton>
+
+                <router-link to="/four-t-pay">
+                  <material-button
+                      variant="gradient"
+                      color="danger"
+                      style="margin-left: 10px; margin-top: 12px;">
+                    취소
+                  </material-button>
+                </router-link>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </div>
-    <ModalD></ModalD>
-  </Header>
+  </div>
+<!--  <ModalD></ModalD>-->
 </template>
+
+<script setup>
+import MaterialButton from '@/components/MaterialButton.vue';
+import MaterialInput from "@/components/MaterialInput.vue";
+import { getAccountBalance } from "@/views/Pay/getAccountBalance";
+import { chargeAccount } from "@/views/Pay/chargeAccount";
+
+const { accountBalance } = getAccountBalance();
+const { formData, submitForm } = chargeAccount();
+</script>
