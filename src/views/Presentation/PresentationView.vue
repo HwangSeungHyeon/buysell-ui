@@ -1,4 +1,3 @@
-
 <template>
   <div class="container position-sticky z-index-sticky top-0">
     <div class="row">
@@ -116,7 +115,7 @@ onUnmounted(() => {
 });
 
 
-const selectedSort = ref("createdAt,desc");
+const selectedSort = ref('createdAt,desc');
 const posts = ref([]);
 
 //정렬 기준 변경 메서드

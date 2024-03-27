@@ -30,7 +30,7 @@
           aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon mt-2"
-            ><span class="navbar-toggler-bar bar1"></span>
+          ><span class="navbar-toggler-bar bar1"></span>
             <span class="navbar-toggler-bar bar2"></span>
             <span class="navbar-toggler-bar bar3"></span>
           </span>
@@ -39,18 +39,34 @@
           class="collapse navbar-collapse w-100 pt-3 pb-2 py-lg-0"
           id="navigation"
         >
-          <ul class="navbar-nav navbar-nav-hover ms-auto">
-            <router-link to="/orders">
-              <MaterialButton
-                class="my-4 mb-2"
-                variant="gradient"
-                color="success"
-                fullWidth
+          <ul class="navbar-nav navbar-nav-hover">
+            <li class="nav-item d-flex align-items-center me-2" v-if="isAuthenticated">
+              <router-link to="/orders">
+                <MaterialButton
+                  class="btn btn-sm mb-0"
+                  variant="gradient"
+                  color="success"
+                  fullWidth>
+                  상품등록
+                </MaterialButton>
+              </router-link>
+            </li>
+            <li class="nav-item d-flex align-items-center">
+              <button
+                v-if="isAuthenticated"
+                class="btn btn-sm mb-0"
+                @click="logout"
+                :class="action.color"
               >
-                상품등록
-              </MaterialButton>
-            </router-link>
-            <li class="nav-item dropdown dropdown-hover mx-2">
+                로그아웃
+              </button>
+              <router-link v-else :to="action.route">
+                <button class="btn btn-sm mb-0" :class="action.color">
+                  {{ action.label }}
+                </button>
+              </router-link>
+            </li>
+            <li class="nav-item dropdown dropdown-hover mx-2" v-if="isAuthenticated">
               <a
                 role="button"
                 class="nav-link ps-2 d-flex cursor-pointer align-items-center"
@@ -114,12 +130,6 @@
                         >
                           <span>wishlist</span>
                         </RouterLink>
-                        <!--                        <RouterLink-->
-                        <!--                          :to="{ name: 'mysales' }"-->
-                        <!--                          class="dropdown-item border-radius-md"-->
-                        <!--                        >-->
-                        <!--                          <span>MySales</span>-->
-                        <!--                        </RouterLink>-->
                       </div>
                     </div>
                   </div>
@@ -167,7 +177,7 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { ref, watch } from "vue";
-import { useWindowsWidth } from "@/assets/js/useWindowsWidth";
+import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
 import MaterialInput from "@/components/MaterialInput.vue";
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
