@@ -58,10 +58,11 @@
           variant="gradient"
           color="danger"
           style="margin-left: 10px"
+          v-if="parseInt(userId) === parseInt(postAuthorId)"
           >게시글 삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
-        <div class="d-flex align-items-center">
+        <div v-if="token" class="d-flex align-items-center">
           <img
             v-if="!post.isLiked"
             src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
@@ -137,7 +138,7 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
-
+import getUserId from "./getUserId";
 const route = useRoute();
 const post = ref({
   memberId: 0,
@@ -148,28 +149,32 @@ const post = ref({
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
 });
-
-import { useJwt } from "@vueuse/integrations/useJwt";
 const token = sessionStorage.getItem("token");
-const decoded = useJwt(token);
-const userId = decoded.payload.value.sub;
-console.log("user", userId);
-console.log(decoded);
 
-const postData = JSON.parse(sessionStorage.getItem("post")); // 게시글의 작성자 ID
-console.log("postdata", postData);
-const postAuthorId = postData.memberId;
-console.log("p", postAuthorId);
+const userId = ref(null);
+const postAuthorId = ref(null);
+onMounted(async () => {
+  let postId = route.params.postId;
+
+  if (postId) {
+    await fetchPost(postId);
+    postAuthorId.value = post.value.memberId;
+    userId.value = getUserId();
+  } else {
+    console.error("게시글 ID를 찾을 수 없습니다.");
+  }
+});
+
+
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
   try {
     const response = await axios.get(`/posts/${postId}`);
     console.log("res1", response.data);
     post.value = response.data;
-
     // 포스트를 가져온 후 찜 상태를 업데이트
     await updateLikeStatus();
-
+    console.log("postUserId: ", postAuthorId);
     sessionStorage.setItem("post", JSON.stringify(post.value));
     console.log("post", post.value);
   } catch (error) {
@@ -210,20 +215,7 @@ const toggleLike = async () => {
     console.error("게시글 찜 상태를 변경하는데 실패했습니다:", error);
   }
 };
-onMounted(async () => {
-  let postId = route.params.postId;
-  if (!postId) {
-    const savedPost = JSON.parse(sessionStorage.getItem("post"));
-    if (savedPost) {
-      postId = savedPost.id;
-    }
-  }
-  if (postId) {
-    await fetchPost(postId);
-  } else {
-    console.error("게시글 ID를 찾을 수 없습니다.");
-  }
-});
+
 
 const deletePost = async () => {
   try {

@@ -59,7 +59,7 @@ const formatDate = (dateString) => {
 };
 const increaseViewCount = async (postId) => {
   try {
-    await axios.post(`/posts/${postId}/views`);
+    await axios.get(`/posts/${postId}`);
   } catch (error) {
     console.error("조회수를 증가하는데 실패했습니다:", error);
   }
