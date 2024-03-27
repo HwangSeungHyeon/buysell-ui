@@ -132,7 +132,6 @@ const fetchPosts = async () => {
       },
     });
     posts.value = response.data.content;
-    console.log(posts.value)
   } catch (error) {
     console.error("게시물을 불러오는데 실패했습니다:", error);
   }

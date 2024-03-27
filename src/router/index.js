@@ -33,6 +33,7 @@ import Deposit from "@/views/Pay/Deposit.vue";
 import Withdraw from "@/views/Pay/Withdraw.vue";
 import Login from "@/views/LandingPages/SignIn/Login.vue";
 import WishListView from "@/views/WishList/WishListView.vue";
+import SearchResults from "@/views/Presentation/SearchResults.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -206,6 +207,11 @@ const router = createRouter({
       name: "wishlist",
       component: WishListView,
     },
+    {
+      path: "/posts/search/:keyword",
+      name: "search",
+      component: SearchResults
+    }
   ],
 });
 
