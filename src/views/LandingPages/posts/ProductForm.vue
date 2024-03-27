@@ -24,7 +24,7 @@
           variant="gradient"
           color="primary"
           style="margin-right: 100px"
-          >구매하기</material-button
+        >구매하기</material-button
         >
       </div>
 
@@ -59,7 +59,7 @@
           color="danger"
           style="margin-left: 10px"
           v-if="parseInt(userId) === parseInt(postAuthorId)"
-          >게시글 삭제</material-button
+        >게시글 삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
         <div v-if="token" class="d-flex align-items-center">
@@ -92,7 +92,7 @@
             @input="newComment = $event.target.value"
           ></material-input>
           <material-button @click="addComment" variant="gradient" color="dark"
-            >댓글 등록</material-button
+          >댓글 등록</material-button
           >
         </div>
       </div>
@@ -111,18 +111,37 @@
           :key="index"
           style="display: flex; align-items: center; margin-top: 20px"
         >
-          <p style="flex: 1; border: 2px solid #000000; margin-left: 10px">
-            {{ comment.content }}
-          </p>
+          <div style="flex: 1; border: 2px solid #000000; margin-left: 10px">
+            <h6>{{ comment.createdName }}</h6>
+            <p v-if="!comment.editMode">{{ comment.content }}</p>
+            <textarea
+              v-else
+              v-model="comment.newContent"
+              style="width: 100%; height: 100px;"
+            ></textarea>
+          </div>
           <div class="p-md-2">
             <material-button
+              v-if="!comment.editMode"
+              @click="toggleEditMode(comment)"
               variant="text"
-              color="info"
+              color="secondary"
               style="margin-right: 8px"
-              >좋아요</material-button
+            >수정</material-button
             >
-            <material-button variant="text" color="danger"
-              >신고</material-button
+            <material-button
+              v-else
+              @click="updateComment(comment)"
+              variant="text"
+              color="primary"
+              style="margin-right: 8px"
+            >저장</material-button
+            >
+            <material-button
+              @click="deleteComment(comment)"
+              variant="text"
+              color="danger"
+            >삭제</material-button
             >
           </div>
         </div>
@@ -153,12 +172,16 @@ const token = sessionStorage.getItem("token");
 
 const userId = ref(null);
 const postAuthorId = ref(null);
+// const commentAuthorId = ref(null);
 onMounted(async () => {
   let postId = route.params.postId;
 
   if (postId) {
     await fetchPost(postId);
+    // await fetchCommentAuthors();
     postAuthorId.value = post.value.memberId;
+    // commentAuthorId.value = post.value.comment;
+    // console.log("commentAuthorId", commentAuthorId.value);
     userId.value = getUserId();
   } else {
     console.error("게시글 ID를 찾을 수 없습니다.");
@@ -181,7 +204,19 @@ const fetchPost = async (postId) => {
     console.error("게시글을 불러오는데 실패했습니다:", error);
   }
 };
-
+// const fetchCommentAuthors = async () => {
+//   try {
+//     // 각 댓글의 작성자 ID를 추출하여 서버에서 해당 사용자 정보를 가져옴
+//     for (const comment of post.value.comment) {
+//       const response = await axios.get(`/users/${comment.memberId}`);
+//       const userData = response.data;
+//       // 사용자 정보에서 이름을 댓글 객체에 추가
+//       comment.createdName = userData.name;
+//     }
+//   } catch (error) {
+//     console.error("댓글 작성자 정보를 가져오는데 실패했습니다:", error);
+//   }
+// };
 const updateLikeStatus = async () => {
   try {
     const postId = route.params.postId;
@@ -251,6 +286,40 @@ const addComment = async () => {
     console.error("댓글을 등록하는데 실패했습니다:", error);
   }
 };
+const toggleEditMode = (comment) => {
+  comment.editMode = !comment.editMode;
+  // 수정 모드일 때 기존 내용을 임시로 저장
+  if (comment.editMode) {
+    comment.newContent = comment.content;
+  }
+};
+
+const updateComment = async (comment) => {
+  try {
+    // 여기서는 댓글을 서버에 업데이트하는 작업을 수행하도록 구현합니다.
+    // 예시로 간단하게 댓글 객체의 내용을 변경한 후 저장한 것으로 가정합니다.
+    comment.content = comment.newContent;
+    comment.editMode = false;
+    console.log("댓글이 업데이트되었습니다:", comment);
+  } catch (error) {
+    console.error("댓글을 업데이트하는데 실패했습니다:", error);
+  }
+};
+
+const deleteComment = async (comment) => {
+  try {
+    // 여기서는 댓글을 서버에서 삭제하는 작업을 수행하도록 구현합니다.
+    // 예시로 간단하게 해당 댓글 객체를 배열에서 제거하는 것으로 가정합니다.
+    const index = post.value.comment.findIndex((c) => c.id === comment.id);
+    if (index !== -1) {
+      post.value.comment.splice(index, 1);
+      console.log("댓글이 삭제되었습니다:", comment);
+    }
+  } catch (error) {
+    console.error("댓글을 삭제하는데 실패했습니다:", error);
+  }
+};
+
 </script>
 
 <style>
@@ -260,6 +329,7 @@ const addComment = async () => {
   align-items: center;
   border: 2px solid #000000;
 }
+
 .text-center {
   text-align: center;
 }
@@ -284,6 +354,7 @@ const addComment = async () => {
   text-align: right;
   margin-right: 20px;
 }
+
 .product-info {
   display: flex;
   text-align: center;
@@ -295,6 +366,7 @@ const addComment = async () => {
 .product-details {
   flex-grow: 1;
 }
+
 // 댓글 스타일
 .comment-form {
   display: flex;

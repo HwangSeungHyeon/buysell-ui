@@ -99,6 +99,14 @@ const login = async () => {
                       >회원가입!</a
                     >
                   </p>
+                  <p class="mt-4 text-sm text-center">
+                    이메일 인증을 못하셨나요?
+                    <a
+                      href="/auth"
+                      class="text-success text-gradient font-weight-bold"
+                      >인증!</a
+                    >
+                  </p>
                   <div class="row mt-3">
                     <!-- //카카오 로그인-->
                     <div class="col-2 text-center ms-auto">

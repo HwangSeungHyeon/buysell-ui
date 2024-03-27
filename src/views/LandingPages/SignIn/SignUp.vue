@@ -127,7 +127,7 @@ const back = async () => {
                       variant="gradient"
                       color="success"
                       type="submit"
-                      style="margin-right: 100px"
+                      style="margin-right: 30px"
                       @click.prevent="back"
                     >
                       뒤로 가기

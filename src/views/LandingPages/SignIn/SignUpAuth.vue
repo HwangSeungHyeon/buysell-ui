@@ -4,6 +4,7 @@ import axios from "axios";
 import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
+import login from "../../../../buysell-ui/src/views/LandingPages/SignIn/Login.vue";
 
 const email = ref("");
 
@@ -74,7 +75,16 @@ const sendEmailVerification = async () => {
                       class="my-4 mb-2"
                       variant="gradient"
                       color="success"
-                      fullWidth
+                      type="submit"
+                      style="margin-right: 40px"
+                      @click.prevent="router.push(`/login`)"
+                    >
+                      로그인
+                    </MaterialButton>
+                    <MaterialButton
+                      class="my-4 mb-2"
+                      variant="gradient"
+                      color="success"
                       @click.prevent="sendEmailVerification"
                     >
                       인증하기
