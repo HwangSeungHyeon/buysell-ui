@@ -9,7 +9,7 @@ import "./assets/css/nucleo-svg.css";
 
 import materialKit from "./material-kit";
 
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
+axios.defaults.baseURL = "http://localhost:8080";
 
 // 요청 인터셉터 설정
 axios.interceptors.request.use(

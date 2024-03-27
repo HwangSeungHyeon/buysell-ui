@@ -8,9 +8,6 @@ import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../examples/footers/FooterDefault.vue";
 import Header from "../../examples/Header.vue";
 
-// sections
-
-
 //images
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
 
