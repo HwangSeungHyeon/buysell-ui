@@ -1,114 +1,3 @@
-<script setup>
-import { RouterLink } from "vue-router";
-import { ref, watch } from "vue";
-import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
-//Vue Material Kit 2 components
-import MaterialInput from "@/components/MaterialInput.vue";
-// images
-import ArrDark from "@/assets/img/down-arrow-dark.svg";
-import DownArrWhite from "@/assets/img/down-arrow-white.svg";
-import MaterialButton from "@/components/MaterialButton.vue";
-
-const isAuthenticated = ref(false);
-
-if (sessionStorage.getItem("token")) {
-  isAuthenticated.value = true;
-}
-
-function logout() {
-  sessionStorage.removeItem("token");
-  isAuthenticated.value = false;
-}
-
-const props = defineProps({
-  action: {
-    type: Object,
-    route: String,
-    color: String,
-    label: String,
-    default: () => ({
-      route: "/login",
-      color: "bg-gradient-success",
-      label: "로그인",
-    }),
-  },
-  transparent: {
-    type: Boolean,
-    default: false,
-  },
-  light: {
-    type: Boolean,
-    default: false,
-  },
-  dark: {
-    type: Boolean,
-    default: false,
-  },
-  sticky: {
-    type: Boolean,
-    default: false,
-  },
-  darkText: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-let textDark = ref(props.darkText);
-const { type } = useWindowsWidth();
-
-if (type.value === "mobile") {
-  textDark.value = true;
-} else if (type.value === "desktop" && textDark.value === false) {
-  textDark.value = false;
-}
-watch(
-  () => type.value,
-  (newValue) => {
-    if (newValue === "mobile") {
-      textDark.value = true;
-    } else {
-      textDark.value = false;
-    }
-  }
-);
-
-// set arrow  color
-function getArrowColor() {
-  if (props.transparent && textDark.value) {
-    return ArrDark;
-  } else if (props.transparent) {
-    return DownArrWhite;
-  } else {
-    return ArrDark;
-  }
-}
-
-const getTextColor = () => {
-  let color;
-  if (props.transparent && textDark.value) {
-    color = "text-dark";
-  } else if (props.transparent) {
-    color = "text-white";
-  } else {
-    color = "text-dark";
-  }
-
-  return color;
-};
-
-const getBrandClass = () => [
-  (props.transparent && textDark.value) || !props.transparent
-    ? "text-dark font-weight-bolder ms-sm-3"
-    : "text-white font-weight-bolder ms-sm-3",
-];
-
-const getContainerClass = () => [
-  props.transparent || props.light || props.dark
-    ? "container"
-    : "container-fluid px-0",
-];
-</script>
 <template>
   <nav class="navbar navbar-expand-lg top-0">
     <div :class="getContainerClass()">
@@ -124,23 +13,13 @@ const getContainerClass = () => [
       </RouterLink>
       <section>
         <MaterialInput
-          class="input-group-dynamic mb-1"
+          class="input-group-dynamic mb-1 me-10"
           icon="search"
           type="text"
           placeholder="Search"
         />
       </section>
       <div class="d-flex align-items-center">
-        <div
-          role="button"
-          class="nav-link ps-2 d-flex cursor-pointer align-items-end justify-content-end"
-          :class="getTextColor()"
-          id="dropdownMenuPages"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          `
-        </div>
         <button
           class="navbar-toggler shadow-none ms-2"
           type="button"
@@ -275,29 +154,8 @@ const getContainerClass = () => [
                   >
                     <span>wishlist</span>
                   </RouterLink>
-                  <!--                  <RouterLink-->
-                  <!--                    :to="{ name: 'mysales' }"-->
-                  <!--                    class="dropdown-item border-radius-md"-->
-                  <!--                  >-->
-                  <!--                    <span>MySales</span>-->
-                  <!--                  </RouterLink>-->
                 </div>
               </div>
-            </li>
-            <li class="nav-item">
-              <button
-                v-if="isAuthenticated"
-                class="btn btn-sm mb-0"
-                @click="logout"
-                :class="action.color"
-              >
-                로그아웃
-              </button>
-              <router-link v-else :to="action.route">
-                <button class="btn btn-sm mb-0" :class="action.color">
-                  {{ action.label }}
-                </button>
-              </router-link>
             </li>
           </ul>
         </div>
@@ -305,3 +163,113 @@ const getContainerClass = () => [
     </div>
   </nav>
 </template>
+
+<script setup>
+import { RouterLink } from "vue-router";
+import { ref, watch } from "vue";
+import { useWindowsWidth } from "@/assets/js/useWindowsWidth";
+import MaterialInput from "@/components/MaterialInput.vue";
+import ArrDark from "@/assets/img/down-arrow-dark.svg";
+import DownArrWhite from "@/assets/img/down-arrow-white.svg";
+import MaterialButton from "@/components/MaterialButton.vue";
+
+const isAuthenticated = ref(false);
+
+if (sessionStorage.getItem("token")) {
+  isAuthenticated.value = true;
+}
+
+function logout() {
+  sessionStorage.removeItem("token");
+  isAuthenticated.value = false;
+}
+
+const props = defineProps({
+  action: {
+    type: Object,
+    route: String,
+    color: String,
+    label: String,
+    default: () => ({
+      route: "/login",
+      color: "bg-gradient-success",
+      label: "로그인",
+    }),
+  },
+  transparent: {
+    type: Boolean,
+    default: false,
+  },
+  light: {
+    type: Boolean,
+    default: false,
+  },
+  dark: {
+    type: Boolean,
+    default: false,
+  },
+  sticky: {
+    type: Boolean,
+    default: false,
+  },
+  darkText: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+let textDark = ref(props.darkText);
+const { type } = useWindowsWidth();
+
+if (type.value === "mobile") {
+  textDark.value = true;
+} else if (type.value === "desktop" && textDark.value === false) {
+  textDark.value = false;
+}
+watch(
+  () => type.value,
+  (newValue) => {
+    if (newValue === "mobile") {
+      textDark.value = true;
+    } else {
+      textDark.value = false;
+    }
+  }
+);
+
+// set arrow  color
+function getArrowColor() {
+  if (props.transparent && textDark.value) {
+    return ArrDark;
+  } else if (props.transparent) {
+    return DownArrWhite;
+  } else {
+    return ArrDark;
+  }
+}
+
+const getTextColor = () => {
+  let color;
+  if (props.transparent && textDark.value) {
+    color = "text-dark";
+  } else if (props.transparent) {
+    color = "text-white";
+  } else {
+    color = "text-dark";
+  }
+
+  return color;
+};
+
+const getBrandClass = () => [
+  (props.transparent && textDark.value) || !props.transparent
+    ? "text-dark font-weight-bolder ms-sm-3"
+    : "text-white font-weight-bolder ms-sm-3",
+];
+
+const getContainerClass = () => [
+  props.transparent || props.light || props.dark
+    ? "container"
+    : "container-fluid px-0",
+];
+</script>
