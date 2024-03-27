@@ -29,7 +29,6 @@ const login = async () => {
     errorMessage.value = error.message; // 로그인 실패 시 에러 메시지 표시
   }
 };
-
 </script>
 <template>
   <Header>

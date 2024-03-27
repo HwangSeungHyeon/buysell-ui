@@ -10,7 +10,7 @@ import "./assets/css/nucleo-svg.css";
 import materialKit from "./material-kit";
 import Header from "@/examples/Header.vue";
 
-axios.defaults.baseURL = "http://localhost:8080"
+axios.defaults.baseURL = "http://localhost:8080";
 //axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL
 
 // 요청 인터셉터 설정

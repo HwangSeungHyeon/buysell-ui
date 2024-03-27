@@ -10,7 +10,6 @@ import Header from "../../examples/Header.vue";
 
 // sections
 
-
 //images
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
 

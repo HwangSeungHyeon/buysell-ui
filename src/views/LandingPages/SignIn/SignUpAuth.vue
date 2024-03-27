@@ -11,8 +11,8 @@ const sendEmailVerification = async () => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
     console.log("email", email.value);
     const response = await axios.post(

@@ -41,6 +41,7 @@
         </router-link>
         <!-- postId를 postEdit 라우트에 전달 -->
         <router-link
+          v-if="userId === postAuthorId"
           :to="{ name: 'postedit', params: { postId: post.id } }"
           class="no-style-link"
         >
@@ -48,14 +49,15 @@
             variant="gradient"
             color="secondary"
             style="justify-content: end"
-            >게시글 수정</material-button
           >
+            게시글 수정
+          </material-button>
         </router-link>
         <material-button
           @click="deletePost"
           variant="gradient"
           color="danger"
-          style="margin-left: 10px;"
+          style="margin-left: 10px"
           >게시글 삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
@@ -146,7 +148,16 @@ const post = ref({
   isLiked: false, // 찜 여부를 나타내는 변수 추가
 });
 
+import { useJwt } from "@vueuse/integrations/useJwt";
+const token = sessionStorage.getItem("token");
+const decoded = useJwt(token);
+const userId = decoded.payload.value.sub;
+console.log(userId);
+console.log(decoded);
 
+const postData = sessionStorage.getItem("post"); // 게시글의 작성자 ID
+const postAuthorId = postData;
+console.log("postAuthorId", postAuthorId);
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
   try {
@@ -232,9 +243,9 @@ const newComment = ref("");
 const addComment = async () => {
   try {
     const postId = post.value.id;
-    const response = await axios.post(
-      `/posts/${postId}/comments`, { content: newComment.value }
-    );
+    const response = await axios.post(`/posts/${postId}/comments`, {
+      content: newComment.value,
+    });
     const addedComment = response.data;
     if (!post.value.comment) {
       post.value.comments = [];
