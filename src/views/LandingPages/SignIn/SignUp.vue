@@ -29,7 +29,7 @@ const signUp = async () => {
       password: password.value,
       nickname: nickname.value,
       gender: gender.value,
-      birthday: birthday.value
+      birthday: birthday.value,
     };
     console.log("form", formData);
     // 서버로 데이터 전송
@@ -127,16 +127,20 @@ const back = async () => {
                       variant="gradient"
                       color="success"
                       type="submit"
-                      style="margin-right: 100px"
+                      style="margin-right: 30px"
                       @click.prevent="back"
-                    > 뒤로 가기 </MaterialButton>
+                    >
+                      뒤로 가기
+                    </MaterialButton>
                     <MaterialButton
                       class="my-4 mb-2"
                       variant="gradient"
                       color="success"
                       type="submit"
                       @click.prevent="signUp"
-                    > 이메일 인증 </MaterialButton>
+                    >
+                      이메일 인증
+                    </MaterialButton>
                   </div>
 
                   <div class="mt-4 text-sm text-center">

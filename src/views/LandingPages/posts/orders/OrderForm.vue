@@ -20,7 +20,7 @@ const categories = [
   { value: "FOOD", label: "음식" },
   { value: "SPORTS", label: "스포츠" },
   { value: "DIGITAL", label: "디지털" },
-  { value: "PET", label: "애완동물" }
+  { value: "PET", label: "애완동물" },
 ];
 
 onMounted(() => {
@@ -31,7 +31,7 @@ const formData = ref({
   title: "",
   content: "",
   price: null,
-  category: ""
+  category: "",
 });
 
 const router = useRouter();
@@ -51,12 +51,12 @@ const submitForm = async () => {
       title: formData.value.title,
       content: formData.value.content,
       price: formData.value.price,
-      category: formData.value.category
+      category: formData.value.category,
     };
 
     await axios.post(`/posts`, postData, {
       headers: {
-        Authorization: `${token}`
+        Authorization: `${token}`,
       },
     });
 
@@ -73,7 +73,13 @@ const submitForm = async () => {
     <div class="container" style="border: 2px solid #000000">
       <div class="row">
         <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
-          <form role="form" id="contact-form" method="post" autocomplete="off" @submit.prevent="submitForm">
+          <form
+            role="form"
+            id="contact-form"
+            method="post"
+            autocomplete="off"
+            @submit.prevent="submitForm"
+          >
             <div class="card-body py-3">
               <h3 class="text-dark" style="margin-bottom: 50px">게시글 제목</h3>
               <div class="row">
@@ -95,10 +101,10 @@ const submitForm = async () => {
                 <div class="col-md-6"></div>
               </div>
               <div class="row">
-<!--                <div class="col-md-6">-->
-<!--                  <h6>이미지 선택</h6>-->
-<!--                  <input type="file" accept="image/*" @change="handleFileUpload">-->
-<!--                </div>-->
+                <!--                <div class="col-md-6">-->
+                <!--                  <h6>이미지 선택</h6>-->
+                <!--                  <input type="file" accept="image/*" @change="handleFileUpload">-->
+                <!--                </div>-->
               </div>
               <div class="row">
                 <div class="mb-4 col-md-6">
@@ -118,9 +124,17 @@ const submitForm = async () => {
                 </div>
                 <div class="mb-4 col-md-6">
                   <h6>카테고리</h6>
-                  <select v-model="formData.category" class="form-select" aria-label="카테고리 선택">
+                  <select
+                    v-model="formData.category"
+                    class="form-select"
+                    aria-label="카테고리 선택"
+                  >
                     <option disabled value="">카테고리 선택</option>
-                    <option v-for="category in categories" :key="category.value" :value="category.value">
+                    <option
+                      v-for="category in categories"
+                      :key="category.value"
+                      :value="category.value"
+                    >
                       {{ category.label }}
                     </option>
                   </select>
@@ -154,7 +168,10 @@ const submitForm = async () => {
                           <div class="text-center">
                             <!-- 목록으로 이동하는 버튼 -->
                             <button @click="router.push('/')">
-                              <MaterialButton variant="gradient" color="secondary">
+                              <MaterialButton
+                                variant="gradient"
+                                color="secondary"
+                              >
                                 목록
                               </MaterialButton>
                             </button>
@@ -178,12 +195,11 @@ const submitForm = async () => {
     </div>
     <div class="image-preview-container">
       <div v-if="imageSrc" class="image-preview">
-        <img :src="imageSrc" alt="Image preview">
+        <img :src="imageSrc" alt="Image preview" />
       </div>
     </div>
   </section>
 </template>
-
 
 <style scoped>
 .container {
@@ -191,8 +207,8 @@ const submitForm = async () => {
   max-width: 1200px;
 }
 
-.card-body{
-  border: 2px solid #000000
+.card-body {
+  border: 2px solid #000000;
 }
 .card-body {
   border: 2px solid #000000;
