@@ -28,27 +28,39 @@
       </div>
     </div>
   </Header>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <div class="card-columns">
-            <div
-                v-for="post in posts"
-                :key="post.id"
-                class="card shadow-sm mb-4"
-                @click="handlePostClick(post.id)"
-            >
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="row">
+          <div v-for="post in posts" :key="post.id" class="col-md-3 mb-4" @click="handlePostClick(post.id)">
+            <div class="card shadow-sm mt-3">
+              <img :src="post.imgUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
               <div class="card-body">
-                <h5 class="card-title">{{ post.title }}</h5>
-                <p class="card-text">작성자: {{ post.createdName }}</p>
-                <p class="card-text">작성일: {{ formatDate(post.updatedAt) }}</p>
-                <p class="card-text">조회수: {{ post.view }}</p>
+                <p class="card-title text-center" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  {{ post.title }}
+                </p>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                      <p class="card-text small m-0">작성자: {{ post.createdName }}</p>
+                      <p class="card-text m-0">{{ Number(post.price).toLocaleString() }}원</p>
+                      <!--                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>-->
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                      <p class="card-text small m-0">조회수 {{ post.view }}</p>
+                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   <DefaultFooter />
 </template>
 
@@ -60,20 +72,12 @@ import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../examples/footers/FooterDefault.vue";
 import Header from "../../examples/Header.vue";
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
-import setNavPills from "@/assets/js/nav-pills.js";
 
 const route = useRoute();
 const router = useRouter();
 const keyword = ref(route.query.keyword);
 
 const posts = ref([]);
-
-onMounted(fetchPosts);
-
-watch(() => route.params.keyword, (newKeyword) => {
-  keyword.value = newKeyword;
-  fetchPosts(newKeyword);
-});
 
 const fetchPosts = async () => {
   if (!keyword.value) {
@@ -88,6 +92,13 @@ const fetchPosts = async () => {
     console.error('Error fetching posts:', error);
   }
 };
+
+onMounted(fetchPosts);
+
+watch(() => route.query.keyword, (newKeyword) => {
+  keyword.value = newKeyword;
+  fetchPosts();
+});
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
