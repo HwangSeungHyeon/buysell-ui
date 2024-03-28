@@ -172,7 +172,7 @@ const post = ref({
 });
 
 const token = sessionStorage.getItem("token");
-
+console.log("확인");
 const userId = ref(null);
 const postAuthorId = ref(null);
 
