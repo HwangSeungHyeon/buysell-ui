@@ -89,7 +89,6 @@
   </div>
   <DefaultFooter />
 </template>
-
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue";
 import axios from "axios";
@@ -114,8 +113,7 @@ onUnmounted(() => {
   body.classList.remove("bg-gray-200");
 });
 
-
-const selectedSort = ref('createdAt,desc');
+const selectedSort = ref("createdAt,desc");
 const posts = ref([]);
 
 //정렬 기준 변경 메서드
@@ -126,13 +124,13 @@ const changeSort = (sortCriteria) => {
 
 const fetchPosts = async () => {
   try {
-    const response = await axios.get('/posts', {
+    const response = await axios.get("/posts", {
       params: {
         sort: selectedSort.value,
       },
     });
     posts.value = response.data.content;
-    console.log(posts.value)
+    console.log(posts.value);
   } catch (error) {
     console.error("게시물을 불러오는데 실패했습니다:", error);
   }
