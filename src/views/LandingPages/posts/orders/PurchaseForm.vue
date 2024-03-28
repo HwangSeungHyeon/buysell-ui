@@ -1,5 +1,4 @@
 <script setup>
-
 import Header from "@/examples/Header.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
@@ -12,25 +11,20 @@ import MaterialInput from "@/components/MaterialInput.vue";
         <div class="">
           <div class="card z-index-0 fadeIn3 fadeInBottom">
             <div class="card-body">
-
               <form role="form" class="text-start">
                 <h6>배송지 주소 입력</h6>
-                <MaterialInput
-                  id="address"
-                  class="input-group-outline my-3"
-                />
+                <MaterialInput id="address" class="input-group-outline my-3" />
                 <h6>구매자 연락처 입력</h6>
-                <MaterialInput
-                  id="phone"
-                  class="input-group-outline mb-3"
-                />
+                <MaterialInput id="phone" class="input-group-outline mb-3" />
 
                 <div class="text-center">
                   <MaterialButton
                     class="my-4 mb-2"
                     variant="gradient"
                     color="success"
-                    fullWidth>결제하기</MaterialButton>
+                    fullWidth
+                    >결제하기</MaterialButton
+                  >
                 </div>
               </form>
             </div>

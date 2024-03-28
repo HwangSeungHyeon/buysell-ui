@@ -59,18 +59,18 @@ import imgSigninCover from "@/assets/img/signin-cover.png";
             </div>
             <div class="col-md-6 mt-md-0 mt-5">
               <ExampleCard
-                  classes="shadow-lg"
-                  title="Author Page"
-                  image="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/material-design-system/presentation/pages/author.jpg"
-                  route="author"
+                classes="shadow-lg"
+                title="Author Page"
+                image="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/material-design-system/presentation/pages/author.jpg"
+                route="author"
               />
             </div>
             <div class="col-md-6 mt-md-0 mt-5">
               <ExampleCard
-                  classes="shadow-lg"
-                  title="Author Page"
-                  image="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/material-design-system/presentation/pages/author.jpg"
-                  route="author"
+                classes="shadow-lg"
+                title="Author Page"
+                image="https://raw.githubusercontent.com/creativetimofficial/public-assets/master/material-design-system/presentation/pages/author.jpg"
+                route="author"
               />
             </div>
           </div>

@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg top-0">
+  <nav class="navbar navbar-expand-lg top-0 col-lg-10 mx-auto">
     <div :class="getContainerClass()">
       <RouterLink
         class="navbar-brand d-none d-md-block"
@@ -8,6 +8,7 @@
         rel="tooltip"
         title="Designed and Coded by Creative Tim"
         data-placement="bottom"
+        style="font-size: 1.5rem;"
       >
         BuySell
       </RouterLink>
@@ -17,6 +18,10 @@
           icon="search"
           type="text"
           placeholder="Search"
+          v-model="formData.keyword"
+          :value="formData.keyword"
+          @input="formData.keyword = $event.target.value"
+          @keyup.enter="performSearch"
         />
       </section>
       <div class="d-flex align-items-center">
@@ -196,7 +201,8 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { ref, watch } from "vue";
-import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
+import { useRouter} from "vue-router";
+import { useWindowsWidth } from "@/assets/js/useWindowsWidth";
 import MaterialInput from "@/components/MaterialInput.vue";
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
@@ -301,4 +307,15 @@ const getContainerClass = () => [
     ? "container"
     : "container-fluid px-0",
 ];
+
+const router = useRouter();
+const formData = ref({ keyword: '' });
+
+function performSearch() {
+  if (!formData.value.keyword) {
+    alert("검색어를 입력해주세요");
+    return;
+  }
+  router.push({ path: '/posts/search', query: { keyword: formData.value.keyword} });
+}
 </script>

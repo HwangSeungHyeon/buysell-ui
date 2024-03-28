@@ -11,8 +11,8 @@ const sendEmailVerification = async () => {
   try {
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
     console.log("email", email.value);
     const response = await axios.post(
@@ -74,7 +74,16 @@ const sendEmailVerification = async () => {
                       class="my-4 mb-2"
                       variant="gradient"
                       color="success"
-                      fullWidth
+                      type="submit"
+                      style="margin-right: 40px"
+                      @click.prevent="router.push(`/login`)"
+                    >
+                      로그인
+                    </MaterialButton>
+                    <MaterialButton
+                      class="my-4 mb-2"
+                      variant="gradient"
+                      color="success"
                       @click.prevent="sendEmailVerification"
                     >
                       인증하기

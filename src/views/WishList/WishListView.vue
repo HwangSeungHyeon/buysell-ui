@@ -15,7 +15,7 @@ export default {
     async fetchWishlist() {
       try {
         const response = await axios.get("/members/my/profile/wishlist");
-        console.log(response)
+        console.log(response);
         this.wishlist = response.data;
       } catch (error) {
         console.error("Error fetching wishlist:", error);
