@@ -128,7 +128,6 @@ onUnmounted(() => {
   body.classList.remove("bg-gray-200");
 });
 
-
 const selectedSort = ref("updatedAt,desc");
 const posts = ref([]);
 
@@ -139,9 +138,8 @@ const changeSort = (sortCriteria) => {
 };
 
 const fetchPosts = async () => {
-  console.log(selectedSort.value);
   try {
-    const response = await axios.get('/posts', {
+    const response = await axios.get("/posts", {
       params: {
         sort: selectedSort.value
       },
