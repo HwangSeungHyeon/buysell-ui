@@ -40,7 +40,6 @@ defineProps({
     type: Boolean,
     default: false,
   },
-
 });
 
 function getClasses(variant, color, size, fullWidth, disabled) {
@@ -63,7 +62,6 @@ function getClasses(variant, color, size, fullWidth, disabled) {
 
   return `${colorValue} ${sizeValue} ${fullWidthValue} ${activeValue}`;
 }
-
 </script>
 <template>
   <button

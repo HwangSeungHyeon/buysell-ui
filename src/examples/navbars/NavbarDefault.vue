@@ -199,11 +199,10 @@
 </template>
 
 <script setup>
-import axios from "axios";
 import { RouterLink } from "vue-router";
 import { ref, watch } from "vue";
 import { useRouter} from "vue-router";
-import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
+import { useWindowsWidth } from "@/assets/js/useWindowsWidth";
 import MaterialInput from "@/components/MaterialInput.vue";
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";

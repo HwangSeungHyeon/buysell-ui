@@ -1,5 +1,4 @@
 <script setup>
-
 import { RouterView } from "vue-router";
 import {provide, ref} from "vue";
 
