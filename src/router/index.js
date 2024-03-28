@@ -214,7 +214,7 @@ const router = createRouter({
       component: MySalesView,
     },
     {
-      path: "/othersales",
+      path: "/othersales/:memberId",
       name: "othersales",
       component: OtherSalesView,
     },

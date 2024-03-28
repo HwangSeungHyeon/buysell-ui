@@ -6,9 +6,11 @@
         <div class="post-title">
           <h4>상품명: {{ post.title }}</h4>
         </div>
-        <div class="post-author">
-          <h4>작성자: {{ post.createdName }}</h4>
-        </div>
+        <router-link :to="{ path: `/othersales/${post.memberId}` }">
+          <div class="post-author">
+            <h4>작성자: {{ post.createdName }}</h4>
+          </div>
+        </router-link>
       </div>
       <div class="product-info py-6">
         <div class="product-details">
@@ -141,13 +143,14 @@ const post = ref({
   title: "",
   createdName: "",
   content: "",
+  memberId: "",
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
 });
 
+localStorage.setItem("memberId", "createdName");
 
-// 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
   try {
     const response = await axios.get(`/posts/${postId}`);
@@ -232,9 +235,9 @@ const newComment = ref("");
 const addComment = async () => {
   try {
     const postId = post.value.id;
-    const response = await axios.post(
-      `/posts/${postId}/comments`, { content: newComment.value }
-    );
+    const response = await axios.post(`/posts/${postId}/comments`, {
+      content: newComment.value,
+    });
     const addedComment = response.data;
     if (!post.value.comment) {
       post.value.comments = [];
