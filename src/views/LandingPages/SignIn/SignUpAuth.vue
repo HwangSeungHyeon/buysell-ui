@@ -4,7 +4,6 @@ import axios from "axios";
 import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
-import login from "../../../../buysell-ui/src/views/LandingPages/SignIn/Login.vue";
 
 const email = ref("");
 
