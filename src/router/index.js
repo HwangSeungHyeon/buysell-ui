@@ -215,6 +215,11 @@ const router = createRouter({
       component: MySalesView,
     },
     {
+      path: "/posts/search",
+      name: "search",
+      component: SearchResults,
+    },
+    {
       path: "/othersales/:memberId",
       name: "othersales",
       component: OtherSalesView,
