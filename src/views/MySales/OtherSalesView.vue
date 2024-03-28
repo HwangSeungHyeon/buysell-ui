@@ -1,9 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue";
 import axios from "axios";
-import { useJwt } from "@vueuse/integrations/useJwt";
-
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
 
 const router = useRouter();
@@ -18,16 +16,30 @@ import setNavPills from "@/assets/js/nav-pills.js";
 onMounted(() => {
   setNavPills();
 });
-const token = sessionStorage.getItem("token");
-const decodedToken = useJwt(token);
-const memberId = ref(decodedToken?.payload?.value?.sub);
+
 const posts = ref([]);
 
+const useMemberId = () => {
+  const route = useRoute();
+  const memberId = route.params.memberId;
+
+  if (memberId) {
+    console.log("Current memberId:", memberId);
+  } else {
+    console.error("MemberId not found in current route.");
+  }
+  return memberId;
+};
+
+onMounted(() => {
+  fetchPostsBymemberId();
+});
+
 const fetchPostsBymemberId = async () => {
+  const memberId = useMemberId(); // useMemberId 함수를 setup 함수 내에서 호출
   try {
-    const response = await axios.get(
-      `/members/${memberId.value}/profile/posts`
-    );
+    const response = await axios.get(`/members/${memberId}/profile/posts`);
+    console.log("Member ID:", memberId);
     posts.value = response.data;
     console.log("posts:", posts.value); // 게시글 목록 출력
   } catch (error) {
@@ -60,7 +72,6 @@ const handlePostClick = async (postId) => {
   navigateToDetail(postId);
 };
 </script>
-
 <template>
   <div class="container position-sticky z-index-sticky top-0">
     <div class="row">
@@ -70,7 +81,7 @@ const handlePostClick = async (postId) => {
     </div>
   </div>
   <div class="mysales-container">
-    <h2>내 게시글 목록</h2>
+    <h2>{{ posts.nickname }}님의 게시글 목록</h2>
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8">

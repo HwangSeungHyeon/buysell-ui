@@ -1,15 +1,21 @@
 <script setup>
 // example components
-import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue";
 import Header from "../../../examples/Header.vue";
 // sections
 import Profile from "./Sections/AuthorProfile.vue";
 // image
 import image from "@/assets/img/city-profile.jpg";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 </script>
 <template>
-  <DefaultNavbar transparent />
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <Header>
     <div
       class="page-header min-height-200"
