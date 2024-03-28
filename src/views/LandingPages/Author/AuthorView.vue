@@ -9,7 +9,7 @@ import image from "@/assets/img/city-profile.jpg";
 
 </script>
 <template>
-  <DefaultNavbar transparent />
+  <DefaultNavbar/>
   <Header>
     <div
       class="page-header min-height-200"
