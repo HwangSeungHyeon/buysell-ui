@@ -26,7 +26,7 @@ onMounted(async () => {
     console.error("닉네임 불러오기 중 에러 발생:", error);
   }
 });
-const nicknameEdit = async () => {// 최소 3자 이상, 최대 10자 이하도록 검증
+const nicknameEdit = async () => {
   if (newNickname.value.length < 3 || newNickname.value.length > 10) {
     console.error("닉네임은 3자 이상 10자 이하로 입력해야 합니다.");
     return;
