@@ -8,15 +8,15 @@
   </div>
   <Header>
     <div
-      class="page-header min-vh-35"
-      :style="`background-image: url(${vueMkHeader})`"
+        class="page-header min-vh-35"
+        :style="`background-image: url(${vueMkHeader})`"
     >
       <div class="container">
         <div class="row">
           <div class="col-lg-7 text-center mx-auto position-relative">
             <h1
-              class="text-white pt-5 mt-n5 me-2"
-              :style="{ display: 'inline-block ' }"
+                class="text-white pt-5 mt-n5 me-2"
+                :style="{ display: 'inline-block ' }"
             >
               BuySell
             </h1>
@@ -29,49 +29,17 @@
     </div>
   </Header>
   <div class="container">
-    <div class="row">
-      <div class="col-lg-4 mx-auto">
-        <div class="nav-wrapper position-relative end-0 mb-3 mt-3">
-          <ul class="nav nav-pills nav-fill p-1" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link mb-0 px-0 py-1 active"
-                :class="{ active: selectedSort === 'updatedAt,desc' }"
-                data-bs-toggle="tab"
-                href="#"
-                role="tab"
-                aria-controls="profile"
-                aria-selected="true"
-                @click.prevent="changeSort('updatedAt,desc')"
-              >
-                최신 순
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link mb-0 px-0 py-1"
-                :class="{ active: selectedSort === 'view,desc' }"
-                data-bs-toggle="tab"
-                href="#"
-                role="tab"
-                aria-controls="dashboard"
-                aria-selected="false"
-                @click.prevent="changeSort('view,desc')"
-              >
-                많이 본 순
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <div class="row">
-          <div v-for="post in posts" :key="post.id" class="col-md-3 mb-4" @click="handlePostClick(post.id)">
-            <div class="card shadow-sm">
+          <div
+            v-if="posts.length > 0"
+            v-for="post in posts"
+            :key="post.id"
+            class="col-md-3 mb-4"
+            @click="handlePostClick(post.id)"
+          >
+            <div class="card shadow-sm mt-3">
               <img :src="post.imgUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
               <div class="card-body">
                 <p class="card-title text-center" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -82,7 +50,7 @@
                     <div class="d-flex justify-content-between">
                       <p class="card-text small m-0">작성자: {{ post.createdName }}</p>
                       <p class="card-text m-0">{{ Number(post.price).toLocaleString() }}원</p>
-<!--                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>-->
+                      <!--                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>-->
                     </div>
                   </div>
                   <div class="col-12">
@@ -95,6 +63,11 @@
               </div>
             </div>
           </div>
+          <div v-else class="col text-center">
+            <div class="alert mt-5" role="alert" style="font-size: 24px;">
+              검색 결과가 없습니다. 다른 키워드로 검색해 보세요.
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -103,61 +76,51 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from "vue";
+import {ref, onMounted, watch} from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from 'vue-router';
 import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../examples/footers/FooterDefault.vue";
 import Header from "../../examples/Header.vue";
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
-import setNavPills from "@/assets/js/nav-pills.js";
-import moment from "moment";
-import "moment/locale/ko"; // 한국어 로케일 import
+import moment from "moment/moment";
 
+const route = useRoute();
 const router = useRouter();
-const body = document.getElementsByTagName("body")[0];
+const keyword = ref(route.query.keyword);
 
-onMounted(() => {
-  body.classList.add("presentation-page");
-  setNavPills();
-});
-
-onUnmounted(() => {
-  body.classList.remove("presentation-page");
-});
-
-const selectedSort = ref("createdAt,desc");
 const posts = ref([]);
 
-//정렬 기준 변경 메서드
-const changeSort = (sortCriteria) => {
-  selectedSort.value = sortCriteria;
-  fetchPosts();
-};
-
 const fetchPosts = async () => {
+  if (!keyword.value) {
+    console.error("No keyword provided!");
+    posts.value = [];
+    return;
+  }
   try {
-    const response = await axios.get("/posts", {
-      params: {
-        sort: selectedSort.value
-      },
-    });
+    const response = await axios.get(`/posts/search`, { params: { keyword: keyword.value } });
     posts.value = response.data.content;
   } catch (error) {
-    console.error("게시물을 불러오는데 실패했습니다:", error);
+    console.error('Error fetching posts:', error);
   }
 };
 
 onMounted(fetchPosts);
 
-const navigateToDetail = (postId) => {
-  router.push({ name: "posts", params: { postId } });
-};
+watch(() => route.query.keyword, (newKeyword) => {
+  keyword.value = newKeyword;
+  fetchPosts();
+});
 
 const formatDate = (dateString) => {
   // return moment(dateString).format("YYYY-MM-DD");
   return moment(dateString).fromNow();
 };
+
+const navigateToDetail = (postId) => {
+  router.push({ name: "posts", params: { postId } });
+};
+
 const handlePostClick = async (postId) => {
   navigateToDetail(postId);
 };

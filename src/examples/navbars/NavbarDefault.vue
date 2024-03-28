@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg top-0">
+  <nav class="navbar navbar-expand-lg top-0 col-lg-10 mx-auto">
     <div :class="getContainerClass()">
       <RouterLink
         class="navbar-brand d-none d-md-block"
@@ -8,6 +8,7 @@
         rel="tooltip"
         title="Designed and Coded by Creative Tim"
         data-placement="bottom"
+        style="font-size: 1.5rem;"
       >
         BuySell
       </RouterLink>
@@ -17,6 +18,10 @@
           icon="search"
           type="text"
           placeholder="Search"
+          v-model="formData.keyword"
+          :value="formData.keyword"
+          @input="formData.keyword = $event.target.value"
+          @keyup.enter="performSearch"
         />
       </section>
       <div class="d-flex align-items-center">
@@ -30,7 +35,7 @@
           aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon mt-2"
-          ><span class="navbar-toggler-bar bar1"></span>
+            ><span class="navbar-toggler-bar bar1"></span>
             <span class="navbar-toggler-bar bar2"></span>
             <span class="navbar-toggler-bar bar3"></span>
           </span>
@@ -40,13 +45,17 @@
           id="navigation"
         >
           <ul class="navbar-nav navbar-nav-hover">
-            <li class="nav-item d-flex align-items-center me-2" v-if="isAuthenticated">
+            <li
+              class="nav-item d-flex align-items-center me-2"
+              v-if="isAuthenticated"
+            >
               <router-link to="/orders">
                 <MaterialButton
                   class="btn btn-sm mb-0"
                   variant="gradient"
                   color="success"
-                  fullWidth>
+                  fullWidth
+                >
                   상품등록
                 </MaterialButton>
               </router-link>
@@ -66,7 +75,10 @@
                 </button>
               </router-link>
             </li>
-            <li class="nav-item dropdown dropdown-hover mx-2" v-if="isAuthenticated">
+            <li
+              class="nav-item dropdown dropdown-hover mx-2"
+              v-if="isAuthenticated"
+            >
               <a
                 role="button"
                 class="nav-link ps-2 d-flex cursor-pointer align-items-center"
@@ -122,13 +134,19 @@
                           :to="{ name: 'author' }"
                           class="dropdown-item border-radius-md"
                         >
-                          <span>profile</span>
+                          <span>Profile</span>
                         </RouterLink>
                         <RouterLink
                           :to="{ name: 'wishlist' }"
                           class="dropdown-item border-radius-md"
                         >
-                          <span>wishlist</span>
+                          <span>WishList</span>
+                        </RouterLink>
+                        <RouterLink
+                          :to="{ name: 'mysales' }"
+                          class="dropdown-item border-radius-md"
+                        >
+                          <span>MySales</span>
                         </RouterLink>
                       </div>
                     </div>
@@ -156,13 +174,19 @@
                     :to="{ name: 'author' }"
                     class="dropdown-item border-radius-md"
                   >
-                    <span>profile</span>
+                    <span>Profile</span>
                   </RouterLink>
                   <RouterLink
                     :to="{ name: 'wishlist' }"
                     class="dropdown-item border-radius-md"
                   >
-                    <span>wishlist</span>
+                    <span>WishList</span>
+                  </RouterLink>
+                  <RouterLink
+                    :to="{ name: 'mysales' }"
+                    class="dropdown-item border-radius-md"
+                  >
+                    <span>MySales</span>
                   </RouterLink>
                 </div>
               </div>
@@ -175,8 +199,10 @@
 </template>
 
 <script setup>
+import axios from "axios";
 import { RouterLink } from "vue-router";
 import { ref, watch } from "vue";
+import { useRouter} from "vue-router";
 import { useWindowsWidth } from "../../assets/js/useWindowsWidth";
 import MaterialInput from "@/components/MaterialInput.vue";
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
@@ -282,4 +308,15 @@ const getContainerClass = () => [
     ? "container"
     : "container-fluid px-0",
 ];
+
+const router = useRouter();
+const formData = ref({ keyword: '' });
+
+function performSearch() {
+  if (!formData.value.keyword) {
+    alert("검색어를 입력해주세요");
+    return;
+  }
+  router.push({ path: '/posts/search', query: { keyword: formData.value.keyword} });
+}
 </script>
