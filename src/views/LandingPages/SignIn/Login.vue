@@ -29,7 +29,6 @@ const login = async () => {
     errorMessage.value = error.message; // 로그인 실패 시 에러 메시지 표시
   }
 };
-
 </script>
 <template>
   <Header>
@@ -98,6 +97,14 @@ const login = async () => {
                       href="/signup"
                       class="text-success text-gradient font-weight-bold"
                       >회원가입!</a
+                    >
+                  </p>
+                  <p class="mt-4 text-sm text-center">
+                    이메일 인증을 못하셨나요?
+                    <a
+                      href="/auth"
+                      class="text-success text-gradient font-weight-bold"
+                      >인증!</a
                     >
                   </p>
                   <div class="row mt-3">

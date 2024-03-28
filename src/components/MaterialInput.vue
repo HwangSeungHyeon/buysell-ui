@@ -89,7 +89,4 @@ function getClasses(size, success, error) {
     />
   </div>
 </template>
-<style>
-
-
-</style>
+<style></style>

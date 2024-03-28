@@ -24,7 +24,7 @@
           variant="gradient"
           color="primary"
           style="margin-right: 100px"
-          >구매하기</material-button
+        >구매하기</material-button
         >
       </div>
 
@@ -41,6 +41,7 @@
         </router-link>
         <!-- postId를 postEdit 라우트에 전달 -->
         <router-link
+          v-if="parseInt(userId) === parseInt(postAuthorId)"
           :to="{ name: 'postedit', params: { postId: post.id } }"
           class="no-style-link"
         >
@@ -48,18 +49,20 @@
             variant="gradient"
             color="secondary"
             style="justify-content: end"
-            >게시글 수정</material-button
           >
+            게시글 수정
+          </material-button>
         </router-link>
         <material-button
           @click="deletePost"
           variant="gradient"
           color="danger"
-          style="margin-left: 10px;"
-          >게시글 삭제</material-button
+          style="margin-left: 10px"
+          v-if="parseInt(userId) === parseInt(postAuthorId)"
+        >게시글 삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
-        <div class="d-flex align-items-center">
+        <div v-if="token" class="d-flex align-items-center">
           <img
             v-if="!post.isLiked"
             src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
@@ -89,7 +92,7 @@
             @input="newComment = $event.target.value"
           ></material-input>
           <material-button @click="addComment" variant="gradient" color="dark"
-            >댓글 등록</material-button
+          >댓글 등록</material-button
           >
         </div>
       </div>
@@ -108,18 +111,39 @@
           :key="index"
           style="display: flex; align-items: center; margin-top: 20px"
         >
-          <p style="flex: 1; border: 2px solid #000000; margin-left: 10px">
-            {{ comment.content }}
-          </p>
-          <div class="p-md-2">
+          <div style="flex: 1; border: 2px solid #000000; margin-left: 10px">
+            <h6>{{ comment.createdName }}</h6>
+            <p v-if="!comment.editMode">{{ comment.content }}</p>
+            <textarea
+              v-else
+              v-model="comment.newContent"
+              style="width: 100%; height: 100px;"
+            ></textarea>
+          </div>
+          <div class="p-md-2"
+          v-if ="comment.memberId == userId"
+          >
             <material-button
+              v-if="!comment.editMode"
+              @click="toggleEditMode(comment)"
               variant="text"
-              color="info"
+              color="secondary"
               style="margin-right: 8px"
-              >좋아요</material-button
+            >수정</material-button
             >
-            <material-button variant="text" color="danger"
-              >신고</material-button
+            <material-button
+              v-else
+              @click="updateComment(comment)"
+              variant="text"
+              color="primary"
+              style="margin-right: 8px"
+            >저장</material-button
+            >
+            <material-button
+              @click="deleteComment(comment)"
+              variant="text"
+              color="danger"
+            >삭제</material-button
             >
           </div>
         </div>
@@ -135,15 +159,33 @@ import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
-
+import getUserId from "./getUserId";
 const route = useRoute();
 const post = ref({
+  memberId: 0,
   title: "",
   createdName: "",
   content: "",
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
+});
+
+const token = sessionStorage.getItem("token");
+console.log("확인");
+const userId = ref(null);
+const postAuthorId = ref(null);
+
+
+onMounted(async () => {
+  let postId = route.params.postId;
+  if (postId) {
+    await fetchPost(postId);
+    postAuthorId.value = post.value.memberId;
+    userId.value = getUserId();
+  } else {
+    console.error("게시글 ID를 찾을 수 없습니다.");
+  }
 });
 
 
@@ -153,16 +195,16 @@ const fetchPost = async (postId) => {
     const response = await axios.get(`/posts/${postId}`);
     console.log("res1", response.data);
     post.value = response.data;
-
     // 포스트를 가져온 후 찜 상태를 업데이트
     await updateLikeStatus();
-
+    console.log("postUserId: ", postAuthorId);
     sessionStorage.setItem("post", JSON.stringify(post.value));
     console.log("post", post.value);
   } catch (error) {
     console.error("게시글을 불러오는데 실패했습니다:", error);
   }
 };
+
 
 const updateLikeStatus = async () => {
   try {
@@ -197,20 +239,7 @@ const toggleLike = async () => {
     console.error("게시글 찜 상태를 변경하는데 실패했습니다:", error);
   }
 };
-onMounted(async () => {
-  let postId = route.params.postId;
-  if (!postId) {
-    const savedPost = JSON.parse(sessionStorage.getItem("post"));
-    if (savedPost) {
-      postId = savedPost.id;
-    }
-  }
-  if (postId) {
-    await fetchPost(postId);
-  } else {
-    console.error("게시글 ID를 찾을 수 없습니다.");
-  }
-});
+
 
 const deletePost = async () => {
   try {
@@ -232,9 +261,9 @@ const newComment = ref("");
 const addComment = async () => {
   try {
     const postId = post.value.id;
-    const response = await axios.post(
-      `/posts/${postId}/comments`, { content: newComment.value }
-    );
+    const response = await axios.post(`/posts/${postId}/comments`, {
+      content: newComment.value,
+    });
     const addedComment = response.data;
     if (!post.value.comment) {
       post.value.comments = [];
@@ -246,6 +275,51 @@ const addComment = async () => {
     console.error("댓글을 등록하는데 실패했습니다:", error);
   }
 };
+const toggleEditMode = (comment) => {
+  comment.editMode = !comment.editMode;
+  // 수정 모드일 때 기존 내용을 임시로 저장
+  if (comment.editMode) {
+    comment.newContent = comment.content;
+  }
+};
+
+const updateComment = async (comment) => {
+  try {
+    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const commentId = comment.id;
+    console.log("cid", commentId);
+    const response = await axios.put(`/posts/${postId}/comments/${commentId}`, {
+      content: comment.newContent,
+    });
+    // 서버에서 수정된 댓글을 받아온 후, 해당 댓글 객체를 업데이트합니다.
+    const updatedComment = response.data;
+    console.log("upc", updatedComment);
+    // 수정이 완료되면 수정 모드를 해제합니다.
+    comment.editMode = false;
+    console.log(updatedComment);
+
+    // 수정이 완료되면 해당 게시물의 정보를 다시 불러와서 최신 정보를 반영합니다.
+    await fetchPost(postId);
+  } catch (error) {
+    console.error("댓글을 업데이트하는데 실패했습니다:", error);
+  }
+};
+
+const deleteComment = async (comment) => {
+  try {
+    // 서버에서 댓글을 삭제합니다.
+    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const commentId = comment.id;
+    const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
+    // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.
+    const deleteComment = response.data;
+    console.log(deleteComment);
+    await fetchPost(postId);
+  } catch (error) {
+    console.error("댓글을 삭제하는데 실패했습니다:", error);
+  }
+};
+
 </script>
 
 <style>
@@ -255,6 +329,7 @@ const addComment = async () => {
   align-items: center;
   border: 2px solid #000000;
 }
+
 .text-center {
   text-align: center;
 }
@@ -279,6 +354,7 @@ const addComment = async () => {
   text-align: right;
   margin-right: 20px;
 }
+
 .product-info {
   display: flex;
   text-align: center;
@@ -290,6 +366,7 @@ const addComment = async () => {
 .product-details {
   flex-grow: 1;
 }
+
 // 댓글 스타일
 .comment-form {
   display: flex;

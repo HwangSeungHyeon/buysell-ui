@@ -75,7 +75,7 @@ const bgImage =
     <div
       class="page-header min-vh-100"
       :style="{
-        backgroundImage: `url(${bgImage})`
+        backgroundImage: `url(${bgImage})`,
       }"
       loading="lazy"
     >
@@ -87,9 +87,7 @@ const bgImage =
           >
             <h1 class="text-white mb-4">Buy&Sell</h1>
             <p class="text-white opacity-8 lead pe-5 me-5">
-              버리지마세요.
-              필요한 사람을 찾아보세요.
-              지금.
+              버리지마세요. 필요한 사람을 찾아보세요. 지금.
             </p>
             <div class="buttons">
               <MaterialButton color="white" class="mt-4"

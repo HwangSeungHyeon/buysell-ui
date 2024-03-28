@@ -3,7 +3,13 @@
     <div class="container" style="border: 2px solid #000000">
       <div class="row">
         <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
-          <form role="form" id="post-form" method="post" autocomplete="off" @submit.prevent="submitForm">
+          <form
+            role="form"
+            id="post-form"
+            method="post"
+            autocomplete="off"
+            @submit.prevent="submitForm"
+          >
             <div class="card-body py-3">
               <h3 class="text-dark" style="margin-bottom: 50px">게시글 수정</h3>
               <div class="row">
@@ -43,9 +49,17 @@
                 </div>
                 <div class="mb-4 col-md-6">
                   <h6>카테고리</h6>
-                  <select v-model="formData.category" class="form-select" aria-label="카테고리 선택">
+                  <select
+                    v-model="formData.category"
+                    class="form-select"
+                    aria-label="카테고리 선택"
+                  >
                     <option disabled value="">카테고리 선택</option>
-                    <option v-for="category in categories" :key="category.value" :value="category.value">
+                    <option
+                      v-for="category in categories"
+                      :key="category.value"
+                      :value="category.value"
+                    >
                       {{ category.label }}
                     </option>
                   </select>
@@ -78,7 +92,10 @@
                           <div class="text-center">
                             <!-- 취소 버튼 -->
                             <button @click="cancelEdit">
-                              <MaterialButton variant="gradient" color="secondary">
+                              <MaterialButton
+                                variant="gradient"
+                                color="secondary"
+                              >
                                 취소
                               </MaterialButton>
                             </button>
@@ -124,7 +141,7 @@ const categories = [
   { value: "FOOD", label: "음식" },
   { value: "SPORTS", label: "스포츠" },
   { value: "DIGITAL", label: "디지털" },
-  { value: "PET", label: "애완동물" }
+  { value: "PET", label: "애완동물" },
 ];
 
 setMaterialInput();
@@ -133,7 +150,7 @@ const formData = ref({
   title: "",
   content: "",
   price: null,
-  category: ""
+  category: "",
 });
 
 const router = useRouter();
@@ -152,19 +169,15 @@ const submitForm = async () => {
       title: formData.value.title,
       content: formData.value.content,
       price: formData.value.price,
-      category: formData.value.category
+      category: formData.value.category,
     };
     const postId = JSON.parse(sessionStorage.getItem("post")).id;
-    console.log("postID", postId)
+    console.log("postID", postId);
     // Axios를 사용하여 API 호출
-    const response = await axios.put(`/posts/${postId}`, postData, {
-      headers: {
-        Authorization: `${token}`
-      }
-    });
+    const response = await axios.put(`/posts/${postId}`, postData);
     response.data.id = postId;
     // 성공적으로 수정되면 게시글 페이지로 리디렉션
-    await router.push(`/posts`);
+    await router.push(`/posts/${postId}`);
   } catch (error) {
     console.error("게시글 수정 실패:", error);
   }
