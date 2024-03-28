@@ -40,23 +40,27 @@
           id="navigation"
         >
           <ul class="navbar-nav navbar-nav-hover">
-            <li class="nav-item d-flex align-items-center me-2" v-if="isAuthenticated">
+            <li
+              class="nav-item d-flex align-items-center me-2"
+              v-if="isAuthenticated"
+            >
               <router-link to="/orders">
                 <MaterialButton
-                    class="btn btn-sm mb-0"
-                    variant="gradient"
-                    color="success"
-                    fullWidth>
+                  class="btn btn-sm mb-0"
+                  variant="gradient"
+                  color="success"
+                  fullWidth
+                >
                   상품등록
                 </MaterialButton>
               </router-link>
             </li>
             <li class="nav-item d-flex align-items-center">
               <button
-                  v-if="isAuthenticated"
-                  class="btn btn-sm mb-0"
-                  @click="logout"
-                  :class="action.color"
+                v-if="isAuthenticated"
+                class="btn btn-sm mb-0"
+                @click="logout"
+                :class="action.color"
               >
                 로그아웃
               </button>
@@ -66,69 +70,78 @@
                 </button>
               </router-link>
             </li>
-            <li class="nav-item dropdown dropdown-hover mx-2" v-if="isAuthenticated">
+            <li
+              class="nav-item dropdown dropdown-hover mx-2"
+              v-if="isAuthenticated"
+            >
               <a
-                  role="button"
-                  class="nav-link ps-2 d-flex cursor-pointer align-items-center"
-                  :class="getTextColor()"
-                  id="dropdownMenuPages"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                role="button"
+                class="nav-link ps-2 d-flex cursor-pointer align-items-center"
+                :class="getTextColor()"
+                id="dropdownMenuPages"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
               >
                 <i
-                    class="material-icons opacity-6 me-2 text-md"
-                    :class="getTextColor()"
+                  class="material-icons opacity-6 me-2 text-md"
+                  :class="getTextColor()"
                 >
                   dashboard</i
                 >
 
                 <img
-                    :src="getArrowColor()"
-                    alt="down-arrow"
-                    class="arrow ms-2 d-lg-block d-none"
+                  :src="getArrowColor()"
+                  alt="down-arrow"
+                  class="arrow ms-2 d-lg-block d-none"
                 />
                 <img
-                    :src="getArrowColor()"
-                    alt="down-arrow"
-                    class="arrow ms-1 d-lg-none d-block ms-auto"
+                  :src="getArrowColor()"
+                  alt="down-arrow"
+                  class="arrow ms-1 d-lg-none d-block ms-auto"
                 />
               </a>
               <div
-                  class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
-                  aria-labelledby="dropdownMenuPages"
+                class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
+                aria-labelledby="dropdownMenuPages"
               >
                 <div class="row d-none d-lg-block">
                   <div class="col-12 px-4 py-2">
                     <div class="row">
                       <div class="position-relative">
                         <div
-                            class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1"
+                          class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1"
                         >
                           개인
                         </div>
                         <RouterLink
-                            :to="{ name: 'about' }"
-                            class="dropdown-item border-radius-md"
+                          :to="{ name: 'about' }"
+                          class="dropdown-item border-radius-md"
                         >
                           <span>My Page</span>
                         </RouterLink>
                         <RouterLink
-                            :to="{ name: 'four-t-pay' }"
-                            class="dropdown-item border-radius-md"
+                          :to="{ name: 'four-t-pay' }"
+                          class="dropdown-item border-radius-md"
                         >
                           <span>Four-T-Pay</span>
                         </RouterLink>
                         <RouterLink
-                            :to="{ name: 'author' }"
-                            class="dropdown-item border-radius-md"
+                          :to="{ name: 'author' }"
+                          class="dropdown-item border-radius-md"
                         >
-                          <span>profile</span>
+                          <span>Profile</span>
                         </RouterLink>
                         <RouterLink
-                            :to="{ name: 'wishlist' }"
-                            class="dropdown-item border-radius-md"
+                          :to="{ name: 'wishlist' }"
+                          class="dropdown-item border-radius-md"
                         >
-                          <span>wishlist</span>
+                          <span>WishList</span>
+                        </RouterLink>
+                        <RouterLink
+                          :to="{ name: 'mysales' }"
+                          class="dropdown-item border-radius-md"
+                        >
+                          <span>MySales</span>
                         </RouterLink>
                       </div>
                     </div>
@@ -136,33 +149,39 @@
                 </div>
                 <div class="d-lg-none">
                   <div
-                      class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-0"
+                    class="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-0"
                   >
                     개인
                   </div>
                   <RouterLink
-                      :to="{ name: 'about' }"
-                      class="dropdown-item border-radius-md"
+                    :to="{ name: 'about' }"
+                    class="dropdown-item border-radius-md"
                   >
                     <span>My Page</span>
                   </RouterLink>
                   <RouterLink
-                      :to="{ name: 'four-t-pay' }"
-                      class="dropdown-item border-radius-md"
+                    :to="{ name: 'four-t-pay' }"
+                    class="dropdown-item border-radius-md"
                   >
                     <span>Four-T-Pay</span>
                   </RouterLink>
                   <RouterLink
-                      :to="{ name: 'author' }"
-                      class="dropdown-item border-radius-md"
+                    :to="{ name: 'author' }"
+                    class="dropdown-item border-radius-md"
                   >
-                    <span>profile</span>
+                    <span>Profile</span>
                   </RouterLink>
                   <RouterLink
-                      :to="{ name: 'wishlist' }"
-                      class="dropdown-item border-radius-md"
+                    :to="{ name: 'wishlist' }"
+                    class="dropdown-item border-radius-md"
                   >
-                    <span>wishlist</span>
+                    <span>WishList</span>
+                  </RouterLink>
+                  <RouterLink
+                    :to="{ name: 'mysales' }"
+                    class="dropdown-item border-radius-md"
+                  >
+                    <span>MySales</span>
                   </RouterLink>
                 </div>
               </div>
@@ -237,14 +256,14 @@ if (type.value === "mobile") {
   textDark.value = false;
 }
 watch(
-    () => type.value,
-    (newValue) => {
-      if (newValue === "mobile") {
-        textDark.value = true;
-      } else {
-        textDark.value = false;
-      }
+  () => type.value,
+  (newValue) => {
+    if (newValue === "mobile") {
+      textDark.value = true;
+    } else {
+      textDark.value = false;
     }
+  }
 );
 
 // set arrow  color
@@ -273,13 +292,13 @@ const getTextColor = () => {
 
 const getBrandClass = () => [
   (props.transparent && textDark.value) || !props.transparent
-      ? "text-dark font-weight-bolder ms-sm-3"
-      : "text-white font-weight-bolder ms-sm-3",
+    ? "text-dark font-weight-bolder ms-sm-3"
+    : "text-white font-weight-bolder ms-sm-3",
 ];
 
 const getContainerClass = () => [
   props.transparent || props.light || props.dark
-      ? "container"
-      : "container-fluid px-0",
+    ? "container"
+    : "container-fluid px-0",
 ];
 </script>
