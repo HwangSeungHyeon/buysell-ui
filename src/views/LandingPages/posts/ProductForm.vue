@@ -120,7 +120,9 @@
               style="width: 100%; height: 100px;"
             ></textarea>
           </div>
-          <div class="p-md-2">
+          <div class="p-md-2"
+          v-if ="comment.memberId == userId"
+          >
             <material-button
               v-if="!comment.editMode"
               @click="toggleEditMode(comment)"
@@ -168,20 +170,18 @@ const post = ref({
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
 });
+
 const token = sessionStorage.getItem("token");
 
 const userId = ref(null);
 const postAuthorId = ref(null);
-// const commentAuthorId = ref(null);
+
+
 onMounted(async () => {
   let postId = route.params.postId;
-
   if (postId) {
     await fetchPost(postId);
-    // await fetchCommentAuthors();
     postAuthorId.value = post.value.memberId;
-    // commentAuthorId.value = post.value.comment;
-    // console.log("commentAuthorId", commentAuthorId.value);
     userId.value = getUserId();
   } else {
     console.error("게시글 ID를 찾을 수 없습니다.");
@@ -204,19 +204,8 @@ const fetchPost = async (postId) => {
     console.error("게시글을 불러오는데 실패했습니다:", error);
   }
 };
-// const fetchCommentAuthors = async () => {
-//   try {
-//     // 각 댓글의 작성자 ID를 추출하여 서버에서 해당 사용자 정보를 가져옴
-//     for (const comment of post.value.comment) {
-//       const response = await axios.get(`/users/${comment.memberId}`);
-//       const userData = response.data;
-//       // 사용자 정보에서 이름을 댓글 객체에 추가
-//       comment.createdName = userData.name;
-//     }
-//   } catch (error) {
-//     console.error("댓글 작성자 정보를 가져오는데 실패했습니다:", error);
-//   }
-// };
+
+
 const updateLikeStatus = async () => {
   try {
     const postId = route.params.postId;
@@ -296,11 +285,21 @@ const toggleEditMode = (comment) => {
 
 const updateComment = async (comment) => {
   try {
-    // 여기서는 댓글을 서버에 업데이트하는 작업을 수행하도록 구현합니다.
-    // 예시로 간단하게 댓글 객체의 내용을 변경한 후 저장한 것으로 가정합니다.
-    comment.content = comment.newContent;
+    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const commentId = comment.id;
+    console.log("cid", commentId);
+    const response = await axios.put(`/posts/${postId}/comments/${commentId}`, {
+      content: comment.newContent,
+    });
+    // 서버에서 수정된 댓글을 받아온 후, 해당 댓글 객체를 업데이트합니다.
+    const updatedComment = response.data;
+    console.log("upc", updatedComment);
+    // 수정이 완료되면 수정 모드를 해제합니다.
     comment.editMode = false;
-    console.log("댓글이 업데이트되었습니다:", comment);
+    console.log(updatedComment);
+
+    // 수정이 완료되면 해당 게시물의 정보를 다시 불러와서 최신 정보를 반영합니다.
+    await fetchPost(postId);
   } catch (error) {
     console.error("댓글을 업데이트하는데 실패했습니다:", error);
   }
@@ -308,13 +307,14 @@ const updateComment = async (comment) => {
 
 const deleteComment = async (comment) => {
   try {
-    // 여기서는 댓글을 서버에서 삭제하는 작업을 수행하도록 구현합니다.
-    // 예시로 간단하게 해당 댓글 객체를 배열에서 제거하는 것으로 가정합니다.
-    const index = post.value.comment.findIndex((c) => c.id === comment.id);
-    if (index !== -1) {
-      post.value.comment.splice(index, 1);
-      console.log("댓글이 삭제되었습니다:", comment);
-    }
+    // 서버에서 댓글을 삭제합니다.
+    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const commentId = comment.id;
+    const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
+    // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.
+    const deleteComment = response.data;
+    console.log(deleteComment);
+    await fetchPost(postId);
   } catch (error) {
     console.error("댓글을 삭제하는데 실패했습니다:", error);
   }
