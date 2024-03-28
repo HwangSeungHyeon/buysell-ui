@@ -32,7 +32,13 @@
     <div class="row justify-content-center">
       <div class="col-lg-10">
         <div class="row">
-          <div v-for="post in posts" :key="post.id" class="col-md-3 mb-4" @click="handlePostClick(post.id)">
+          <div
+            v-if="posts.length > 0"
+            v-for="post in posts"
+            :key="post.id"
+            class="col-md-3 mb-4"
+            @click="handlePostClick(post.id)"
+          >
             <div class="card shadow-sm mt-3">
               <img :src="post.imgUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
               <div class="card-body">
@@ -57,6 +63,11 @@
               </div>
             </div>
           </div>
+          <div v-else class="col text-center">
+            <div class="alert mt-5" role="alert" style="font-size: 24px;">
+              검색 결과가 없습니다. 다른 키워드로 검색해 보세요.
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -72,6 +83,7 @@ import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
 import DefaultFooter from "../../examples/footers/FooterDefault.vue";
 import Header from "../../examples/Header.vue";
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
+import moment from "moment/moment";
 
 const route = useRoute();
 const router = useRouter();
@@ -101,14 +113,8 @@ watch(() => route.query.keyword, (newKeyword) => {
 });
 
 const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
+  // return moment(dateString).format("YYYY-MM-DD");
+  return moment(dateString).fromNow();
 };
 
 const navigateToDetail = (postId) => {

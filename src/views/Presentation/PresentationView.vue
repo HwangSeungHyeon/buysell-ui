@@ -119,16 +119,14 @@ const body = document.getElementsByTagName("body")[0];
 
 onMounted(() => {
   body.classList.add("presentation-page");
-  body.classList.add("bg-gray-200");
   setNavPills();
 });
 
 onUnmounted(() => {
   body.classList.remove("presentation-page");
-  body.classList.remove("bg-gray-200");
 });
 
-const selectedSort = ref("updatedAt,desc");
+const selectedSort = ref("createdAt,desc");
 const posts = ref([]);
 
 //정렬 기준 변경 메서드
