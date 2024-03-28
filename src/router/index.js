@@ -34,6 +34,7 @@ import Withdraw from "@/views/Pay/Withdraw.vue";
 import Login from "@/views/LandingPages/SignIn/Login.vue";
 import WishListView from "@/views/WishList/WishListView.vue";
 import MySalesView from "@/views/MySales/MySalesView.vue";
+import OtherSalesView from "@/views/MySales/OtherSalesView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -211,6 +212,11 @@ const router = createRouter({
       path: "/mysales",
       name: "mysales",
       component: MySalesView,
+    },
+    {
+      path: "/othersales",
+      name: "othersales",
+      component: OtherSalesView,
     },
   ],
 });
