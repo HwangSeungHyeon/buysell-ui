@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg top-0 col-lg-8 mx-auto">
+  <nav class="navbar navbar-expand-lg top-0 col-lg-10 mx-auto">
     <div :class="getContainerClass()">
       <RouterLink
         class="navbar-brand d-none d-md-block"
@@ -298,6 +298,6 @@ function performSearch() {
     alert("검색어를 입력해주세요");
     return;
   }
-  router.push(`/posts/search/${formData.value.keyword}`);
+  router.push({ path: '/posts/search', query: { keyword: formData.value.keyword} });
 }
 </script>

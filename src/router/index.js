@@ -208,11 +208,19 @@ const router = createRouter({
       component: WishListView,
     },
     {
-      path: "/posts/search/:keyword",
+      path: "/posts/search",
       name: "search",
       component: SearchResults
     }
   ],
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.path === '/posts/search' && !to.query.keyword) {
+    next({ path: '/' }); // 메인 페이지로 리디렉션
+  } else {
+    next(); // 그 외의 경우 정상적으로 라우팅 진행
+  }
 });
 
 export default router;

@@ -64,13 +64,21 @@ import setNavPills from "@/assets/js/nav-pills.js";
 
 const route = useRoute();
 const router = useRouter();
-const keyword = ref(route.params.keyword);  // URL 파라미터에서 keyword 추출
+const keyword = ref(route.query.keyword);
 
 const posts = ref([]);
+
+onMounted(fetchPosts);
+
+watch(() => route.params.keyword, (newKeyword) => {
+  keyword.value = newKeyword;
+  fetchPosts(newKeyword);
+});
 
 const fetchPosts = async () => {
   if (!keyword.value) {
     console.error("No keyword provided!");
+    posts.value = [];
     return;
   }
   try {
@@ -80,13 +88,6 @@ const fetchPosts = async () => {
     console.error('Error fetching posts:', error);
   }
 };
-
-onMounted(fetchPosts);
-
-watch(() => route.params.keyword, (newKeyword) => {
-  keyword.value = newKeyword;
-  fetchPosts(newKeyword);
-});
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);

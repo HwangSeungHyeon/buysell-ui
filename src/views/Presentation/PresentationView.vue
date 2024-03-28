@@ -31,7 +31,7 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-4 mx-auto">
-        <div class="nav-wrapper position-relative end-0">
+        <div class="nav-wrapper position-relative end-0 mb-3 mt-3">
           <ul class="nav nav-pills nav-fill p-1" role="tablist">
             <li class="nav-item">
               <a
@@ -68,19 +68,31 @@
   </div>
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="card-columns">
-          <div
-            v-for="post in posts"
-            :key="post.id"
-            class="card shadow-sm mb-4"
-            @click="handlePostClick(post.id)"
-          >
-            <div class="card-body">
-              <h5 class="card-title">{{ post.title }}</h5>
-              <p class="card-text">작성자: {{ post.createdName }}</p>
-              <p class="card-text">작성일: {{ formatDate(post.updatedAt) }}</p>
-              <p class="card-text">조회수: {{ post.view }}</p>
+      <div class="col-lg-10">
+        <div class="row">
+          <div v-for="post in posts" :key="post.id" class="col-md-3 mb-4" @click="handlePostClick(post.id)">
+            <div class="card shadow-sm">
+              <img :src="post.imgUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
+              <div class="card-body">
+                <p class="card-title text-center" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                  {{ post.title }}
+                </p>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                      <p class="card-text small m-0">작성자: {{ post.createdName }}</p>
+                      <p class="card-text m-0">{{ Number(post.price).toLocaleString() }}원</p>
+<!--                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>-->
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                      <p class="card-text small m-0">조회수 {{ post.view }}</p>
+                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -99,6 +111,8 @@ import DefaultFooter from "../../examples/footers/FooterDefault.vue";
 import Header from "../../examples/Header.vue";
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
 import setNavPills from "@/assets/js/nav-pills.js";
+import moment from "moment";
+import "moment/locale/ko"; // 한국어 로케일 import
 
 const router = useRouter();
 const body = document.getElementsByTagName("body")[0];
@@ -115,7 +129,7 @@ onUnmounted(() => {
 });
 
 
-const selectedSort = ref('createdAt,desc');
+const selectedSort = ref("updatedAt,desc");
 const posts = ref([]);
 
 //정렬 기준 변경 메서드
@@ -125,10 +139,11 @@ const changeSort = (sortCriteria) => {
 };
 
 const fetchPosts = async () => {
+  console.log(selectedSort.value);
   try {
     const response = await axios.get('/posts', {
       params: {
-        sort: selectedSort.value,
+        sort: selectedSort.value
       },
     });
     posts.value = response.data.content;
@@ -144,14 +159,8 @@ const navigateToDetail = (postId) => {
 };
 
 const formatDate = (dateString) => {
-  const date = new Date(dateString);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  const hours = String(date.getHours()).padStart(2, "0");
-  const minutes = String(date.getMinutes()).padStart(2, "0");
-
-  return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
+  // return moment(dateString).format("YYYY-MM-DD");
+  return moment(dateString).fromNow();
 };
 const handlePostClick = async (postId) => {
   navigateToDetail(postId);
