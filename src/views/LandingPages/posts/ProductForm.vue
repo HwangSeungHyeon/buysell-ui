@@ -24,6 +24,7 @@
           variant="gradient"
           color="primary"
           style="margin-right: 100px"
+          @click="purchase"
           >구매하기</material-button
         >
       </div>
@@ -131,10 +132,13 @@
 <script setup>
 import MaterialButton from "@/components/MaterialButton.vue";
 import axios from "axios";
-import { onMounted, ref } from "vue";
+import {inject, onMounted, onUnmounted, ref} from "vue";
 import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
+
+//접근 여부 파악할 때 사용 (App.vue에 정의되어 있음)
+const isAccessAllowed = inject('isAccessAllowed');
 
 const route = useRoute();
 const post = ref({
@@ -145,7 +149,6 @@ const post = ref({
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
 });
-
 
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
@@ -197,6 +200,12 @@ const toggleLike = async () => {
     console.error("게시글 찜 상태를 변경하는데 실패했습니다:", error);
   }
 };
+
+const purchase = () => {
+  isAccessAllowed.value = true; // 접근을 허용하는 상태로 변경
+  router.push({ path: `/posts/${ post.value.id }/purchase`});
+};
+
 onMounted(async () => {
   let postId = route.params.postId;
   if (!postId) {

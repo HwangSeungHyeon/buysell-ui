@@ -179,7 +179,7 @@ const router = createRouter({
       component: ProductForm,
     },
     {
-      path: "/purchase",
+      path: "/posts/:postId/purchase",
       name: "purchase",
       component: PurchaseForm,
     },
