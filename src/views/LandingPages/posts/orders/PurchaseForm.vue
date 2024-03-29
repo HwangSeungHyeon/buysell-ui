@@ -9,7 +9,7 @@
               <h5>제품 정보</h5>
               <div class="info-content">
                 <div><strong>제품 이름:</strong> {{ post.title }}</div>
-                <div><strong>제품 가격:</strong> {{ post.price }}원</div>
+                <div><strong>제품 가격:</strong> {{ Number(post.price).toLocaleString() }}원</div>
               </div>
             </div>
 
@@ -40,7 +40,7 @@
             <div class="pay-info mb-3 mb-4">
               <h5>계좌 잔액</h5>
               <div class="info-content">
-                <div>{{ accountBalance }}원</div>
+                <div>{{ Number( accountBalance ).toLocaleString() }}원</div>
               </div>
             </div>
 
@@ -48,7 +48,7 @@
             <div class="payment-info mb-3 mb-4">
               <h5>결제 정보</h5>
               <div class="info-content">
-                <div><strong>결제 금액:</strong> {{ post.price }}원</div>
+                <div><strong>결제 금액:</strong> {{ Number(post.price).toLocaleString() }}원</div>
               </div>
             </div>
             <div class="d-flex justify-content-center mt-3">
