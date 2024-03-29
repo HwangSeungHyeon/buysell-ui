@@ -69,15 +69,23 @@
 <script setup>
 import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import { getAccountBalance } from "@/views/Pay/getAccountBalance";
+import {inject} from "vue";
 
 const { accountBalance } = getAccountBalance();
+
+const isAccessAllowed = inject('isAccessAllowed');
 
 const router = useRouter();
 const cancelPayment = () => {
   router.back();
 };
+
+if (!isAccessAllowed.value) {
+  alert('접근이 제한되었습니다.');
+  router.back();
+}
 
 </script>
 

@@ -177,10 +177,8 @@ const post = ref({
 });
 
 const token = sessionStorage.getItem("token");
-console.log("확인");
 const userId = ref(null);
 const postAuthorId = ref(null);
-
 
 onMounted(async () => {
   let postId = route.params.postId;
@@ -193,18 +191,14 @@ onMounted(async () => {
   }
 });
 
-
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
   try {
     const response = await axios.get(`/posts/${postId}`);
-    console.log("res1", response.data);
     post.value = response.data;
     // 포스트를 가져온 후 찜 상태를 업데이트
     await updateLikeStatus();
-    console.log("postUserId: ", postAuthorId);
     sessionStorage.setItem("post", JSON.stringify(post.value));
-    console.log("post", post.value);
   } catch (error) {
     console.error("게시글을 불러오는데 실패했습니다:", error);
   }
@@ -215,10 +209,8 @@ const updateLikeStatus = async () => {
     const postId = route.params.postId;
     const response = await axios.get(`/posts/${postId}/my/wishlist`);
     const wishData = response.data;
-    console.log("wishdata", wishData);
     post.value.isLiked = wishData.id !== -9;
     // wishData가 존재하면 true, 존재하지 않으면 false로 설정
-    console.log("pvi", post.value.isLiked);
   } catch (error) {
     console.error("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
   }
@@ -229,7 +221,6 @@ const toggleLike = async () => {
     const postId = route.params.postId;
     const response = await axios.get(`/posts/${postId}/my/wishlist`);
     const wishData = response.data;
-    console.log("wis", wishData);
     // wishData가 postId와 일치하는 경우 찜 상태가 이미 존재하므로 찜을 해제해야 함
     if (wishData.id !== -9) {
       await axios.delete(`/posts/${postId}/my/wishlist`);
@@ -310,17 +301,13 @@ const updateComment = async (comment) => {
   try {
     const postId = JSON.parse(sessionStorage.getItem("post")).id;
     const commentId = comment.id;
-    console.log("cid", commentId);
     const response = await axios.put(`/posts/${postId}/comments/${commentId}`, {
       content: comment.newContent,
     });
     // 서버에서 수정된 댓글을 받아온 후, 해당 댓글 객체를 업데이트합니다.
     const updatedComment = response.data;
-    console.log("upc", updatedComment);
     // 수정이 완료되면 수정 모드를 해제합니다.
     comment.editMode = false;
-    console.log(updatedComment);
-
     // 수정이 완료되면 해당 게시물의 정보를 다시 불러와서 최신 정보를 반영합니다.
     await fetchPost(postId);
   } catch (error) {
@@ -336,7 +323,6 @@ const deleteComment = async (comment) => {
     const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
     // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.
     const deleteComment = response.data;
-    console.log(deleteComment);
     await fetchPost(postId);
   } catch (error) {
     console.error("댓글을 삭제하는데 실패했습니다:", error);

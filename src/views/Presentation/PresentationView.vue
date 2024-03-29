@@ -36,13 +36,13 @@
             <li class="nav-item">
               <a
                 class="nav-link mb-0 px-0 py-1 active"
-                :class="{ active: selectedSort === 'updatedAt,desc' }"
+                :class="{ active: selectedSort === 'createdAt,desc' }"
                 data-bs-toggle="tab"
                 href="#"
                 role="tab"
                 aria-controls="profile"
                 aria-selected="true"
-                @click.prevent="changeSort('updatedAt,desc')"
+                @click.prevent="changeSort('createdAt,desc')"
               >
                 최신 순
               </a>
@@ -82,13 +82,12 @@
                     <div class="d-flex justify-content-between">
                       <p class="card-text small m-0">작성자: {{ post.createdName }}</p>
                       <p class="card-text m-0">{{ Number(post.price).toLocaleString() }}원</p>
-<!--                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>-->
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="d-flex justify-content-between">
                       <p class="card-text small m-0">조회수 {{ post.view }}</p>
-                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>
+                      <p class="card-text small m-0">{{ formatDate(post.createdAt) }}</p>
                     </div>
                   </div>
                 </div>
