@@ -72,7 +72,7 @@
         <div class="row">
           <div v-for="post in posts" :key="post.id" class="col-md-3 mb-4" @click="handlePostClick(post.id)">
             <div class="card shadow-sm">
-              <img :src="post.imgUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
+              <img :src="post.imageUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
               <div class="card-body">
                 <p class="card-title text-center" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   {{ post.title }}
@@ -97,12 +97,13 @@
         </div>
       </div>
     </div>
+    <div id="observer-target"></div>
   </div>
   <DefaultFooter />
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, nextTick } from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
@@ -111,22 +112,16 @@ import Header from "../../examples/Header.vue";
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
 import setNavPills from "@/assets/js/nav-pills.js";
 import moment from "moment";
-import "moment/locale/ko"; // 한국어 로케일 import
+import "moment/locale/ko";
 
 const router = useRouter();
 const body = document.getElementsByTagName("body")[0];
 
-onMounted(() => {
-  body.classList.add("presentation-page");
-  setNavPills();
-});
-
-onUnmounted(() => {
-  body.classList.remove("presentation-page");
-});
-
 const selectedSort = ref("createdAt,desc");
 const posts = ref([]);
+const page = ref(0);
+const observer = ref(null);
+const observerTarget = ref(null);
 
 //정렬 기준 변경 메서드
 const changeSort = (sortCriteria) => {
@@ -138,16 +133,54 @@ const fetchPosts = async () => {
   try {
     const response = await axios.get("/posts", {
       params: {
+        page: page.value,
+        size: 12,
         sort: selectedSort.value
       },
     });
-    posts.value = response.data.content;
+    posts.value.push(...response.data.content);
   } catch (error) {
     console.error("게시물을 불러오는데 실패했습니다:", error);
   }
 };
 
-onMounted(fetchPosts);
+const loadMore = async () => {
+  fetchPosts();
+  page.value+=1;
+}
+
+onMounted(async () => {
+  body.classList.add("presentation-page");
+  setNavPills();
+  await nextTick(); // DOM 업데이트 대기
+  observerTarget.value = document.getElementById('observer-target');
+  initIntersectionObserver();
+});
+
+const initIntersectionObserver = () => {
+  observer.value = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        loadMore();
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  });
+
+  if (observerTarget.value) {
+    observer.value.observe(observerTarget.value);
+  }
+};
+
+onUnmounted(() => {
+  body.classList.remove("presentation-page");
+  if (observer.value) {
+    observer.value.disconnect();
+  }
+});
 
 const navigateToDetail = (postId) => {
   router.push({ name: "posts", params: { postId } });
@@ -161,3 +194,15 @@ const handlePostClick = async (postId) => {
   navigateToDetail(postId);
 };
 </script>
+
+<style>
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.card-body {
+  height: 150px;
+}
+</style>

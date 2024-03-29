@@ -40,7 +40,7 @@
             @click="handlePostClick(post.id)"
           >
             <div class="card shadow-sm mt-3">
-              <img :src="post.imgUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
+              <img :src="post.imageUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
               <div class="card-body">
                 <p class="card-title text-center" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   {{ post.title }}
@@ -71,12 +71,13 @@
         </div>
       </div>
     </div>
+    <div id="observer-target"></div>
   </div>
   <DefaultFooter />
 </template>
 
 <script setup>
-import {ref, onMounted, watch} from "vue";
+import { onMounted, onUnmounted, ref, nextTick, watch } from "vue";
 import axios from "axios";
 import { useRoute, useRouter } from 'vue-router';
 import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
@@ -84,32 +85,88 @@ import DefaultFooter from "../../examples/footers/FooterDefault.vue";
 import Header from "../../examples/Header.vue";
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
 import moment from "moment/moment";
-
 const route = useRoute();
 const router = useRouter();
 const keyword = ref(route.query.keyword);
 
 const posts = ref([]);
+const page = ref(0);
+const observer = ref(null);
+const observerTarget = ref(null);
+const isLoading = ref(false);
 
 const fetchPosts = async () => {
   if (!keyword.value) {
     console.error("No keyword provided!");
     posts.value = [];
+    page.value = 0;
+    isLoading.value = false;
     return;
   }
+  isLoading.value = true;
   try {
-    const response = await axios.get(`/posts/search`, { params: { keyword: keyword.value } });
-    posts.value = response.data.content;
+    const response = await axios.get("/posts/search", {
+      params: {
+        keyword: keyword.value,
+        page: page.value,
+        size: 12
+      },
+    });
+
+    if (page.value === 0) {
+      posts.value = response.data.content;
+    } else {
+      posts.value.push(...response.data.content);
+    }
+    isLoading.value = false;
   } catch (error) {
     console.error('Error fetching posts:', error);
+    isLoading.value = false;
   }
 };
 
-onMounted(fetchPosts);
-
-watch(() => route.query.keyword, (newKeyword) => {
-  keyword.value = newKeyword;
+const loadMore = async () => {
   fetchPosts();
+  page.value+=1;
+}
+
+onMounted(async () => {
+  await nextTick(); // DOM 업데이트 대기
+  observerTarget.value = document.getElementById('observer-target');
+  initIntersectionObserver();
+});
+
+const initIntersectionObserver = () => {
+  observer.value = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        loadMore();
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  });
+
+  if (observerTarget.value) {
+    observer.value.observe(observerTarget.value);
+  }
+};
+
+onUnmounted(() => {
+  if (observer.value) {
+    observer.value.disconnect();
+  }
+});
+
+watch(() => route.query.keyword, (newKeyword, oldKeyword) => {
+  if (newKeyword !== oldKeyword) {
+    keyword.value = newKeyword;
+    posts.value = []; // 새 키워드에 대한 게시물을 로드하기 전에 기존 게시물을 클리어합니다.
+    page.value = 0; // 페이지 번호를 초기화합니다.
+    fetchPosts(); // 새 키워드로 게시물을 불러옵니다.
+  }
 });
 
 const formatDate = (dateString) => {
