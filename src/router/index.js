@@ -194,6 +194,11 @@ const router = createRouter({
       }
     },
     {
+      path: "/posts/:postId/orders",
+      name: "orders",
+      component: PresentationView
+    },
+    {
       path: "/postedit",
       name: "postedit",
       component: PostEditForm,

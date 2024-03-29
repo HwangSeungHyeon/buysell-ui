@@ -163,7 +163,7 @@ import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
 import getUserId from "./getUserId";
-import {useStore} from "vuex";
+import { useStore } from "vuex";
 
 const route = useRoute();
 const post = ref({

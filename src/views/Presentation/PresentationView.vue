@@ -114,7 +114,6 @@ import Header from "../../examples/Header.vue";
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
 import setNavPills from "@/assets/js/nav-pills.js";
 import moment from "moment";
-import "moment/locale/ko";
 
 const router = useRouter();
 const body = document.getElementsByTagName("body")[0];
