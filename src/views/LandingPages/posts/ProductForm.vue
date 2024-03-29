@@ -218,7 +218,9 @@ const updateLikeStatus = async () => {
     // wishData가 존재하면 true, 존재하지 않으면 false로 설정
     console.log("pvi", post.value.isLiked);
   } catch (error) {
-    console.error("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
+    if(token) {
+      console.error("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
+    }
   }
 };
 

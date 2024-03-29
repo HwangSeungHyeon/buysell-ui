@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import axios from "axios";
 import setMaterialInput from "@/assets/js/material-input";
 import { useRouter } from "vue-router";
@@ -10,6 +10,7 @@ const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
 const router = useRouter();
+const token = ref("");
 setMaterialInput();
 const login = async () => {
   try {
@@ -29,6 +30,54 @@ const login = async () => {
     errorMessage.value = error.message; // 로그인 실패 시 에러 메시지 표시
   }
 };
+
+
+const googleLogin = async () => {
+  try {
+    window.location.href = "http://localhost:9090/oauth2/authorization/google";
+  } catch (error) {
+    errorMessage.value = error.message;
+  }
+};
+
+// 페이지 로딩 시 토큰을 서버로부터 받아와 sessionStorage에 저장
+// 페이지가 로드될 때 실행
+
+const kakaoLogin = async () =>{
+  try{
+    window.location.href = "http://localhost:8080/oauth2/authorization/kakao"
+  }catch(error){
+    errorMessage.value = error.message;
+  }
+}
+
+
+
+
+// const kakaoLogin = () => {
+//   Kakao.Auth.login({
+//     success: function(authObj) {
+//       console.log(authObj); // 인증 객체 출력
+//       console.log(authObj.access_token);
+//       // 여기서 서버로 토큰을 전송하거나 다른 처리를 할 수 있습니다.
+//       sessionStorage.setItem("token", authObj.access_token);
+//       router.push(`/`);
+//     },
+//     fail: function(err) {
+//       console.error(err);
+//     }
+//   });
+// };
+
+
+const naverLogin = async () => {
+  try {
+    window.location.href = "http://localhost:9090/oauth2/authorization/naver";
+  } catch (error) {
+    errorMessage.value = error.message;
+  }
+};
+
 </script>
 <template>
   <Header>
@@ -108,22 +157,22 @@ const login = async () => {
                     >
                   </p>
                   <div class="row mt-3">
+                    <!-- //구글 로그인-->
+                    <div class="col text-center">
+                      <a class="btn btn-link px-3" href="javascript:" @click="googleLogin">
+                        <img src="https://velog.velcdn.com/images/codekmj/post/5c277f33-efb0-4882-883d-0a563de92509/image.png" alt="Google" class="img-icon">
+                      </a>
+                    </div>
                     <!-- //카카오 로그인-->
-                    <div class="col-2 text-center ms-auto">
-                      <a class="btn btn-link px-3" href="javascript:">
-                        <i class="fa fa-facebook text-yellow text-lg"></i>
+                    <div class="col text-center">
+                      <a class="btn btn-link px-3" href="javascript:" @click="kakaoLogin">
+                        <img src="https://velog.velcdn.com/images/codekmj/post/f0388a65-8306-4850-808c-36d681145db8/image.png" alt="Kakao" class="img-icon">
                       </a>
                     </div>
                     <!-- //네이버 로그인-->
-                    <div class="col-2 text-center px-1">
-                      <a class="btn btn-link px-3" href="javascript:">
-                        <i class="fa fa-github text-green text-lg"></i>
-                      </a>
-                    </div>
-                    <!--  //구글 로그인-->
-                    <div class="col-2 text-center me-auto">
-                      <a class="btn btn-link px-3" href="javascript:">
-                        <i class="fa fa-google text-red text-lg"></i>
+                    <div class="col text-center">
+                      <a class="btn btn-link px-3" href="javascript:" @click="naverLogin">
+                        <img src="https://velog.velcdn.com/images/codekmj/post/9a23db91-113c-4459-8eb7-565fa0d9756a/image.png" alt="Naver" class="img-icon">
                       </a>
                     </div>
                   </div>
