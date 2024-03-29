@@ -69,6 +69,7 @@ const submitForm = async () => {
 };
 // 이미지 업로드
 const imageUrl = ref("");
+//presigned url 발급
 const handleFileUpload = async (event) => {
   const file = event.target.files[0];
   try {
@@ -86,6 +87,8 @@ const handleFileUpload = async (event) => {
     console.error('이미지 업로드 및 URL 저장 실패:', error);
   }
 };
+
+// 이미지 PUT요청
 const uploadImage = async (presignedUrl, file) => {
   try {
     console.log('presignedUrl, file:', presignedUrl, file)
