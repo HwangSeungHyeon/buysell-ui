@@ -8,6 +8,7 @@ import "./assets/css/nucleo-icons.css";
 import "./assets/css/nucleo-svg.css";
 import materialKit from "./material-kit";
 import Header from "@/examples/Header.vue";
+import store from "./store";
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
@@ -45,4 +46,5 @@ app.component("Header", Header);
 app.use(createPinia());
 app.use(router);
 app.use(materialKit);
+app.use(store);
 app.mount("#app");
