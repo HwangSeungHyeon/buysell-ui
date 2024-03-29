@@ -72,7 +72,9 @@
         <div class="row">
           <div v-for="post in posts" :key="post.id" class="col-md-3 mb-4" @click="handlePostClick(post.id)">
             <div class="card shadow-sm">
-              <img :src="post.imageUrl" class="card-img-top" alt="게시글 이미지 넣는곳">
+              <div class="card-img-top-container">
+                <img :src="post.imageUrl" class="card-img-top" alt="게시글 이미지">
+              </div>
               <div class="card-body">
                 <p class="card-title text-center" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                   {{ post.title }}
@@ -227,13 +229,19 @@ const handlePostClick = async (postId) => {
 </script>
 
 <style scoped>
-.card-img-top {
-  height: 200px;
-  object-fit: cover;
+.card-img-top-container {
   width: 100%;
+  height: 0;
+  padding-top: 100%; /* 비율 기반 높이 설정 */
+  position: relative; /* 이미지를 절대 위치로 배치하기 위함 */
 }
 
-.card-body {
-  height: 150px;
+.card-img-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>
