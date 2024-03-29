@@ -220,7 +220,6 @@ const navigateToDetail = (postId) => {
 };
 
 const formatDate = (dateString) => {
-  // return moment(dateString).format("YYYY-MM-DD");
   return moment(dateString).fromNow();
 };
 const handlePostClick = async (postId) => {
