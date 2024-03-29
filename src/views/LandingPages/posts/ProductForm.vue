@@ -14,6 +14,10 @@
       </div>
       <div class="product-info py-6">
         <div class="product-details">
+          <div>
+            <!-- 이미지를 화면 너비에 맞춰 표시 -->
+            <img :src="post.imageUrl" :style="{ width: '100%' }" alt="Image">
+          </div>
           <p style="font-weight: bold">가격: ₩{{ post.price }}</p>
           <p style="font-weight: bold; margin-right: 50px">
             내용: {{ post.content }}
@@ -21,14 +25,17 @@
         </div>
       </div>
       <!-- 구매하기 버튼 -->
-      <div class="text-sm-end mb-5">
-        <material-button
-          variant="gradient"
-          color="primary"
-          style="margin-right: 100px"
-          @click="purchase"
-          >구매하기</material-button
-        >
+      <div>
+        <!-- 게시글 작성자인 경우에만 구매하기 버튼을 표시 -->
+        <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout">
+<!--        <div v-else-if="post.isSoldout = false">-->
+          <material-button
+              variant="gradient"
+              color="primary"
+              style="margin-right: 100px"
+              @click="purchase"
+          >구매하기</material-button>
+        </div>
       </div>
 
       <!-- 게시글 수정, 찜하기 -->
@@ -174,6 +181,7 @@ const post = ref({
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
+  isSoldout: Boolean
 });
 
 const token = sessionStorage.getItem("token");
