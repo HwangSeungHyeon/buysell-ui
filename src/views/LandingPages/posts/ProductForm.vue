@@ -163,6 +163,7 @@ import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
 import getUserId from "./getUserId";
+import {useStore} from "vuex";
 
 //접근 여부 파악할 때 사용 (App.vue에 정의되어 있음)
 const isAccessAllowed = inject('isAccessAllowed');
@@ -236,11 +237,13 @@ const toggleLike = async () => {
     console.error("게시글 찜 상태를 변경하는데 실패했습니다:", error);
   }
 };
-
+// Vuex 스토어 사용
+const store = useStore();
 const purchase = () => {
-  isAccessAllowed.value = true; // 접근을 허용하는 상태로 변경
-  router.push({ path: `/posts/${ post.value.id }/purchase`});
+  store.commit('allowAccess');
+  router.push({ path: `/posts/${post.value.id}/purchase` });
 };
+
 
 onMounted(async () => {
   let postId = route.params.postId;

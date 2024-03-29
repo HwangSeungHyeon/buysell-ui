@@ -36,6 +36,7 @@ import WishListView from "@/views/WishList/WishListView.vue";
 import MySalesView from "@/views/MySales/MySalesView.vue";
 import SearchResults from "@/views/Presentation/SearchResults.vue";
 import OtherSalesView from "@/views/MySales/OtherSalesView.vue";
+import store from "@/store";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -183,6 +184,14 @@ const router = createRouter({
       path: "/posts/:postId/purchase",
       name: "purchase",
       component: PurchaseForm,
+      beforeEnter: (to, from, next) => {
+        if (store.state.isAccessAllowed){
+          next();
+        } else{
+          alert("접근이 제한되었습니다.");
+          next('/');
+        }
+      }
     },
     {
       path: "/postedit",
@@ -228,6 +237,9 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  if (from.path.startsWith('/posts/') && from.name === 'purchase') {
+    store.commit('denyAccess');
+  }
   if (to.path === '/posts/search' && !to.query.keyword) {
     next({ path: '/' }); // 메인 페이지로 리디렉션
   } else {
