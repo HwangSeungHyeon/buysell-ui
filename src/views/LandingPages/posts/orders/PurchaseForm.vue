@@ -31,7 +31,7 @@
                     placeholder="010-xxxx-xxxx"
                     v-model="phoneNumber"
                     :value="phoneNumber"
-                    @input="phoneNumber = $event.target.value"
+                    @input="formatPhoneNumber($event)"
                 />
               </div>
             </div>
@@ -104,18 +104,29 @@ const router = useRouter();
 const address = ref("");
 const phoneNumber = ref("");
 
-// 전화번호 형식을 감시하고 자동으로 형식을 맞춥니다.
-watch( phoneNumber, (newValue, oldValue) => {
-  let formatted = newValue.replace(/[^0-9]/g, ''); // 숫자만 추출
-  if (formatted.length > 3 && formatted.length <= 7) {
-    // 010-xxxx 형식으로 변환
-    formatted = formatted.replace(/^(\d{3})(\d{0,4})/, "$1-$2");
-  } else if (formatted.length > 7) {
-    // 010-xxxx-xxxx 형식으로 변환
-    formatted = formatted.replace(/^(\d{3})(\d{0,4})(\d{0,4})/, "$1-$2-$3");
+const formatPhoneNumber = (event) => {
+  let input = event.target.value;
+  // 숫자만 추출
+  let digits = input.replace(/[^\d]/g, '');
+
+  // 전체 숫자에 대해 하이픈 포맷팅 적용
+  if (digits.length > 3 && digits.length <= 7) {
+    // 3자리 초과, 7자리 이하일 때
+    digits = `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  } else if (digits.length > 7) {
+    // 7자리 초과일 때
+    digits = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7, 11)}`;
   }
-  phoneNumber.value = formatted; // 변환된 값을 다시 할당
-}, { immediate: true });
+
+  // 포맷팅된 문자열이 13자를 초과하지 않도록 조정
+  let formattedNumber = digits;
+  if (formattedNumber.length > 13) {
+    formattedNumber = formattedNumber.slice(0, 13);
+  }
+
+  event.target.value = formattedNumber;
+  phoneNumber.value = formattedNumber; // 모델 업데이트
+};
 
 const validateAndPay = async () => {
   console.log("Address:", address.value, "Phone Number:", phoneNumber.value); // 디버깅을 위한 로그
