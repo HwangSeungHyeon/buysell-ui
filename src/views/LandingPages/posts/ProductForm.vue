@@ -27,7 +27,8 @@
       <!-- 구매하기 버튼 -->
       <div>
         <!-- 게시글 작성자인 경우에만 구매하기 버튼을 표시 -->
-        <div v-if="parseInt(userId) !== parseInt(postAuthorId)">
+        <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout">
+<!--        <div v-else-if="post.isSoldout = false">-->
           <material-button
               variant="gradient"
               color="primary"
@@ -180,6 +181,7 @@ const post = ref({
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
+  isSoldout: Boolean
 });
 
 const token = sessionStorage.getItem("token");
