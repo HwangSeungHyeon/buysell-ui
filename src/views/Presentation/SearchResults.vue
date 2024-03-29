@@ -95,29 +95,43 @@ const observer = ref(null);
 const observerTarget = ref(null);
 const isLoading = ref(false);
 
-const fetchPosts = async () => {
-  if (!keyword.value) {
-    console.error("No keyword provided!");
-    posts.value = [];
-    page.value = 0;
-    isLoading.value = false;
-    return;
+watch(() => route.query.keyword, (newKeyword) => {
+  if (newKeyword !== keyword.value) {
+    keyword.value = newKeyword;
+    resetSearchResults(); // 검색 결과를 리셋하는 함수를 호출합니다.
+    fetchPosts(); // 새 키워드로 게시물을 불러옵니다.
   }
+});
+
+const resetSearchResults = () => {
+  posts.value = []; // 게시물 목록을 초기화합니다.
+  page.value = 0; // 페이지 번호를 초기화합니다.
+  isLoading.value = false; // 로딩 상태를 초기화합니다.
+};
+
+const fetchPosts = async () => {
+  if (!keyword.value || isLoading.value) {
+    return; // 키워드가 없거나 로딩 중이라면 함수를 종료합니다.
+  }
+
   isLoading.value = true;
+
   try {
     const response = await axios.get("/posts/search", {
       params: {
         keyword: keyword.value,
         page: page.value,
-        size: 12
+        size: 12,
       },
     });
 
+    // 첫 페이지인 경우 현재 게시물로 대체, 그렇지 않은 경우 추가
     if (page.value === 0) {
       posts.value = response.data.content;
     } else {
       posts.value.push(...response.data.content);
     }
+
     page.value++;
     isLoading.value = false;
   } catch (error) {
@@ -157,15 +171,6 @@ const initIntersectionObserver = () => {
 onUnmounted(() => {
   if (observer.value) {
     observer.value.disconnect();
-  }
-});
-
-watch(() => route.query.keyword, (newKeyword, oldKeyword) => {
-  if (newKeyword !== oldKeyword) {
-    keyword.value = newKeyword;
-    posts.value = []; // 새 키워드에 대한 게시물을 로드하기 전에 기존 게시물을 클리어합니다.
-    page.value = 0; // 페이지 번호를 초기화합니다.
-    fetchPosts(); // 새 키워드로 게시물을 불러옵니다.
   }
 });
 

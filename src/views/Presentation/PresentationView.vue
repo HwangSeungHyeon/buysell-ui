@@ -168,7 +168,7 @@ const fetchPosts = async () => {
     const response = await axios.get("/posts", {
       params: {
         page: page.value,
-        size: 5,
+        size: 12,
         sort: selectedSort.value
       },
     });
