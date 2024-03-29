@@ -226,7 +226,7 @@ const handlePostClick = async (postId) => {
 };
 </script>
 
-<style>
+<style scoped>
 .card-img-top {
   height: 200px;
   object-fit: cover;
