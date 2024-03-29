@@ -32,7 +32,7 @@
               <div class="card-body">
                 <form role="form" class="text-start">
                   <div class="text-center">
-                    <h3 class="text-center">현재 잔액 : {{ accountBalance }}원</h3>
+                    <h3 class="text-center">현재 잔액 : {{ Number( accountBalance ).toLocaleString() }}원</h3>
                     <router-link to="/deposit">
                       <MaterialButton
                         class="my-4 mb-2"
