@@ -48,15 +48,15 @@ const formatDate = (dateString) => {
 
   return `${year}년 ${month}월 ${day}일 ${hours}시 ${minutes}분`;
 };
-const increaseViewCount = async (postId) => {
-  try {
-    await axios.post(`/posts/${postId}/views`);
-  } catch (error) {
-    console.error("조회수를 증가하는데 실패했습니다:", error);
-  }
-};
+// const increaseViewCount = async (postId) => {
+//   try {
+//     await axios.post(`/posts/${postId}/views`);
+//   } catch (error) {
+//     console.error("조회수를 증가하는데 실패했습니다:", error);
+//   }
+// };
 const handlePostClick = async (postId) => {
-  await increaseViewCount(postId);
+  // await increaseViewCount(postId);
   navigateToDetail(postId);
 };
 </script>

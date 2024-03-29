@@ -6,17 +6,20 @@
         <div class="post-title">
           <h4>상품명: {{ post.title }}</h4>
         </div>
-        <router-link :to="{ path: `/othersales/${post.memberId}` }">
-          <div class="post-author">
-            <h4>작성자: {{ post.createdName }}</h4>
-          </div>
-        </router-link>
+        <div class="post-author">
+          <h4>
+            작성자:
+            <router-link :to="{ path: `/othersales/${post.memberId}` }">
+              {{ post.createdName }}
+            </router-link>
+          </h4>
+        </div>
       </div>
       <div class="product-info py-6">
         <div class="product-details">
           <div>
             <!-- 이미지를 화면 너비에 맞춰 표시 -->
-            <img :src="post.imageUrl" :style="{ width: '100%' }" alt="Image">
+            <img :src="post.imageUrl" :style="{ width: '100%' }" alt="Image" />
           </div>
           <p style="font-weight: bold">가격: ₩{{ post.price }}</p>
           <p style="font-weight: bold; margin-right: 50px">
@@ -27,14 +30,17 @@
       <!-- 구매하기 버튼 -->
       <div>
         <!-- 게시글 작성자인 경우에만 구매하기 버튼을 표시 -->
-        <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout">
-<!--        <div v-else-if="post.isSoldout = false">-->
+        <div
+          v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout"
+        >
+          <!--        <div v-else-if="post.isSoldout = false">-->
           <material-button
-              variant="gradient"
-              color="primary"
-              style="margin-right: 100px"
-              @click="purchase"
-          >구매하기</material-button>
+            variant="gradient"
+            color="primary"
+            style="margin-right: 100px"
+            @click="purchase"
+            >구매하기</material-button
+          >
         </div>
       </div>
 
@@ -69,7 +75,7 @@
           color="danger"
           style="margin-left: 10px"
           v-if="parseInt(userId) === parseInt(postAuthorId)"
-        >게시글 삭제</material-button
+          >게시글 삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
         <div v-if="token" class="d-flex align-items-center">
@@ -102,7 +108,7 @@
             @input="newComment = $event.target.value"
           ></material-input>
           <material-button @click="addComment" variant="gradient" color="dark"
-          >댓글 등록</material-button
+            >댓글 등록</material-button
           >
         </div>
       </div>
@@ -127,19 +133,17 @@
             <textarea
               v-else
               v-model="comment.newContent"
-              style="width: 100%; height: 100px;"
+              style="width: 100%; height: 100px"
             ></textarea>
           </div>
-          <div class="p-md-2"
-          v-if ="comment.memberId == userId"
-          >
+          <div class="p-md-2" v-if="comment.memberId == userId">
             <material-button
               v-if="!comment.editMode"
               @click="toggleEditMode(comment)"
               variant="text"
               color="secondary"
               style="margin-right: 8px"
-            >수정</material-button
+              >수정</material-button
             >
             <material-button
               v-else
@@ -147,13 +151,13 @@
               variant="text"
               color="primary"
               style="margin-right: 8px"
-            >저장</material-button
+              >저장</material-button
             >
             <material-button
               @click="deleteComment(comment)"
               variant="text"
               color="danger"
-            >삭제</material-button
+              >삭제</material-button
             >
           </div>
         </div>
@@ -165,7 +169,7 @@
 <script setup>
 import MaterialButton from "@/components/MaterialButton.vue";
 import axios from "axios";
-import { onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
@@ -181,7 +185,7 @@ const post = ref({
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
-  isSoldout: Boolean
+  isSoldout: Boolean,
 });
 
 const token = sessionStorage.getItem("token");
@@ -245,10 +249,9 @@ const toggleLike = async () => {
 // Vuex 스토어 사용
 const store = useStore();
 const purchase = () => {
-  store.commit('allowAccess');
+  store.commit("allowAccess");
   router.push({ path: `/posts/${post.value.id}/purchase` });
 };
-
 
 onMounted(async () => {
   let postId = route.params.postId;
@@ -330,7 +333,9 @@ const deleteComment = async (comment) => {
     // 서버에서 댓글을 삭제합니다.
     const postId = JSON.parse(sessionStorage.getItem("post")).id;
     const commentId = comment.id;
-    const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
+    const response = await axios.delete(
+      `/posts/${postId}/comments/${commentId}`
+    );
     // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.
     const deleteComment = response.data;
     await fetchPost(postId);
@@ -338,7 +343,6 @@ const deleteComment = async (comment) => {
     console.error("댓글을 삭제하는데 실패했습니다:", error);
   }
 };
-
 </script>
 
 <style>
