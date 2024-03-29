@@ -158,15 +158,12 @@
 <script setup>
 import MaterialButton from "@/components/MaterialButton.vue";
 import axios from "axios";
-import {inject, onMounted, onUnmounted, ref} from "vue";
+import { onMounted, ref} from "vue";
 import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
 import getUserId from "./getUserId";
 import {useStore} from "vuex";
-
-//접근 여부 파악할 때 사용 (App.vue에 정의되어 있음)
-const isAccessAllowed = inject('isAccessAllowed');
 
 const route = useRoute();
 const post = ref({
