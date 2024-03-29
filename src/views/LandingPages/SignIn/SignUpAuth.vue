@@ -14,11 +14,12 @@ const sendEmailVerification = async () => {
         "Content-Type": "application/json",
       },
     };
-    console.log("email", email.value);
+
+    const data = { email: email.value }; // email.value를 객체로 래핑
+    console.log("data", data);
     const response = await axios.post(
-      `/members/sendemail`,
-      email.value,
-      {},
+      `/members/sendemail?email=${data.email}`,
+      data,
       config
     );
     console.log(response.data);
