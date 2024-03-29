@@ -123,41 +123,13 @@ const page = ref(0);
 const observer = ref(null);
 const observerTarget = ref(null);
 
-//정렬 기준 변경 메서드
-const changeSort = (sortCriteria) => {
-  selectedSort.value = sortCriteria;
-  fetchPosts();
-};
-
-const fetchPosts = async () => {
-  try {
-    const response = await axios.get("/posts", {
-      params: {
-        page: page.value,
-        size: 12,
-        sort: selectedSort.value
-      },
-    });
-    posts.value.push(...response.data.content);
-  } catch (error) {
-    console.error("게시물을 불러오는데 실패했습니다:", error);
-  }
-};
-
-const loadMore = async () => {
-  fetchPosts();
-  page.value+=1;
-}
-
-onMounted(async () => {
-  body.classList.add("presentation-page");
-  setNavPills();
-  await nextTick(); // DOM 업데이트 대기
-  observerTarget.value = document.getElementById('observer-target');
-  initIntersectionObserver();
-});
-
 const initIntersectionObserver = () => {
+  // 기존 Observer가 있으면 해제
+  if (observer.value) {
+    observer.value.disconnect();
+  }
+
+  // 새 Observer 인스턴스 생성
   observer.value = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -170,10 +142,69 @@ const initIntersectionObserver = () => {
     threshold: 0.1
   });
 
+  // 새 Observer로 target 관찰 시작
   if (observerTarget.value) {
     observer.value.observe(observerTarget.value);
   }
 };
+
+//정렬 기준 변경 메서드
+// changeSort 함수 내에서 Observer 재초기화
+const changeSort = (sortCriteria) => {
+  if (selectedSort.value !== sortCriteria) {
+    selectedSort.value = sortCriteria;
+    posts.value = [];
+    page.value = 0;
+    nextTick(() => {
+      fetchPosts(); // 데이터를 새로 불러온 후
+      initIntersectionObserver(); // Observer를 재초기화
+    });
+  }
+};
+
+
+const fetchPosts = async () => {
+  try {
+    const response = await axios.get("/posts", {
+      params: {
+        page: page.value,
+        size: 5,
+        sort: selectedSort.value
+      },
+    });
+
+    // 중복 검사 로직을 추가할 수 있습니다.
+    // 예: 새로 불러온 게시글이 이미 posts.value에 있는지 검사하고, 없는 경우에만 추가합니다.
+    const newPosts = response.data.content.filter(
+        newPost => !posts.value.some(existingPost => existingPost.id === newPost.id)
+    );
+
+    if (page.value === 0) {
+      posts.value = newPosts;
+    } else {
+      posts.value.push(...newPosts);
+    }
+
+    // 데이터 로딩 성공 후 페이지 번호 증가
+    if (newPosts.length > 0) {
+      page.value++;
+    }
+  } catch (error) {
+    console.error("게시물을 불러오는데 실패했습니다:", error);
+  }
+};
+
+const loadMore = async () => {
+  fetchPosts();
+};
+
+onMounted(async () => {
+  body.classList.add("presentation-page");
+  setNavPills();
+  await nextTick(); // DOM 업데이트 대기
+  observerTarget.value = document.getElementById('observer-target');
+  initIntersectionObserver();
+});
 
 onUnmounted(() => {
   body.classList.remove("presentation-page");

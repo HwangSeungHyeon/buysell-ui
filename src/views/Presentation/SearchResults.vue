@@ -118,6 +118,7 @@ const fetchPosts = async () => {
     } else {
       posts.value.push(...response.data.content);
     }
+    page.value++;
     isLoading.value = false;
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -127,7 +128,6 @@ const fetchPosts = async () => {
 
 const loadMore = async () => {
   fetchPosts();
-  page.value+=1;
 }
 
 onMounted(async () => {
