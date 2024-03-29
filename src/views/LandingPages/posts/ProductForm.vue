@@ -165,7 +165,7 @@
 <script setup>
 import MaterialButton from "@/components/MaterialButton.vue";
 import axios from "axios";
-import { onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
@@ -190,8 +190,18 @@ const postAuthorId = ref(null);
 
 onMounted(async () => {
   let postId = route.params.postId;
+
+  // 라우트에서 postId를 찾을 수 없다면, 세션 스토리지를 확인합니다.
+  if (!postId) {
+    const savedPost = JSON.parse(sessionStorage.getItem("post"));
+    if (savedPost) {
+      postId = savedPost.id;
+    }
+  }
+
+  // 유효한 postId가 결정되면, 해당 postId로 게시물 정보를 가져옵니다.
   if (postId) {
-    await fetchPost(postId);
+    await fetchPost(postId); //<- 여기서 post get 요청 1번 발생
     postAuthorId.value = post.value.memberId;
     userId.value = getUserId();
   } else {
@@ -248,22 +258,6 @@ const purchase = () => {
   store.commit('allowAccess');
   router.push({ path: `/posts/${post.value.id}/purchase` });
 };
-
-
-onMounted(async () => {
-  let postId = route.params.postId;
-  if (!postId) {
-    const savedPost = JSON.parse(sessionStorage.getItem("post"));
-    if (savedPost) {
-      postId = savedPost.id;
-    }
-  }
-  if (postId) {
-    await fetchPost(postId);
-  } else {
-    console.error("게시글 ID를 찾을 수 없습니다.");
-  }
-});
 
 const deletePost = async () => {
   try {
