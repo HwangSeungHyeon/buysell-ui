@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import {ref, onMounted} from "vue";
+import {useRouter} from "vue-router";
 import axios from "axios";
 import setMaterialInput from "@/assets/js/material-input";
 import MaterialButton from "@/components/MaterialButton.vue";
@@ -9,18 +9,18 @@ import MaterialTextArea from "@/components/MaterialTextArea.vue";
 
 // 카테고리 목록
 const categories = [
-  { value: "OTHERS", label: "기타" },
-  { value: "KITCHEN", label: "주방" },
-  { value: "BOOK", label: "책" },
-  { value: "CHILDCARE", label: "육아" },
-  { value: "INTERIOR", label: "인테리어" },
-  { value: "GAME", label: "게임" },
-  { value: "CAR_SUPPLIES", label: "자동차 용품" },
-  { value: "BEAUTY", label: "뷰티" },
-  { value: "FOOD", label: "음식" },
-  { value: "SPORTS", label: "스포츠" },
-  { value: "DIGITAL", label: "디지털" },
-  { value: "PET", label: "애완동물" }
+  {value: "OTHERS", label: "기타"},
+  {value: "KITCHEN", label: "주방"},
+  {value: "BOOK", label: "책"},
+  {value: "CHILDCARE", label: "육아"},
+  {value: "INTERIOR", label: "인테리어"},
+  {value: "GAME", label: "게임"},
+  {value: "CAR_SUPPLIES", label: "자동차 용품"},
+  {value: "BEAUTY", label: "뷰티"},
+  {value: "FOOD", label: "음식"},
+  {value: "SPORTS", label: "스포츠"},
+  {value: "DIGITAL", label: "디지털"},
+  {value: "PET", label: "애완동물"}
 ];
 
 onMounted(() => {
@@ -51,7 +51,8 @@ const submitForm = async () => {
       title: formData.value.title,
       content: formData.value.content,
       price: formData.value.price,
-      category: formData.value.category
+      category: formData.value.category,
+      imageUrl: imageUrl.value
     };
 
     await axios.post(`/posts`, postData, {
@@ -64,6 +65,42 @@ const submitForm = async () => {
     await router.push("/");
   } catch (error) {
     console.error("게시글 등록 실패:", error);
+  }
+};
+// 이미지 업로드
+const imageUrl = ref("");
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0];
+  try {
+    const presignedUrlResponse = await axios.get('/images/posts', {
+      params: {
+        fileName: file.name,
+      },
+    });
+    const presignedUrl = presignedUrlResponse.data;
+
+    await uploadImage(presignedUrl, file);
+    console.log('이미지 업로드 완료');
+    imageUrl.value = presignedUrl.split('?')[0]; // pre-signed URL에서 쿼리 부분을 제외한 URL을 추출합니다.
+  } catch (error) {
+    console.error('이미지 업로드 및 URL 저장 실패:', error);
+  }
+};
+const uploadImage = async (presignedUrl, file) => {
+  try {
+    console.log('presignedUrl, file:', presignedUrl, file)
+    const response = await fetch(presignedUrl, {
+      method: 'PUT', // 사전 서명된 URL에 대한 HTTP 메소드는 PUT입니다.
+      headers: {
+        'Content-Type': 'multipart/form-data' // 필요한 경우에만 Content-Type 지정
+      },
+      body: file, // 파일 데이터를 직접 바디에 포함
+      mode: 'cors'
+    })
+    console.log('이미지 업로드 성공:', response);
+  } catch (error) {
+    console.error('이미지 업로드 실패:', error);
+    throw error;
   }
 };
 </script>
@@ -80,12 +117,12 @@ const submitForm = async () => {
                 <div class="col-md-6">
                   <h6>게시글 제목</h6>
                   <MaterialInput
-                    v-model="formData.title"
-                    :value="formData.title"
-                    @input="formData.title = $event.target.value"
-                    class="input-group-dynamic"
-                    id="title"
-                    style="
+                      v-model="formData.title"
+                      :value="formData.title"
+                      @input="formData.title = $event.target.value"
+                      class="input-group-dynamic"
+                      id="title"
+                      style="
                       border: 2px solid #000000;
                       width: 100%;
                       max-width: 400px;
@@ -95,10 +132,10 @@ const submitForm = async () => {
                 <div class="col-md-6"></div>
               </div>
               <div class="row">
-<!--                <div class="col-md-6">-->
-<!--                  <h6>이미지 선택</h6>-->
-<!--                  <input type="file" accept="image/*" @change="handleFileUpload">-->
-<!--                </div>-->
+                <div class="col-md-6">
+                  <h6>이미지 선택</h6>
+                  <input type="file" accept="image/*" @change="handleFileUpload">
+                </div>
               </div>
               <div class="row">
                 <div class="mb-4 col-md-6">
