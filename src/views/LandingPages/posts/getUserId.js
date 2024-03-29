@@ -5,7 +5,7 @@ const getUserId = () => {
   if (token) {
     const decoded = useJwt(token);
     const userId = decoded.payload.value.sub;
-    console.log("user", userId);
+    // console.log("user", userId);
     return userId;
   } else {
     // 토큰이 없는 경우 처리
