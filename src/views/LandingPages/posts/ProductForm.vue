@@ -6,9 +6,11 @@
         <div class="post-title">
           <h4>상품명: {{ post.title }}</h4>
         </div>
-        <div class="post-author">
-          <h4>작성자: {{ post.createdName }}</h4>
-        </div>
+        <router-link :to="{ path: `/othersales/${post.memberId}` }">
+          <div class="post-author">
+            <h4>작성자: {{ post.createdName }}</h4>
+          </div>
+        </router-link>
       </div>
       <div class="product-info py-6">
         <div class="product-details">
