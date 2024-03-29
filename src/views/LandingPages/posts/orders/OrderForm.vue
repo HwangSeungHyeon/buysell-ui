@@ -1,6 +1,6 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
+import {ref, onMounted} from "vue";
+import {useRouter} from "vue-router";
 import axios from "axios";
 import setMaterialInput from "@/assets/js/material-input";
 import MaterialButton from "@/components/MaterialButton.vue";
@@ -9,18 +9,18 @@ import MaterialTextArea from "@/components/MaterialTextArea.vue";
 
 // 카테고리 목록
 const categories = [
-  { value: "OTHERS", label: "기타" },
-  { value: "KITCHEN", label: "주방" },
-  { value: "BOOK", label: "책" },
-  { value: "CHILDCARE", label: "육아" },
-  { value: "INTERIOR", label: "인테리어" },
-  { value: "GAME", label: "게임" },
-  { value: "CAR_SUPPLIES", label: "자동차 용품" },
-  { value: "BEAUTY", label: "뷰티" },
-  { value: "FOOD", label: "음식" },
-  { value: "SPORTS", label: "스포츠" },
-  { value: "DIGITAL", label: "디지털" },
-  { value: "PET", label: "애완동물" },
+  {value: "OTHERS", label: "기타"},
+  {value: "KITCHEN", label: "주방"},
+  {value: "BOOK", label: "책"},
+  {value: "CHILDCARE", label: "육아"},
+  {value: "INTERIOR", label: "인테리어"},
+  {value: "GAME", label: "게임"},
+  {value: "CAR_SUPPLIES", label: "자동차 용품"},
+  {value: "BEAUTY", label: "뷰티"},
+  {value: "FOOD", label: "음식"},
+  {value: "SPORTS", label: "스포츠"},
+  {value: "DIGITAL", label: "디지털"},
+  {value: "PET", label: "애완동물"}
 ];
 
 onMounted(() => {
@@ -31,7 +31,7 @@ const formData = ref({
   title: "",
   content: "",
   price: null,
-  category: "",
+  category: ""
 });
 
 const router = useRouter();
@@ -42,7 +42,7 @@ const submitForm = async () => {
     console.log("token:", token);
     if (!token) {
       // 토큰이 없으면 로그인 페이지로 리디렉션
-      await router.push("/login");
+      await router.push("/pages/landing-pages/basic");
       return;
     }
 
@@ -52,11 +52,12 @@ const submitForm = async () => {
       content: formData.value.content,
       price: formData.value.price,
       category: formData.value.category,
+      imageUrl: imageUrl.value
     };
 
     await axios.post(`/posts`, postData, {
       headers: {
-        Authorization: `${token}`,
+        Authorization: `${token}`
       },
     });
 
@@ -66,6 +67,45 @@ const submitForm = async () => {
     console.error("게시글 등록 실패:", error);
   }
 };
+// 이미지 업로드
+const imageUrl = ref("");
+//presigned url 발급
+const handleFileUpload = async (event) => {
+  const file = event.target.files[0];
+  try {
+    const presignedUrlResponse = await axios.get('/images/posts', {
+      params: {
+        fileName: file.name,
+      },
+    });
+    const presignedUrl = presignedUrlResponse.data;
+
+    await uploadImage(presignedUrl, file);
+    console.log('이미지 업로드 완료');
+    imageUrl.value = presignedUrl.split('?')[0]; // pre-signed URL에서 쿼리 부분을 제외한 URL을 추출합니다.
+  } catch (error) {
+    console.error('이미지 업로드 및 URL 저장 실패:', error);
+  }
+};
+
+// 이미지 PUT요청
+const uploadImage = async (presignedUrl, file) => {
+  try {
+    console.log('presignedUrl, file:', presignedUrl, file)
+    const response = await fetch(presignedUrl, {
+      method: 'PUT', // 사전 서명된 URL에 대한 HTTP 메소드는 PUT입니다.
+      headers: {
+        'Content-Type': 'multipart/form-data' // 필요한 경우에만 Content-Type 지정
+      },
+      body: file, // 파일 데이터를 직접 바디에 포함
+      mode: 'cors'
+    })
+    console.log('이미지 업로드 성공:', response);
+  } catch (error) {
+    console.error('이미지 업로드 실패:', error);
+    throw error;
+  }
+};
 </script>
 
 <template>
@@ -73,25 +113,19 @@ const submitForm = async () => {
     <div class="container" style="border: 2px solid #000000">
       <div class="row">
         <div class="col-lg-7 mx-auto d-flex justify-content-center flex-column">
-          <form
-            role="form"
-            id="contact-form"
-            method="post"
-            autocomplete="off"
-            @submit.prevent="submitForm"
-          >
+          <form role="form" id="contact-form" method="post" autocomplete="off" @submit.prevent="submitForm">
             <div class="card-body py-3">
               <h3 class="text-dark" style="margin-bottom: 50px">게시글 제목</h3>
               <div class="row">
                 <div class="col-md-6">
                   <h6>게시글 제목</h6>
                   <MaterialInput
-                    v-model="formData.title"
-                    :value="formData.title"
-                    @input="formData.title = $event.target.value"
-                    class="input-group-dynamic"
-                    id="title"
-                    style="
+                      v-model="formData.title"
+                      :value="formData.title"
+                      @input="formData.title = $event.target.value"
+                      class="input-group-dynamic"
+                      id="title"
+                      style="
                       border: 2px solid #000000;
                       width: 100%;
                       max-width: 400px;
@@ -101,21 +135,21 @@ const submitForm = async () => {
                 <div class="col-md-6"></div>
               </div>
               <div class="row">
-                <!--                <div class="col-md-6">-->
-                <!--                  <h6>이미지 선택</h6>-->
-                <!--                  <input type="file" accept="image/*" @change="handleFileUpload">-->
-                <!--                </div>-->
+                <div class="col-md-6">
+                  <h6>이미지 선택</h6>
+                  <input type="file" accept="image/*" @change="handleFileUpload">
+                </div>
               </div>
               <div class="row">
                 <div class="mb-4 col-md-6">
                   <h6>가격</h6>
                   <MaterialInput
-                    v-model="formData.price"
-                    :value="formData.price"
-                    @input="formData.price = $event.target.value"
-                    class="input-group-dynamic"
-                    id="price"
-                    style="
+                      v-model="formData.price"
+                      :value="formData.price"
+                      @input="formData.price = $event.target.value"
+                      class="input-group-dynamic"
+                      id="price"
+                      style="
                       border: 2px solid #000000;
                       width: 100%;
                       max-width: 400px;
@@ -124,17 +158,9 @@ const submitForm = async () => {
                 </div>
                 <div class="mb-4 col-md-6">
                   <h6>카테고리</h6>
-                  <select
-                    v-model="formData.category"
-                    class="form-select"
-                    aria-label="카테고리 선택"
-                  >
+                  <select v-model="formData.category" class="form-select" aria-label="카테고리 선택">
                     <option disabled value="">카테고리 선택</option>
-                    <option
-                      v-for="category in categories"
-                      :key="category.value"
-                      :value="category.value"
-                    >
+                    <option v-for="category in categories" :key="category.value" :value="category.value">
                       {{ category.label }}
                     </option>
                   </select>
@@ -144,18 +170,18 @@ const submitForm = async () => {
               <div class="mb-4 col-md-6">
                 <h6>제품 설명</h6>
                 <MaterialTextArea
-                  v-model="formData.content"
-                  :value="formData.content"
-                  @input="formData.content = $event.target.value"
-                  class="input-group-static mb-4"
-                  id="message"
-                  style="
+                    v-model="formData.content"
+                    :value="formData.content"
+                    @input="formData.content = $event.target.value"
+                    class="input-group-static mb-4"
+                    id="message"
+                    style="
                     border: 2px solid #000000;
                     width: 100%;
                     max-width: 400px;
                     justify-content: right;
                   "
-                  :rows="10"
+                    :rows="10"
                 />
               </div>
               <!-- 여기까지 -->
@@ -168,10 +194,7 @@ const submitForm = async () => {
                           <div class="text-center">
                             <!-- 목록으로 이동하는 버튼 -->
                             <button @click="router.push('/')">
-                              <MaterialButton
-                                variant="gradient"
-                                color="secondary"
-                              >
+                              <MaterialButton variant="gradient" color="secondary">
                                 목록
                               </MaterialButton>
                             </button>
@@ -195,11 +218,12 @@ const submitForm = async () => {
     </div>
     <div class="image-preview-container">
       <div v-if="imageSrc" class="image-preview">
-        <img :src="imageSrc" alt="Image preview" />
+        <img :src="imageSrc" alt="Image preview">
       </div>
     </div>
   </section>
 </template>
+
 
 <style scoped>
 .container {
@@ -208,8 +232,9 @@ const submitForm = async () => {
 }
 
 .card-body {
-  border: 2px solid #000000;
+  border: 2px solid #000000
 }
+
 .card-body {
   border: 2px solid #000000;
 }
