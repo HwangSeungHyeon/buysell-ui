@@ -8,8 +8,8 @@
             <div class="buyer-info mb-3 mb-4">
               <h5>제품 정보</h5>
               <div class="info-content">
-                <div><strong>제품 이름:</strong> 이름 표시</div>
-                <div><strong>제품 가격:</strong> 가격 표시</div>
+                <div><strong>제품 이름:</strong> {{ post.title }}</div>
+                <div><strong>제품 가격:</strong> {{ post.price }}원</div>
               </div>
             </div>
 
@@ -43,7 +43,7 @@
             <div class="payment-info mb-3 mb-4">
               <h5>결제 정보</h5>
               <div class="info-content">
-                <div><strong>결제 금액:</strong>원</div>
+                <div><strong>결제 금액:</strong> {{ post.price }}원</div>
               </div>
             </div>
             <div class="d-flex justify-content-center mt-3">
@@ -67,10 +67,28 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
 import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
 import { useRouter } from "vue-router";
 import { getAccountBalance } from "@/views/Pay/getAccountBalance";
+
+// post 데이터를 저장할 반응형 변수
+const post = ref({
+  title: "",
+  createdName: "",
+  price: 0,
+});
+
+onMounted(() => {
+  // 세션 저장소에서 post 데이터를 가져옵니다.
+  const storedPost = sessionStorage.getItem('post');
+  if (storedPost) {
+    const parsedPost = JSON.parse(storedPost);
+    post.value.title = parsedPost.title;
+    post.value.price = parsedPost.price;
+  }
+});
 
 const { accountBalance } = getAccountBalance();
 
