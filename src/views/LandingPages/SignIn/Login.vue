@@ -23,11 +23,11 @@ const login = async () => {
     const token = response.headers["authorization"];
     // 토큰을 로컬 스토리지에 저장
     sessionStorage.setItem("token", token);
-    console.log("token2", token);
     // 로그인 성공 후 필요한 작업 수행 (예: 페이지 리디렉션 등)
+    alert("로그인에 성공했습니다")
     await router.push("/"); // 로그인 후 리다이렉트할 페이지
   } catch (error) {
-    errorMessage.value = error.message; // 로그인 실패 시 에러 메시지 표시
+    alert("로그인에 실패했습니다 아이디와 비밀번호를 확인해주세요", error); // 로그인 실패 시 에러 메시지 표시
   }
 };
 

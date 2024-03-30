@@ -16,14 +16,14 @@ const sendEmailVerification = async () => {
     };
 
     const data = { email: email.value }; // email.value를 객체로 래핑
-    console.log("data", data);
     const response = await axios.post(
       `/members/sendemail?email=${data.email}`,
       data,
       config
     );
-    console.log(response.data);
-    alert("이메일 전송에 성공했습니다 이메일 확인 후 로그인을 진행해주세요")
+    alert(
+      "이메일 인증 링크 전송에 성공했습니다 이메일 확인 후 로그인을 진행해주세요", response
+    );
     await router.push("/login");
   } catch (error) {
     alert("이메일 전송에 실패했습니다");

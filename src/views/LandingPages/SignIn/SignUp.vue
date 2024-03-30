@@ -33,12 +33,14 @@ const signUp = async () => {
     };
     // 서버로 데이터 전송
     const response = await axios.post("/members/signup", formData);
-    alert(response.data);
+   
     // /auth 경로로 이동
     await router.push("/auth");
+    alert(
+      "이메일 인증 링크 전송에 성공했습니다 이메일 확인 후 로그인을 진행해주세요", response
+    );
   } catch (error) {
-    const errorMessage = await axios.post("/members/signup");
-    alert(errorMessage.data);
+    alert("회원가입에 실패했습니다 입력한 내용을 확인해주세요");
 
   }
 };
