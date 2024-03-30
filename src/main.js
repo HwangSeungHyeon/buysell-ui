@@ -42,8 +42,10 @@ axios.interceptors.response.use(
 // 서버로부터 받은 응답에서 쿠키 값을 추출하는 함수
 const extractCookie = (cookieName) => {
   const cookies = document.cookie.split(";");
+  console.log(cookies);
   for (let cookie of cookies) {
     const [name, value] = cookie.trim().split("=");
+    console.log(name, value);
     if (name === cookieName) {
       return value;
     }
