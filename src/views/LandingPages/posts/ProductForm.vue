@@ -205,7 +205,7 @@ onMounted(async () => {
     postAuthorId.value = post.value.memberId;
     userId.value = getUserId();
   } else {
-    console.error("게시글 ID를 찾을 수 없습니다.");
+    alert("게시글 ID를 찾을 수 없습니다.");
   }
 });
 
@@ -218,7 +218,7 @@ const fetchPost = async (postId) => {
     await updateLikeStatus();
     sessionStorage.setItem("post", JSON.stringify(post.value));
   } catch (error) {
-    console.error("게시글을 불러오는데 실패했습니다:", error);
+    alert("게시글을 불러오는데 실패했습니다:", error);
   }
 };
 
@@ -231,7 +231,7 @@ const updateLikeStatus = async () => {
     // wishData가 존재하면 true, 존재하지 않으면 false로 설정
   } catch (error) {
     if(token) {
-      console.error("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
+      alert("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
     }
   }
 };
@@ -251,7 +251,11 @@ const toggleLike = async () => {
       post.value.isLiked = true; // 찜 상태를 true로 변경
     }
   } catch (error) {
-    console.error("게시글 찜 상태를 변경하는데 실패했습니다:", error);
+    if(token){
+      alert("게시글 찜 상태를 변경하는데 실패했습니다", error);
+    } else {
+      alert("로그인을 해야 이용 하실 수 있습니다", error);
+    }
   }
 };
 // Vuex 스토어 사용
@@ -270,9 +274,10 @@ const deletePost = async () => {
       return;
     }
     await axios.delete(`/posts/${postId}`);
+    alert("게시글이 삭제되었습니다");
     await router.push("/");
   } catch (error) {
-    console.error("게시글 삭제에 실패했습니다:", error);
+    alert("게시글 삭제에 실패했습니다:", error);
   }
 };
 
@@ -290,9 +295,10 @@ const addComment = async () => {
     }
     post.value.comment.push(addedComment);
     sessionStorage.setItem("post", JSON.stringify(post.value));
+    alert("댓글이 등록되었습니다");
     location.reload();
   } catch (error) {
-    console.error("댓글을 등록하는데 실패했습니다:", error);
+    alert("댓글을 등록하는데 실패했습니다", error);
   }
 };
 const toggleEditMode = (comment) => {
@@ -313,11 +319,12 @@ const updateComment = async (comment) => {
     // 서버에서 수정된 댓글을 받아온 후, 해당 댓글 객체를 업데이트합니다.
     const updatedComment = response.data;
     // 수정이 완료되면 수정 모드를 해제합니다.
+    alert("댓글이 수정되었습니다", updatedComment)
     comment.editMode = false;
     // 수정이 완료되면 해당 게시물의 정보를 다시 불러와서 최신 정보를 반영합니다.
     await fetchPost(postId);
   } catch (error) {
-    console.error("댓글을 업데이트하는데 실패했습니다:", error);
+    alert("댓글을 수정하는데 실패했습니다", error);
   }
 };
 
@@ -329,9 +336,10 @@ const deleteComment = async (comment) => {
     const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
     // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.
     const deleteComment = response.data;
+    alert("댓글이 삭제되었습니다", deleteComment);
     await fetchPost(postId);
   } catch (error) {
-    console.error("댓글을 삭제하는데 실패했습니다:", error);
+    alert("댓글을 삭제하는데 실패했습니다", error);
   }
 };
 
