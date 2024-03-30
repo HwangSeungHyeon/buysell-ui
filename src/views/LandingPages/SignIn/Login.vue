@@ -44,8 +44,11 @@ const googleLogin = async () => {
 
 const kakaoLogin = async () =>{
   try{
-    window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/kakao`;
-  }catch(error){
+    const response = await axios.get(`/members/kakao/callback`);
+    const token = response.headers["authorization"];
+    sessionStorage.setItem(token);
+    await router.push("/");
+  } catch (error) {
     errorMessage.value = error.message;
   }
 }
