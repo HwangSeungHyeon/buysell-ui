@@ -23,9 +23,10 @@ const sendEmailVerification = async () => {
       config
     );
     console.log(response.data);
+    alert("이메일 전송에 성공했습니다 이메일 확인 후 로그인을 진행해주세요")
     await router.push("/login");
   } catch (error) {
-    console.log(error);
+    alert("이메일 전송에 실패했습니다");
   }
 };
 </script>

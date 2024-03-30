@@ -31,14 +31,15 @@ const signUp = async () => {
       gender: gender.value,
       birthday: birthday.value,
     };
-    console.log("form", formData);
     // 서버로 데이터 전송
     const response = await axios.post("/members/signup", formData);
-    console.log("이메일 인증 필요:", response.data);
+    alert(response.data);
     // /auth 경로로 이동
     await router.push("/auth");
   } catch (error) {
-    console.error("회원가입 실패:", error);
+    const errorMessage = await axios.post("/members/signup");
+    alert(errorMessage.data);
+
   }
 };
 
