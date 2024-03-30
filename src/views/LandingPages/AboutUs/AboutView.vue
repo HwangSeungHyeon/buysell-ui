@@ -9,6 +9,7 @@ import bg0 from "@/assets/img/bg9.jpg";
 
 //dep
 import Typed from "typed.js";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 //sections
 
@@ -36,7 +37,13 @@ onUnmounted(() => {
 });
 </script>
 <template>
-  <DefaultNavbar transparent />
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <header class="bg-gradient-dark">
     <div
       :style="{ backgroundImage: `url(${bg0})` }"
