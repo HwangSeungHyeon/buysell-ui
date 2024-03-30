@@ -14,6 +14,10 @@
       </div>
       <div class="product-info py-6">
         <div class="product-details">
+          <div>
+            <!-- 이미지를 화면 너비에 맞춰 표시 -->
+            <img :src="post.imageUrl" :style="{ width: '100%' }" alt="Image">
+          </div>
           <p style="font-weight: bold">가격: ₩{{ post.price }}</p>
           <p style="font-weight: bold; margin-right: 50px">
             내용: {{ post.content }}
@@ -21,14 +25,17 @@
         </div>
       </div>
       <!-- 구매하기 버튼 -->
-      <div class="text-sm-end mb-5">
-        <material-button
-          variant="gradient"
-          color="primary"
-          style="margin-right: 100px"
-          @click="purchase"
-          >구매하기</material-button
-        >
+      <div>
+        <!-- 게시글 작성자인 경우에만 구매하기 버튼을 표시 -->
+        <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout">
+<!--        <div v-else-if="post.isSoldout = false">-->
+          <material-button
+              variant="gradient"
+              color="primary"
+              style="margin-right: 100px"
+              @click="purchase"
+          >구매하기</material-button>
+        </div>
       </div>
 
       <!-- 게시글 수정, 찜하기 -->
@@ -158,12 +165,12 @@
 <script setup>
 import MaterialButton from "@/components/MaterialButton.vue";
 import axios from "axios";
-import { onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
 import getUserId from "./getUserId";
-import {useStore} from "vuex";
+import { useStore } from "vuex";
 
 const route = useRoute();
 const post = ref({
@@ -174,6 +181,7 @@ const post = ref({
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
+  isSoldout: Boolean
 });
 
 const token = sessionStorage.getItem("token");
@@ -182,8 +190,18 @@ const postAuthorId = ref(null);
 
 onMounted(async () => {
   let postId = route.params.postId;
+
+  // 라우트에서 postId를 찾을 수 없다면, 세션 스토리지를 확인합니다.
+  if (!postId) {
+    const savedPost = JSON.parse(sessionStorage.getItem("post"));
+    if (savedPost) {
+      postId = savedPost.id;
+    }
+  }
+
+  // 유효한 postId가 결정되면, 해당 postId로 게시물 정보를 가져옵니다.
   if (postId) {
-    await fetchPost(postId);
+    await fetchPost(postId); //<- 여기서 post get 요청 1번 발생
     postAuthorId.value = post.value.memberId;
     userId.value = getUserId();
   } else {
@@ -242,22 +260,6 @@ const purchase = () => {
   store.commit('allowAccess');
   router.push({ path: `/posts/${post.value.id}/purchase` });
 };
-
-
-onMounted(async () => {
-  let postId = route.params.postId;
-  if (!postId) {
-    const savedPost = JSON.parse(sessionStorage.getItem("post"));
-    if (savedPost) {
-      postId = savedPost.id;
-    }
-  }
-  if (postId) {
-    await fetchPost(postId);
-  } else {
-    console.error("게시글 ID를 찾을 수 없습니다.");
-  }
-});
 
 const deletePost = async () => {
   try {

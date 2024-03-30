@@ -71,9 +71,10 @@
       <div class="col-lg-10">
         <div class="row">
           <div v-for="post in posts" :key="post.id" class="col-md-3 mb-4" @click="handlePostClick(post.id)">
-            <div class="card shadow-sm">
+            <div class="card shadow-sm" :class="{ 'sold-out': post.isSoldOut }">
               <div class="card-img-top-container">
                 <img :src="post.imageUrl" class="card-img-top" alt="게시글 이미지">
+                <div v-if="post.isSoldOut" class="overlay-text">판매완료</div>
               </div>
               <div class="card-body">
                 <p class="card-title text-center" style="font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
@@ -114,7 +115,6 @@ import Header from "../../examples/Header.vue";
 import vueMkHeader from "@/assets/img/vue-mk-header.jpg";
 import setNavPills from "@/assets/js/nav-pills.js";
 import moment from "moment";
-import "moment/locale/ko";
 
 const router = useRouter();
 const body = document.getElementsByTagName("body")[0];
@@ -242,5 +242,36 @@ const handlePostClick = async (postId) => {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.card-img-top-container::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 회색 오버레이 */
+  opacity: 0; /* 기본 상태에서는 보이지 않음 */
+}
+
+.sold-out {
+  background-color: #cccccc; /* 회색 배경 */
+  color: #ffffff; /* 흰색 텍스트 */
+}
+
+.sold-out .card-img-top-container::after {
+  opacity: 1; /* sold-out 클래스가 있을 때만 오버레이 표시 */
+}
+
+.overlay-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: bold;
 }
 </style>
