@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import PresentationView from "../views/Presentation/PresentationView.vue";
 import AboutView from "../views/LandingPages/AboutUs/AboutView.vue";
 import ContactView from "../views/LandingPages/ContactUs/ContactView.vue";
@@ -24,8 +24,8 @@ import ElToggles from "../layouts/sections/elements/toggles/TogglesView.vue";
 import ElTypography from "../layouts/sections/elements/typography/TypographyView.vue";
 import SignUp from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUpAuth from "@/views/LandingPages/SignIn/SignUpAuth.vue";
-import OrderForm from "@/views/LandingPages/posts/orders/OrderForm.vue";
-import PurchaseForm from "@/views/LandingPages/posts/orders/PurchaseForm.vue";
+import CreatePost from "@/views/LandingPages/posts/CreatePost.vue";
+import PurchaseForm from "@/views/LandingPages/posts/PurchaseForm.vue";
 import ProductForm from "@/views/LandingPages/posts/ProductForm.vue";
 import PostEditForm from "@/views/LandingPages/posts/PostEditForm.vue";
 import FourTPay from "@/views/Pay/FourTPay.vue";
@@ -35,6 +35,9 @@ import Login from "@/views/LandingPages/SignIn/Login.vue";
 import WishListView from "@/views/WishList/WishListView.vue";
 import MySalesView from "@/views/MySales/MySalesView.vue";
 import SearchResults from "@/views/Presentation/SearchResults.vue";
+import OtherSalesView from "@/views/MySales/OtherSalesView.vue";
+import store from "@/store";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -169,9 +172,9 @@ const router = createRouter({
       component: SignUpAuth,
     },
     {
-      path: "/orders",
-      name: "orders",
-      component: OrderForm,
+      path: "/createPost",
+      name: "createPost",
+      component: CreatePost,
     },
     {
       path: `/posts/:postId`,
@@ -179,9 +182,22 @@ const router = createRouter({
       component: ProductForm,
     },
     {
-      path: "/purchase",
+      path: "/posts/:postId/purchase",
       name: "purchase",
       component: PurchaseForm,
+      beforeEnter: (to, from, next) => {
+        if (store.state.isAccessAllowed){
+          next();
+        } else{
+          alert("접근이 제한되었습니다.");
+          next('/');
+        }
+      }
+    },
+    {
+      path: "/posts/:postId/orders",
+      name: "orders",
+      component: PresentationView
     },
     {
       path: "/postedit",
@@ -216,12 +232,20 @@ const router = createRouter({
     {
       path: "/posts/search",
       name: "search",
-      component: SearchResults
-    }
+      component: SearchResults,
+    },
+    {
+      path: "/othersales/:memberId",
+      name: "othersales",
+      component: OtherSalesView,
+    },
   ],
 });
 
 router.beforeEach((to, from, next) => {
+  if (from.path.startsWith('/posts/') && from.name === 'purchase') {
+    store.commit('denyAccess');
+  }
   if (to.path === '/posts/search' && !to.query.keyword) {
     next({ path: '/' }); // 메인 페이지로 리디렉션
   } else {

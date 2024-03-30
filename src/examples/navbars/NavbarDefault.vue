@@ -49,7 +49,7 @@
               class="nav-item d-flex align-items-center me-2"
               v-if="isAuthenticated"
             >
-              <router-link to="/orders">
+              <router-link to="/createPost">
                 <MaterialButton
                   class="btn btn-sm mb-0"
                   variant="gradient"
@@ -210,13 +210,14 @@ import MaterialButton from "@/components/MaterialButton.vue";
 
 const isAuthenticated = ref(false);
 
-if (sessionStorage.getItem("token")) {
+if (localStorage.getItem("token")) {
   isAuthenticated.value = true;
 }
 
 function logout() {
-  sessionStorage.removeItem("token");
+  localStorage.removeItem("token");
   isAuthenticated.value = false;
+  alert("로그아웃 되었습니다.");
 }
 
 const props = defineProps({

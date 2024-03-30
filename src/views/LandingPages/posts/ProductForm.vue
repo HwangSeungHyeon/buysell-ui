@@ -1,4 +1,11 @@
 <template>
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <section>
     <!-- 상품 정보 표시 -->
     <div class="container py-3" style="width: 60%">
@@ -6,12 +13,18 @@
         <div class="post-title">
           <h4>상품명: {{ post.title }}</h4>
         </div>
-        <div class="post-author">
-          <h4>작성자: {{ post.createdName }}</h4>
-        </div>
+        <router-link :to="{ path: `/othersales/${post.memberId}` }">
+          <div class="post-author">
+            <h4>작성자: {{ post.createdName }}</h4>
+          </div>
+        </router-link>
       </div>
       <div class="product-info py-6">
         <div class="product-details">
+          <div>
+            <!-- 이미지를 화면 너비에 맞춰 표시 -->
+            <img :src="post.imageUrl" :style="{ width: '60%' }" alt="Image">
+          </div>
           <p style="font-weight: bold">가격: ₩{{ post.price }}</p>
           <p style="font-weight: bold; margin-right: 50px">
             내용: {{ post.content }}
@@ -19,13 +32,17 @@
         </div>
       </div>
       <!-- 구매하기 버튼 -->
-      <div class="text-sm-end mb-5">
-        <material-button
-          variant="gradient"
-          color="primary"
-          style="margin-right: 100px"
-        >구매하기</material-button
-        >
+      <div>
+        <!-- 게시글 작성자는 구매하기 버튼을 볼 수 없게 표시 -->
+        <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout">
+<!--        <div v-else-if="post.isSoldout = false">-->
+          <material-button
+              variant="gradient"
+              color="primary"
+              style="margin-right: 100px"
+              @click="handlePurchaseSubmission"
+          >구매하기</material-button>
+        </div>
       </div>
 
       <!-- 게시글 수정, 찜하기 -->
@@ -84,16 +101,18 @@
       <div class="comment-form mb-5">
         <div class="input-group">
           <material-input
-            v-model="newComment"
-            class="material-input mb-3"
-            placeholder="댓글을 입력하세요..."
-            style="border: 2px solid #000000"
-            :value="newComment"
-            @input="newComment = $event.target.value"
+              v-model="newComment"
+              class="material-input mb-3"
+              placeholder="댓글을 입력하세요..."
+              style="border: 2px solid #000000"
+              :value="newComment"
+              @input="newComment = $event.target.value"
           ></material-input>
-          <material-button @click="addComment" variant="gradient" color="dark"
-          >댓글 등록</material-button
-          >
+          <material-button
+              @click="handleCommentSubmission"
+              variant="gradient"
+              color="dark"
+          >댓글 등록</material-button>
         </div>
       </div>
       <!-- 댓글 내용 -->
@@ -160,6 +179,8 @@ import { useRoute } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
 import getUserId from "./getUserId";
+import { useStore } from "vuex";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 const route = useRoute();
 const post = ref({
   memberId: 0,
@@ -169,54 +190,58 @@ const post = ref({
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
+  isSoldout: Boolean
 });
 
-const token = sessionStorage.getItem("token");
-console.log("확인");
+const token = localStorage.getItem("token");
 const userId = ref(null);
 const postAuthorId = ref(null);
 
-
 onMounted(async () => {
   let postId = route.params.postId;
+
+  // 라우트에서 postId를 찾을 수 없다면, 세션 스토리지를 확인합니다.
+  if (!postId) {
+    const savedPost = JSON.parse(localStorage.getItem("post"));
+    if (savedPost) {
+      postId = savedPost.id;
+    }
+  }
+
+  // 유효한 postId가 결정되면, 해당 postId로 게시물 정보를 가져옵니다.
   if (postId) {
-    await fetchPost(postId);
+    await fetchPost(postId); //<- 여기서 post get 요청 1번 발생
     postAuthorId.value = post.value.memberId;
     userId.value = getUserId();
   } else {
-    console.error("게시글 ID를 찾을 수 없습니다.");
+    alert("게시글 ID를 찾을 수 없습니다.");
   }
 });
-
 
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
   try {
     const response = await axios.get(`/posts/${postId}`);
-    console.log("res1", response.data);
     post.value = response.data;
     // 포스트를 가져온 후 찜 상태를 업데이트
     await updateLikeStatus();
-    console.log("postUserId: ", postAuthorId);
-    sessionStorage.setItem("post", JSON.stringify(post.value));
-    console.log("post", post.value);
+    localStorage.setItem("post", JSON.stringify(post.value));
   } catch (error) {
-    console.error("게시글을 불러오는데 실패했습니다:", error);
+    alert("게시글을 불러오는데 실패했습니다:", error);
   }
 };
-
 
 const updateLikeStatus = async () => {
   try {
     const postId = route.params.postId;
     const response = await axios.get(`/posts/${postId}/my/wishlist`);
     const wishData = response.data;
-    console.log("wishdata", wishData);
     post.value.isLiked = wishData.id !== -9;
     // wishData가 존재하면 true, 존재하지 않으면 false로 설정
-    console.log("pvi", post.value.isLiked);
   } catch (error) {
-    console.error("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
+    if(token) {
+      alert("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
+    }
   }
 };
 
@@ -225,7 +250,6 @@ const toggleLike = async () => {
     const postId = route.params.postId;
     const response = await axios.get(`/posts/${postId}/my/wishlist`);
     const wishData = response.data;
-    console.log("wis", wishData);
     // wishData가 postId와 일치하는 경우 찜 상태가 이미 존재하므로 찜을 해제해야 함
     if (wishData.id !== -9) {
       await axios.delete(`/posts/${postId}/my/wishlist`);
@@ -236,23 +260,58 @@ const toggleLike = async () => {
       post.value.isLiked = true; // 찜 상태를 true로 변경
     }
   } catch (error) {
-    console.error("게시글 찜 상태를 변경하는데 실패했습니다:", error);
+    if(token){
+      alert("게시글 찜 상태를 변경하는데 실패했습니다", error);
+    } else {
+      alert("로그인을 해야 이용 하실 수 있습니다", error);
+    }
+  }
+};
+// Vuex 스토어 사용
+const handlePurchaseSubmission = () => {
+  // 로그인 여부 확인
+  const isLoggedIn = localStorage.getItem("token") !== null;
+  if (isLoggedIn) {
+    // 로그인한 경우: 댓글을 등록하는 로직 실행
+    purchase();
+  } else {
+    // 로그인하지 않은 경우: 메시지 표시 및 로그인 화면으로 이동
+    alert("로그인 후 이용 가능합니다.");
+    router.push("/login"); // 로그인 화면으로 이동
   }
 };
 
+const store = useStore();
+const purchase = () => {
+  store.commit('allowAccess');
+  router.push({ path: `/posts/${post.value.id}/purchase` });
+};
 
 const deletePost = async () => {
   try {
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
-    const token = sessionStorage.getItem("token");
+    const postId = JSON.parse(localStorage.getItem("post")).id;
+    const token = localStorage.getItem("token");
     if (!token) {
       await router.push("/login");
       return;
     }
     await axios.delete(`/posts/${postId}`);
+    alert("게시글이 삭제되었습니다");
     await router.push("/");
   } catch (error) {
-    console.error("게시글 삭제에 실패했습니다:", error);
+    alert("게시글 삭제에 실패했습니다:", error);
+  }
+};
+const handleCommentSubmission = () => {
+  // 로그인 여부 확인
+  const isLoggedIn = localStorage.getItem("token") !== null;
+  if (isLoggedIn) {
+    // 로그인한 경우: 댓글을 등록하는 로직 실행
+    addComment();
+  } else {
+    // 로그인하지 않은 경우: 메시지 표시 및 로그인 화면으로 이동
+    alert("로그인 후 이용 가능합니다.");
+    router.push("/login"); // 로그인 화면으로 이동
   }
 };
 
@@ -269,10 +328,11 @@ const addComment = async () => {
       post.value.comments = [];
     }
     post.value.comment.push(addedComment);
-    sessionStorage.setItem("post", JSON.stringify(post.value));
-    location.reload();
+    localStorage.setItem("post", JSON.stringify(post.value));
+    alert("댓글이 등록되었습니다");
+    await fetchPost(postId);
   } catch (error) {
-    console.error("댓글을 등록하는데 실패했습니다:", error);
+    alert("댓글을 등록하는데 실패했습니다", error);
   }
 };
 const toggleEditMode = (comment) => {
@@ -285,38 +345,35 @@ const toggleEditMode = (comment) => {
 
 const updateComment = async (comment) => {
   try {
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const postId = JSON.parse(localStorage.getItem("post")).id;
     const commentId = comment.id;
-    console.log("cid", commentId);
     const response = await axios.put(`/posts/${postId}/comments/${commentId}`, {
       content: comment.newContent,
     });
     // 서버에서 수정된 댓글을 받아온 후, 해당 댓글 객체를 업데이트합니다.
     const updatedComment = response.data;
-    console.log("upc", updatedComment);
     // 수정이 완료되면 수정 모드를 해제합니다.
+    alert("댓글이 수정되었습니다", updatedComment)
     comment.editMode = false;
-    console.log(updatedComment);
-
     // 수정이 완료되면 해당 게시물의 정보를 다시 불러와서 최신 정보를 반영합니다.
     await fetchPost(postId);
   } catch (error) {
-    console.error("댓글을 업데이트하는데 실패했습니다:", error);
+    alert("댓글을 수정하는데 실패했습니다", error);
   }
 };
 
 const deleteComment = async (comment) => {
   try {
     // 서버에서 댓글을 삭제합니다.
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const postId = JSON.parse(localStorage.getItem("post")).id;
     const commentId = comment.id;
     const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
     // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.
     const deleteComment = response.data;
-    console.log(deleteComment);
+    alert("댓글이 삭제되었습니다", deleteComment);
     await fetchPost(postId);
   } catch (error) {
-    console.error("댓글을 삭제하는데 실패했습니다:", error);
+    alert("댓글을 삭제하는데 실패했습니다", error);
   }
 };
 
