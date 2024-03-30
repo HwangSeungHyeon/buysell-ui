@@ -49,7 +49,7 @@
               class="nav-item d-flex align-items-center me-2"
               v-if="isAuthenticated"
             >
-              <router-link to="/orders">
+              <router-link to="/createPost">
                 <MaterialButton
                   class="btn btn-sm mb-0"
                   variant="gradient"

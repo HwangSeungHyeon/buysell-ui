@@ -16,7 +16,7 @@
         <div class="product-details">
           <div>
             <!-- 이미지를 화면 너비에 맞춰 표시 -->
-            <img :src="post.imageUrl" :style="{ width: '100%' }" alt="Image">
+            <img :src="post.imageUrl" :style="{ width: '60%' }" alt="Image">
           </div>
           <p style="font-weight: bold">가격: ₩{{ post.price }}</p>
           <p style="font-weight: bold; margin-right: 50px">
@@ -26,14 +26,14 @@
       </div>
       <!-- 구매하기 버튼 -->
       <div>
-        <!-- 게시글 작성자인 경우에만 구매하기 버튼을 표시 -->
+        <!-- 게시글 작성자는 구매하기 버튼을 볼 수 없게 표시 -->
         <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout">
 <!--        <div v-else-if="post.isSoldout = false">-->
           <material-button
               variant="gradient"
               color="primary"
               style="margin-right: 100px"
-              @click="purchase"
+              @click="handlePurchaseSubmission"
           >구매하기</material-button>
         </div>
       </div>
@@ -94,16 +94,18 @@
       <div class="comment-form mb-5">
         <div class="input-group">
           <material-input
-            v-model="newComment"
-            class="material-input mb-3"
-            placeholder="댓글을 입력하세요..."
-            style="border: 2px solid #000000"
-            :value="newComment"
-            @input="newComment = $event.target.value"
+              v-model="newComment"
+              class="material-input mb-3"
+              placeholder="댓글을 입력하세요..."
+              style="border: 2px solid #000000"
+              :value="newComment"
+              @input="newComment = $event.target.value"
           ></material-input>
-          <material-button @click="addComment" variant="gradient" color="dark"
-          >댓글 등록</material-button
-          >
+          <material-button
+              @click="handleCommentSubmission"
+              variant="gradient"
+              color="dark"
+          >댓글 등록</material-button>
         </div>
       </div>
       <!-- 댓글 내용 -->
@@ -253,6 +255,19 @@ const toggleLike = async () => {
   }
 };
 // Vuex 스토어 사용
+const handlePurchaseSubmission = () => {
+  // 로그인 여부 확인
+  const isLoggedIn = sessionStorage.getItem("token") !== null;
+  if (isLoggedIn) {
+    // 로그인한 경우: 댓글을 등록하는 로직 실행
+    purchase();
+  } else {
+    // 로그인하지 않은 경우: 메시지 표시 및 로그인 화면으로 이동
+    alert("로그인 후 이용 가능합니다.");
+    router.push("/login"); // 로그인 화면으로 이동
+  }
+};
+
 const store = useStore();
 const purchase = () => {
   store.commit('allowAccess');
@@ -271,6 +286,18 @@ const deletePost = async () => {
     await router.push("/");
   } catch (error) {
     console.error("게시글 삭제에 실패했습니다:", error);
+  }
+};
+const handleCommentSubmission = () => {
+  // 로그인 여부 확인
+  const isLoggedIn = sessionStorage.getItem("token") !== null;
+  if (isLoggedIn) {
+    // 로그인한 경우: 댓글을 등록하는 로직 실행
+    addComment();
+  } else {
+    // 로그인하지 않은 경우: 메시지 표시 및 로그인 화면으로 이동
+    alert("로그인 후 이용 가능합니다.");
+    router.push("/login"); // 로그인 화면으로 이동
   }
 };
 

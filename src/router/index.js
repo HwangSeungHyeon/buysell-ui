@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import PresentationView from "../views/Presentation/PresentationView.vue";
 import AboutView from "../views/LandingPages/AboutUs/AboutView.vue";
 import ContactView from "../views/LandingPages/ContactUs/ContactView.vue";
@@ -24,8 +24,8 @@ import ElToggles from "../layouts/sections/elements/toggles/TogglesView.vue";
 import ElTypography from "../layouts/sections/elements/typography/TypographyView.vue";
 import SignUp from "@/views/LandingPages/SignIn/SignUp.vue";
 import SignUpAuth from "@/views/LandingPages/SignIn/SignUpAuth.vue";
-import OrderForm from "@/views/LandingPages/posts/orders/OrderForm.vue";
-import PurchaseForm from "@/views/LandingPages/posts/orders/PurchaseForm.vue";
+import CreatePost from "@/views/LandingPages/posts/CreatePost.vue";
+import PurchaseForm from "@/views/LandingPages/posts/PurchaseForm.vue";
 import ProductForm from "@/views/LandingPages/posts/ProductForm.vue";
 import PostEditForm from "@/views/LandingPages/posts/PostEditForm.vue";
 import FourTPay from "@/views/Pay/FourTPay.vue";
@@ -37,6 +37,7 @@ import MySalesView from "@/views/MySales/MySalesView.vue";
 import SearchResults from "@/views/Presentation/SearchResults.vue";
 import OtherSalesView from "@/views/MySales/OtherSalesView.vue";
 import store from "@/store";
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -171,9 +172,9 @@ const router = createRouter({
       component: SignUpAuth,
     },
     {
-      path: "/orders",
-      name: "orders",
-      component: OrderForm,
+      path: "/createPost",
+      name: "createPost",
+      component: CreatePost,
     },
     {
       path: `/posts/:postId`,
