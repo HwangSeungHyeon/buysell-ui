@@ -16,7 +16,7 @@ axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 axios.interceptors.request.use(
   function (config) {
     // 요청을 보내기 전에 수행할 작업을 여기에 작성합니다.
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -56,8 +56,8 @@ const token = extractCookie("token");
 
 if (token) {
   // 토큰을 session storage에 저장합니다.
-  sessionStorage.setItem("token", token);
-  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  localStorage.setItem("token", token);
+  // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 
 

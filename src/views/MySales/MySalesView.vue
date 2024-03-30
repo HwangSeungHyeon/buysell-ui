@@ -18,7 +18,7 @@ import setNavPills from "@/assets/js/nav-pills.js";
 onMounted(() => {
   setNavPills();
 });
-const token = sessionStorage.getItem("token");
+const token = localStorage.getItem("token");
 const decodedToken = useJwt(token);
 const memberId = ref(decodedToken?.payload?.value?.sub);
 const posts = ref([]);

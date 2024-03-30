@@ -7,7 +7,7 @@ export function chargeAccount(){
     const router = useRouter();
 
     const submitForm = async () => {
-        const token = sessionStorage.getItem("token");
+        const token = localStorage.getItem("token");
         if (!token) {
             alert("로그인 정보가 만료되었습니다. 다시 로그인을 해주세요.");
             await router.push("/login");
