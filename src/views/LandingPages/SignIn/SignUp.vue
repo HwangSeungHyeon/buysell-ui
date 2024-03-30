@@ -12,6 +12,7 @@ import MaterialButton from "@/components/MaterialButton.vue";
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
 import router from "@/router";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 onMounted(() => {
   setMaterialInput();
@@ -31,14 +32,17 @@ const signUp = async () => {
       gender: gender.value,
       birthday: birthday.value,
     };
-    console.log("form", formData);
     // 서버로 데이터 전송
     const response = await axios.post("/members/signup", formData);
-    console.log("이메일 인증 필요:", response.data);
+   
     // /auth 경로로 이동
     await router.push("/auth");
+    alert(
+      "이메일 인증 링크 전송에 성공했습니다 이메일 확인 후 로그인을 진행해주세요", response
+    );
   } catch (error) {
-    console.error("회원가입 실패:", error);
+    alert("회원가입에 실패했습니다 입력한 내용을 확인해주세요");
+
   }
 };
 
@@ -47,6 +51,13 @@ const back = async () => {
 };
 </script>
 <template>
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <Header>
     <div
       class="page-header align-items-start min-vh-100"

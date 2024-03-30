@@ -4,6 +4,7 @@ import axios from "axios";
 import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 const email = ref("");
 
@@ -14,22 +15,31 @@ const sendEmailVerification = async () => {
         "Content-Type": "application/json",
       },
     };
-    console.log("email", email.value);
+
+    const data = { email: email.value }; // email.value를 객체로 래핑
     const response = await axios.post(
-      `/members/sendemail`,
-      email.value,
-      {},
+      `/members/sendemail?email=${data.email}`,
+      data,
       config
     );
-    console.log(response.data);
+    alert(
+      "이메일 인증 링크 전송에 성공했습니다 이메일 확인 후 로그인을 진행해주세요", response
+    );
     await router.push("/login");
   } catch (error) {
-    console.log(error);
+    alert("이메일 전송에 실패했습니다");
   }
 };
 </script>
 
 <template>
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <Header>
     <div
       class="page-header align-items-start min-vh-100"
