@@ -330,7 +330,7 @@ const addComment = async () => {
     post.value.comment.push(addedComment);
     sessionStorage.setItem("post", JSON.stringify(post.value));
     alert("댓글이 등록되었습니다");
-    location.reload();
+    await fetchPost(postId);
   } catch (error) {
     alert("댓글을 등록하는데 실패했습니다", error);
   }

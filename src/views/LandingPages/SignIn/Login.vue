@@ -41,9 +41,6 @@ const googleLogin = async () => {
   }
 };
 
-// 페이지 로딩 시 토큰을 서버로부터 받아와 sessionStorage에 저장
-// 페이지가 로드될 때 실행
-
 const kakaoLogin = async () =>{
   try{
     window.location.href = "http://localhost:8080/oauth2/authorization/kakao"
@@ -51,9 +48,6 @@ const kakaoLogin = async () =>{
     errorMessage.value = error.message;
   }
 }
-
-
-
 const naverLogin = async () => {
   try {
     window.location.href = "http://localhost:8080/oauth2/authorization/naver";

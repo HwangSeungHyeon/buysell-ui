@@ -217,6 +217,7 @@ if (sessionStorage.getItem("token")) {
 function logout() {
   sessionStorage.removeItem("token");
   isAuthenticated.value = false;
+  alert("로그아웃 되었습니다.");
 }
 
 const props = defineProps({
