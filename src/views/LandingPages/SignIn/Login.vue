@@ -12,6 +12,7 @@ const password = ref("");
 const errorMessage = ref("");
 const router = useRouter();
 
+
 setMaterialInput();
 const login = async () => {
   try {
@@ -35,7 +36,7 @@ const login = async () => {
 
 const googleLogin = async () => {
   try {
-    window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/google`;
+    window.location.href = `${axios.defaults.appApiURL}/oauth2/authorization/google`;
   } catch (error) {
     errorMessage.value = error.message;
   }
@@ -43,14 +44,14 @@ const googleLogin = async () => {
 
 const kakaoLogin = async () =>{
   try{
-    window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/kakao`;
+    window.location.href = `${axios.defaults.appApiURL}/oauth2/authorization/kakao`;
   }catch(error){
     errorMessage.value = error.message;
   }
 }
 const naverLogin = async () => {
   try {
-    window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/naver`;
+    window.location.href = `${axios.defaults.appApiURL}/oauth2/authorization/naver`;
   } catch (error) {
     errorMessage.value = error.message;
   }
