@@ -8,7 +8,7 @@ import MaterialInput from "@/components/MaterialInput.vue";
 import { useJwt } from "@vueuse/integrations/useJwt";
 import { ref } from "vue";
 import axios from "axios";
-const token = sessionStorage.getItem("token");
+const token = localStorage.getItem("token");
 const decodedToken = useJwt(token);
 const currentNickname = ref(decodedToken?.payload?.value?.sub);
 const newNickname = ref("");

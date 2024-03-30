@@ -193,7 +193,7 @@ const post = ref({
   isSoldout: Boolean
 });
 
-const token = sessionStorage.getItem("token");
+const token = localStorage.getItem("token");
 const userId = ref(null);
 const postAuthorId = ref(null);
 
@@ -202,7 +202,7 @@ onMounted(async () => {
 
   // 라우트에서 postId를 찾을 수 없다면, 세션 스토리지를 확인합니다.
   if (!postId) {
-    const savedPost = JSON.parse(sessionStorage.getItem("post"));
+    const savedPost = JSON.parse(localStorage.getItem("post"));
     if (savedPost) {
       postId = savedPost.id;
     }
@@ -225,7 +225,7 @@ const fetchPost = async (postId) => {
     post.value = response.data;
     // 포스트를 가져온 후 찜 상태를 업데이트
     await updateLikeStatus();
-    sessionStorage.setItem("post", JSON.stringify(post.value));
+    localStorage.setItem("post", JSON.stringify(post.value));
   } catch (error) {
     alert("게시글을 불러오는데 실패했습니다:", error);
   }
@@ -270,7 +270,7 @@ const toggleLike = async () => {
 // Vuex 스토어 사용
 const handlePurchaseSubmission = () => {
   // 로그인 여부 확인
-  const isLoggedIn = sessionStorage.getItem("token") !== null;
+  const isLoggedIn = localStorage.getItem("token") !== null;
   if (isLoggedIn) {
     // 로그인한 경우: 댓글을 등록하는 로직 실행
     purchase();
@@ -289,8 +289,8 @@ const purchase = () => {
 
 const deletePost = async () => {
   try {
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
-    const token = sessionStorage.getItem("token");
+    const postId = JSON.parse(localStorage.getItem("post")).id;
+    const token = localStorage.getItem("token");
     if (!token) {
       await router.push("/login");
       return;
@@ -304,7 +304,7 @@ const deletePost = async () => {
 };
 const handleCommentSubmission = () => {
   // 로그인 여부 확인
-  const isLoggedIn = sessionStorage.getItem("token") !== null;
+  const isLoggedIn = localStorage.getItem("token") !== null;
   if (isLoggedIn) {
     // 로그인한 경우: 댓글을 등록하는 로직 실행
     addComment();
@@ -328,7 +328,7 @@ const addComment = async () => {
       post.value.comments = [];
     }
     post.value.comment.push(addedComment);
-    sessionStorage.setItem("post", JSON.stringify(post.value));
+    localStorage.setItem("post", JSON.stringify(post.value));
     alert("댓글이 등록되었습니다");
     await fetchPost(postId);
   } catch (error) {
@@ -345,7 +345,7 @@ const toggleEditMode = (comment) => {
 
 const updateComment = async (comment) => {
   try {
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const postId = JSON.parse(localStorage.getItem("post")).id;
     const commentId = comment.id;
     const response = await axios.put(`/posts/${postId}/comments/${commentId}`, {
       content: comment.newContent,
@@ -365,7 +365,7 @@ const updateComment = async (comment) => {
 const deleteComment = async (comment) => {
   try {
     // 서버에서 댓글을 삭제합니다.
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const postId = JSON.parse(localStorage.getItem("post")).id;
     const commentId = comment.id;
     const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
     // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.

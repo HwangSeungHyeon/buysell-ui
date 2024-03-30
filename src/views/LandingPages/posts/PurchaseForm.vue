@@ -89,7 +89,7 @@ const post = ref({
 
 onMounted(() => {
   // 세션 저장소에서 post 데이터를 가져옵니다.
-  const storedPost = sessionStorage.getItem('post');
+  const storedPost = localStorage.getItem('post');
   if (storedPost) {
     const parsedPost = JSON.parse(storedPost);
     post.value.id = parsedPost.id;

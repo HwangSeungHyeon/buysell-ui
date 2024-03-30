@@ -11,13 +11,13 @@ import Header from "@/examples/Header.vue";
 import store from "./store";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
-// axios.defaults.baseURL = "http://localhost:8080"
-axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+axios.defaults.baseURL = "http://localhost:8080"
+// axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 // 요청 인터셉터 설정
 axios.interceptors.request.use(
   function (config) {
     // 요청을 보내기 전에 수행할 작업을 여기에 작성합니다.
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -57,7 +57,7 @@ const token = extractCookie("token");
 
 if (token) {
   // 토큰을 session storage에 저장합니다.
-  sessionStorage.setItem("token", token);
+  localStorage.setItem("token", token);
   // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 

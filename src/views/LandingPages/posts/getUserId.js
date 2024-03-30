@@ -1,7 +1,7 @@
 import { useJwt } from "@vueuse/integrations/useJwt";
 
 const getUserId = () => {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   if (token) {
     const decoded = useJwt(token);
     const userId = decoded.payload.value.sub;
