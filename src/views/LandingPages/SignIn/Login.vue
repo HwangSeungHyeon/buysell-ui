@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import axios from "axios";
 import setMaterialInput from "@/assets/js/material-input";
 import { useRouter } from "vue-router";
@@ -63,6 +63,7 @@ const naverLogin = async () => {
 
 </script>
 <template>
+  <NavbarDefault />
   <Header>
     <div
       class="page-header align-items-start min-vh-100"
