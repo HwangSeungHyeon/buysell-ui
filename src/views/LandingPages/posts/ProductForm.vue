@@ -1,4 +1,11 @@
 <template>
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <section>
     <!-- 상품 정보 표시 -->
     <div class="container py-3" style="width: 60%">
@@ -173,7 +180,7 @@ import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
 import getUserId from "./getUserId";
 import { useStore } from "vuex";
-
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 const route = useRoute();
 const post = ref({
   memberId: 0,
