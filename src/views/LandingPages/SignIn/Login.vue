@@ -53,23 +53,6 @@ const kakaoLogin = async () =>{
 
 
 
-
-// const kakaoLogin = () => {
-//   Kakao.Auth.login({
-//     success: function(authObj) {
-//       console.log(authObj); // 인증 객체 출력
-//       console.log(authObj.access_token);
-//       // 여기서 서버로 토큰을 전송하거나 다른 처리를 할 수 있습니다.
-//       sessionStorage.setItem("token", authObj.access_token);
-//       router.push(`/`);
-//     },
-//     fail: function(err) {
-//       console.error(err);
-//     }
-//   });
-// };
-
-
 const naverLogin = async () => {
   try {
     window.location.href = "http://localhost:9090/oauth2/authorization/naver";
