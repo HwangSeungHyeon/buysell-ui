@@ -6,11 +6,12 @@ import { useRouter } from "vue-router";
 import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialButton from "@/components/MaterialButton.vue";
 import Header from "@/examples/Header.vue";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 const email = ref("");
 const password = ref("");
 const errorMessage = ref("");
 const router = useRouter();
-const token = ref("");
+
 setMaterialInput();
 const login = async () => {
   try {
@@ -34,7 +35,7 @@ const login = async () => {
 
 const googleLogin = async () => {
   try {
-    window.location.href = "http://localhost:9090/oauth2/authorization/google";
+    window.location.href = "http://localhost:8080/oauth2/authorization/google";
   } catch (error) {
     errorMessage.value = error.message;
   }
@@ -55,7 +56,7 @@ const kakaoLogin = async () =>{
 
 const naverLogin = async () => {
   try {
-    window.location.href = "http://localhost:9090/oauth2/authorization/naver";
+    window.location.href = "http://localhost:8080/oauth2/authorization/naver";
   } catch (error) {
     errorMessage.value = error.message;
   }
@@ -63,7 +64,13 @@ const naverLogin = async () => {
 
 </script>
 <template>
-  <NavbarDefault />
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <Header>
     <div
       class="page-header align-items-start min-vh-100"

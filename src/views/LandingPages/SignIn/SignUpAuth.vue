@@ -4,6 +4,7 @@ import axios from "axios";
 import MaterialButton from "@/components/MaterialButton.vue";
 import MaterialInput from "@/components/MaterialInput.vue";
 import router from "@/router";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 const email = ref("");
 
@@ -32,7 +33,13 @@ const sendEmailVerification = async () => {
 </script>
 
 <template>
-  <NavbarDefault />
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <Header>
     <div
       class="page-header align-items-start min-vh-100"

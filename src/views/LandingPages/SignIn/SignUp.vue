@@ -12,6 +12,7 @@ import MaterialButton from "@/components/MaterialButton.vue";
 // material-input
 import setMaterialInput from "@/assets/js/material-input";
 import router from "@/router";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 onMounted(() => {
   setMaterialInput();
@@ -50,7 +51,13 @@ const back = async () => {
 };
 </script>
 <template>
-  <NavbarDefault />
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
   <Header>
     <div
       class="page-header align-items-start min-vh-100"
