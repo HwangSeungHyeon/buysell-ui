@@ -12,7 +12,6 @@ import store from "./store";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
-axios.defaults.appApiURL = import.meta.env.VITE_APP_API_URL;
 // 요청 인터셉터 설정
 axios.interceptors.request.use(
   function (config) {
