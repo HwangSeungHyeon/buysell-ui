@@ -53,11 +53,11 @@ const extractCookie = (cookieName) => {
 
 // 쿠키에서 토큰 값을 추출합니다.
 const token = extractCookie("token");
+console.log(token);
 
 if (token) {
   // 토큰을 session storage에 저장합니다.
   localStorage.setItem("token", token);
-  console.log(token);
   // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
 
