@@ -216,6 +216,7 @@ if (localStorage.getItem("token")) {
 
 function logout() {
   localStorage.removeItem("token");
+
   isAuthenticated.value = false;
   alert("로그아웃 되었습니다.");
 }
