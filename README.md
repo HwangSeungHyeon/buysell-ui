@@ -61,14 +61,16 @@
 <img src="https://img.shields.io/badge/intellij idea-000000?style=for-the-badge&logo=intellijidea&logoColor=white">
 
 ### ✔️ Framework
-<img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white"> <img src="https://img.shields.io/badge/Vuetify-1867C0?style=for-the-badge&logo=Vuetify&logoColor=white">
+<img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white"> <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=Bootstrap&logoColor=white">
+
+### ✔️ Cloud DBMS
+<img src="https://img.shields.io/badge/amazon s3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"> 
 
 ### ✔️ Deploy
-<img src="https://img.shields.io/badge/amazon ec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
-
+<img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
 
 ## 서비스 구조
-![시스템 아키텍처](https://github.com/HwangSeungHyeon/buysell/assets/57141923/84148fd8-bb45-44a5-a6eb-93efe39c5dc7)
+![BuySell 시스템 아키텍처](https://github.com/HwangSeungHyeon/buysell-ui/assets/57141923/358606a4-92e3-41c7-98ca-07e32d9dda77)
 
 
 ## 와이어프레임
