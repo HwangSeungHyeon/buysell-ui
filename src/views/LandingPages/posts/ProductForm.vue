@@ -79,7 +79,7 @@
         >게시글 삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
-        <div v-if="token" class="d-flex align-items-center">
+        <div v-if="token && !post.isSoldout" class="d-flex align-items-center">
           <img
             v-if="!post.isLiked"
             src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
@@ -193,7 +193,7 @@ const post = ref({
   isSoldout: Boolean
 });
 
-const token = sessionStorage.getItem("token");
+const token = localStorage.getItem("token");
 const userId = ref(null);
 const postAuthorId = ref(null);
 
@@ -202,7 +202,7 @@ onMounted(async () => {
 
   // 라우트에서 postId를 찾을 수 없다면, 세션 스토리지를 확인합니다.
   if (!postId) {
-    const savedPost = JSON.parse(sessionStorage.getItem("post"));
+    const savedPost = JSON.parse(localStorage.getItem("post"));
     if (savedPost) {
       postId = savedPost.id;
     }
@@ -225,7 +225,7 @@ const fetchPost = async (postId) => {
     post.value = response.data;
     // 포스트를 가져온 후 찜 상태를 업데이트
     await updateLikeStatus();
-    sessionStorage.setItem("post", JSON.stringify(post.value));
+    localStorage.setItem("post", JSON.stringify(post.value));
   } catch (error) {
     alert("게시글을 불러오는데 실패했습니다:", error);
   }
@@ -233,10 +233,12 @@ const fetchPost = async (postId) => {
 
 const updateLikeStatus = async () => {
   try {
-    const postId = route.params.postId;
-    const response = await axios.get(`/posts/${postId}/my/wishlist`);
-    const wishData = response.data;
-    post.value.isLiked = wishData.id !== -9;
+    if(token) {
+      const postId = route.params.postId;
+      const response = await axios.get(`/posts/${postId}/my/wishlist`);
+      const wishData = response.data;
+      post.value.isLiked = wishData.id !== -9;
+    }
     // wishData가 존재하면 true, 존재하지 않으면 false로 설정
   } catch (error) {
     if(token) {
@@ -248,16 +250,18 @@ const updateLikeStatus = async () => {
 const toggleLike = async () => {
   try {
     const postId = route.params.postId;
-    const response = await axios.get(`/posts/${postId}/my/wishlist`);
-    const wishData = response.data;
-    // wishData가 postId와 일치하는 경우 찜 상태가 이미 존재하므로 찜을 해제해야 함
-    if (wishData.id !== -9) {
-      await axios.delete(`/posts/${postId}/my/wishlist`);
-      post.value.isLiked = false; // 찜 상태를 false로 변경
-    } else {
-      // wishData가 존재하지 않거나 postId와 일치하지 않는 경우 찜을 추가해야 함
-      await axios.post(`/posts/${postId}/my/wishlist`, {});
-      post.value.isLiked = true; // 찜 상태를 true로 변경
+    if(token) {
+      const response = await axios.get(`/posts/${postId}/my/wishlist`);
+      const wishData = response.data;
+      // wishData가 postId와 일치하는 경우 찜 상태가 이미 존재하므로 찜을 해제해야 함
+      if (wishData.id !== -9) {
+        await axios.delete(`/posts/${postId}/my/wishlist`);
+        post.value.isLiked = false; // 찜 상태를 false로 변경
+      } else {
+        // wishData가 존재하지 않거나 postId와 일치하지 않는 경우 찜을 추가해야 함
+        await axios.post(`/posts/${postId}/my/wishlist`, {});
+        post.value.isLiked = true; // 찜 상태를 true로 변경
+      }
     }
   } catch (error) {
     if(token){
@@ -270,7 +274,7 @@ const toggleLike = async () => {
 // Vuex 스토어 사용
 const handlePurchaseSubmission = () => {
   // 로그인 여부 확인
-  const isLoggedIn = sessionStorage.getItem("token") !== null;
+  const isLoggedIn = localStorage.getItem("token") !== null;
   if (isLoggedIn) {
     // 로그인한 경우: 댓글을 등록하는 로직 실행
     purchase();
@@ -289,8 +293,8 @@ const purchase = () => {
 
 const deletePost = async () => {
   try {
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
-    const token = sessionStorage.getItem("token");
+    const postId = JSON.parse(localStorage.getItem("post")).id;
+    const token = localStorage.getItem("token");
     if (!token) {
       await router.push("/login");
       return;
@@ -304,7 +308,7 @@ const deletePost = async () => {
 };
 const handleCommentSubmission = () => {
   // 로그인 여부 확인
-  const isLoggedIn = sessionStorage.getItem("token") !== null;
+  const isLoggedIn = localStorage.getItem("token") !== null;
   if (isLoggedIn) {
     // 로그인한 경우: 댓글을 등록하는 로직 실행
     addComment();
@@ -328,7 +332,7 @@ const addComment = async () => {
       post.value.comments = [];
     }
     post.value.comment.push(addedComment);
-    sessionStorage.setItem("post", JSON.stringify(post.value));
+    localStorage.setItem("post", JSON.stringify(post.value));
     alert("댓글이 등록되었습니다");
     await fetchPost(postId);
   } catch (error) {
@@ -345,7 +349,7 @@ const toggleEditMode = (comment) => {
 
 const updateComment = async (comment) => {
   try {
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const postId = JSON.parse(localStorage.getItem("post")).id;
     const commentId = comment.id;
     const response = await axios.put(`/posts/${postId}/comments/${commentId}`, {
       content: comment.newContent,
@@ -365,7 +369,7 @@ const updateComment = async (comment) => {
 const deleteComment = async (comment) => {
   try {
     // 서버에서 댓글을 삭제합니다.
-    const postId = JSON.parse(sessionStorage.getItem("post")).id;
+    const postId = JSON.parse(localStorage.getItem("post")).id;
     const commentId = comment.id;
     const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
     // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.

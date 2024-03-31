@@ -7,7 +7,7 @@ export function getAccountBalance(){
 
     onMounted(async () => {
         setMaterialInput();
-        const token = sessionStorage.getItem('token');
+        const token = localStorage.getItem('token');
 
         try {
             const response = await axios.get(`/members/my/accounts`);

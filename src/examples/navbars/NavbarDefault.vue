@@ -210,12 +210,12 @@ import MaterialButton from "@/components/MaterialButton.vue";
 
 const isAuthenticated = ref(false);
 
-if (sessionStorage.getItem("token")) {
+if (localStorage.getItem("token")) {
   isAuthenticated.value = true;
 }
 
 function logout() {
-  sessionStorage.removeItem("token");
+  localStorage.removeItem("token");
   isAuthenticated.value = false;
   alert("로그아웃 되었습니다.");
 }

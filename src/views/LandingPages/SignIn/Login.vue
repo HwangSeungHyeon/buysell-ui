@@ -24,7 +24,7 @@ const login = async () => {
     const response = await axios.post(`/members/login`, userData);
     const token = response.headers["authorization"];
     // 토큰을 로컬 스토리지에 저장
-    sessionStorage.setItem("token", token);
+    localStorage.setItem("token", token);
     // 로그인 성공 후 필요한 작업 수행 (예: 페이지 리디렉션 등)
     alert("로그인에 성공했습니다")
     await router.push("/"); // 로그인 후 리다이렉트할 페이지
@@ -44,8 +44,11 @@ const googleLogin = async () => {
 
 const kakaoLogin = async () =>{
   try{
-    window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/kakao`;
-  }catch(error){
+    const response = await axios.get(`/members/kakao/callback`);
+    const token = response.headers["authorization"];
+    sessionStorage.setItem(token);
+    await router.push("/");
+  } catch (error) {
     errorMessage.value = error.message;
   }
 }
