@@ -16,7 +16,7 @@ axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 axios.interceptors.request.use(
   function (config) {
     // 요청을 보내기 전에 수행할 작업을 여기에 작성합니다.
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -50,14 +50,22 @@ const extractCookie = (cookieName) => {
   }
   return null;
 };
+// 쿠키에서 토큰을 삭제하는 함수
+const deleteCookie = (cookieName) => {
+  // 만료된 날짜를 생성합니다 (과거로 설정하여 쿠키를 삭제합니다)
+  const expireDate = new Date();
+  expireDate.setFullYear(expireDate.getFullYear() - 1);
 
+  // 만료된 쿠키를 설정하여 삭제합니다
+  document.cookie = `${cookieName}=; expires=${expireDate.toUTCString()}; path=/;`;
+};
 // 쿠키에서 토큰 값을 추출합니다.
 const token = extractCookie("token");
 
 if (token) {
   // 토큰을 session storage에 저장합니다.
-  sessionStorage.setItem("token", token);
-  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  localStorage.setItem("token", token);
+  deleteCookie("token");
 }
 
 

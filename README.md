@@ -1,6 +1,6 @@
 # buysell-ui
 
-## 📖 목차
+## 목차
 1. [프로젝트 소개](#프로젝트-소개)
 2. [팀소개](#팀소개)
 3. [프로젝트 계기](#프로젝트-계기)
@@ -9,12 +9,13 @@
 6. [기술스택](#기술스택)
 7. [서비스 구조](#서비스-구조)
 8. [와이어프레임](#와이어프레임)
-9. [API 명세서](#API-명세서)
-10. [ERD](#ERD)
+9. [API 명세서](#api-명세서)
+10. [ERD](#erd)
 11. [프로젝트 파일 구조](#프로젝트-파일-구조)
-12. [Trouble Shooting](#trouble-shooting)
+12. [기술적 의사결정](#기술적-의사결정)
+13. [Trouble Shooting](#trouble-shooting)
     
-## 👨‍🏫 프로젝트 소개
+## 프로젝트 소개
 중고 거래 플랫폼으로 개인 간의 중고 거래를 더욱 쉽게 접근할 수 있게 매칭해주는 게시판 형태의 서비스입니다. 
 
 중고 물품을 판매하는 글을 작성할 수 있고 구매자가 구매 요청을 하면 판매자와 구매자가 매칭 됩니다.
@@ -37,7 +38,7 @@
 
 이 서비스를 통해 개인 및 비즈니스적인 부분에서도 긍정적인 영향을 끼칠 것으로 생각되어 프로젝트를 선정하게 되었습니다.
 
-## 💜 주요기능
+## 주요기능
 
 - 기능 1
 
@@ -48,11 +49,10 @@
 - 기능 4
 
 
-## ⏲️ 개발기간
+## 개발기간
 - 2024.02.26(월) ~ 2024.04.04(목)
 
-## 📚️ 기술스택
-
+## 기술스택
 
 ### ✔️ Version Control
 <img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white">
@@ -61,14 +61,16 @@
 <img src="https://img.shields.io/badge/intellij idea-000000?style=for-the-badge&logo=intellijidea&logoColor=white">
 
 ### ✔️ Framework
-<img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white"> <img src="https://img.shields.io/badge/Vuetify-1867C0?style=for-the-badge&logo=Vuetify&logoColor=white">
+<img src="https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white"> <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=Bootstrap&logoColor=white">
+
+### ✔️ Cloud DBMS
+<img src="https://img.shields.io/badge/amazon s3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"> 
 
 ### ✔️ Deploy
-<img src="https://img.shields.io/badge/amazon ec2-FF9900?style=for-the-badge&logo=amazonec2&logoColor=white"> <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
-
+<img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
 
 ## 서비스 구조
-![시스템 아키텍처](https://github.com/HwangSeungHyeon/buysell/assets/57141923/84148fd8-bb45-44a5-a6eb-93efe39c5dc7)
+![BuySell 시스템 아키텍처 (1)](https://github.com/HwangSeungHyeon/buysell-ui/assets/57141923/e709cc0f-de4a-4c00-89e9-a08e49e5c2ea)
 
 
 ## 와이어프레임
@@ -122,13 +124,35 @@
 </details>
 
 ## ERD
-![최종프로젝트 ERD](https://github.com/HwangSeungHyeon/buysell/assets/57141923/6afb584e-80b9-4fd4-92ff-377bd109c086)
+![최종프로젝트 ERD](https://github.com/HwangSeungHyeon/buysell-ui/assets/57141923/2c5d4a18-3b8b-4e55-8481-8d7b57f942de)
+
 
 ## 프로젝트 파일 구조
 
 ```
 
 ```
+
+## 기술적 의사결정
+<details>
+<summary> S3 </summary>
+<div markdown="1">
+    - [도입 이유]
+    - [문제상황]
+    - [해결방안]
+    - [의사 결정]
+</div>
+</details>
+
+<details>
+<summary> CI/CD </summary>
+<div markdown="1">
+    - [도입 이유]
+    - [문제상황]
+    - [해결방안]
+    - [의사 결정]
+</div>
+</details>
 
 
 ## Trouble Shooting
