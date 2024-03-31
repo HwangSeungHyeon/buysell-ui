@@ -123,7 +123,8 @@
 </details>
 
 ## ERD
-![최종프로젝트 ERD](https://github.com/HwangSeungHyeon/buysell/assets/57141923/6afb584e-80b9-4fd4-92ff-377bd109c086)
+![최종프로젝트 ERD](https://github.com/HwangSeungHyeon/buysell-ui/assets/57141923/2c5d4a18-3b8b-4e55-8481-8d7b57f942de)
+
 
 ## 프로젝트 파일 구조
 
