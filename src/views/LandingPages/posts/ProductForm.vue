@@ -79,7 +79,7 @@
         >게시글 삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
-        <div v-if="token" class="d-flex align-items-center">
+        <div v-if="token && !post.isSoldout" class="d-flex align-items-center">
           <img
             v-if="!post.isLiked"
             src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
@@ -233,10 +233,12 @@ const fetchPost = async (postId) => {
 
 const updateLikeStatus = async () => {
   try {
-    const postId = route.params.postId;
-    const response = await axios.get(`/posts/${postId}/my/wishlist`);
-    const wishData = response.data;
-    post.value.isLiked = wishData.id !== -9;
+    if(token) {
+      const postId = route.params.postId;
+      const response = await axios.get(`/posts/${postId}/my/wishlist`);
+      const wishData = response.data;
+      post.value.isLiked = wishData.id !== -9;
+    }
     // wishData가 존재하면 true, 존재하지 않으면 false로 설정
   } catch (error) {
     if(token) {
@@ -248,16 +250,18 @@ const updateLikeStatus = async () => {
 const toggleLike = async () => {
   try {
     const postId = route.params.postId;
-    const response = await axios.get(`/posts/${postId}/my/wishlist`);
-    const wishData = response.data;
-    // wishData가 postId와 일치하는 경우 찜 상태가 이미 존재하므로 찜을 해제해야 함
-    if (wishData.id !== -9) {
-      await axios.delete(`/posts/${postId}/my/wishlist`);
-      post.value.isLiked = false; // 찜 상태를 false로 변경
-    } else {
-      // wishData가 존재하지 않거나 postId와 일치하지 않는 경우 찜을 추가해야 함
-      await axios.post(`/posts/${postId}/my/wishlist`, {});
-      post.value.isLiked = true; // 찜 상태를 true로 변경
+    if(token) {
+      const response = await axios.get(`/posts/${postId}/my/wishlist`);
+      const wishData = response.data;
+      // wishData가 postId와 일치하는 경우 찜 상태가 이미 존재하므로 찜을 해제해야 함
+      if (wishData.id !== -9) {
+        await axios.delete(`/posts/${postId}/my/wishlist`);
+        post.value.isLiked = false; // 찜 상태를 false로 변경
+      } else {
+        // wishData가 존재하지 않거나 postId와 일치하지 않는 경우 찜을 추가해야 함
+        await axios.post(`/posts/${postId}/my/wishlist`, {});
+        post.value.isLiked = true; // 찜 상태를 true로 변경
+      }
     }
   } catch (error) {
     if(token){
