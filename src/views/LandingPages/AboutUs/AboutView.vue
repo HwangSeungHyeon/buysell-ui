@@ -64,13 +64,13 @@ onUnmounted(() => {
             </div>
             <router-link to="/mysales">
               <button class="btn bg-white text-dark" type="submit">
-                My Sales products
+                내가 쓴 게시글
               </button>
             </router-link>
             <div>
               <router-link to="/wishlist">
                 <button class="btn bg-white text-dark" type="submit">
-                  WishList
+                  찜 목록 보기
                 </button>
               </router-link>
             </div>
@@ -84,13 +84,13 @@ onUnmounted(() => {
             <div>
               <router-link to="/pages/landing-pages/author">
                 <button class="btn bg-white text-dark" type="submit">
-                  Profile Edit
+                  닉네임 수정
                 </button>
               </router-link>
             </div>
             <div>
               <button class="btn bg-white text-dark" type="submit">
-                Secession
+                탈퇴하기
               </button>
             </div>
           </div>
