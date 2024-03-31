@@ -42,16 +42,13 @@ const googleLogin = async () => {
   }
 };
 
-const kakaoLogin = async () =>{
-  try{
-    const response = await axios.get(`/members/kakao/callback`);
-    const token = response.headers["authorization"];
-    sessionStorage.setItem(token);
-    await router.push("/");
+const kakaoLogin = async () => {
+  try {
+    window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/kakao`;
   } catch (error) {
     errorMessage.value = error.message;
   }
-}
+};
 const naverLogin = async () => {
   try {
     window.location.href = `${axios.defaults.baseURL}/oauth2/authorization/naver`;
