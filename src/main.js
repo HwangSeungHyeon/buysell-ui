@@ -12,6 +12,7 @@ import store from "./store";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
+const domain = import.meta.env.VITE_DOMAIN;
 // 요청 인터셉터 설정
 axios.interceptors.request.use(
   function (config) {
@@ -57,7 +58,7 @@ const deleteCookie = (cookieName) => {
   expireDate.setFullYear(expireDate.getFullYear() - 1);
 
   // 만료된 쿠키를 설정하여 삭제합니다
-  document.cookie = `${cookieName}=; expires=${expireDate.toUTCString()}; path=/;`;
+  document.cookie = `${cookieName}=; expires=${expireDate.toUTCString()}; path=/; domain=${domain}`;
 };
 // 쿠키에서 토큰 값을 추출합니다.
 const token = extractCookie("token");
