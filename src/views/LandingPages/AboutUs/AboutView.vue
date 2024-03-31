@@ -1,20 +1,12 @@
 <script setup>
 import { onMounted, onUnmounted } from "vue";
-
-//example components
-import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue";
-
-//image
 import bg0 from "@/assets/img/bg9.jpg";
-
-//dep
 import Typed from "typed.js";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
-
-//sections
+import axios from "axios";
 
 const body = document.getElementsByTagName("body")[0];
-//hooks
+
 onMounted(() => {
   body.classList.add("about-us");
   body.classList.add("bg-gray-200");
