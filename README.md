@@ -144,6 +144,16 @@
 </div>
 </details>
 
+<details>
+<summary> CI/CD </summary>
+<div markdown="1">
+    - [도입 이유]
+    - [문제상황]
+    - [해결방안]
+    - [의사 결정]
+</div>
+</details>
+
 
 ## Trouble Shooting
 
