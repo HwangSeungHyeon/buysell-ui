@@ -13,17 +13,20 @@
         <div class="post-title">
           <h4>상품명: {{ post.title }}</h4>
         </div>
-        <router-link :to="{ path: `/othersales/${post.memberId}` }">
-          <div class="post-author">
-            <h4>작성자: {{ post.createdName }}</h4>
-          </div>
-        </router-link>
+        <div class="post-author">
+          <h4>
+            작성자:
+            <router-link :to="{ path: `/othersales/${post.memberId}` }">{{
+              post.createdName
+            }}</router-link>
+          </h4>
+        </div>
       </div>
       <div class="product-info py-6">
         <div class="product-details">
           <div>
             <!-- 이미지를 화면 너비에 맞춰 표시 -->
-            <img :src="post.imageUrl" :style="{ width: '60%' }" alt="Image">
+            <img :src="post.imageUrl" :style="{ width: '60%' }" alt="Image" />
           </div>
           <p style="font-weight: bold">가격: ₩{{ post.price }}</p>
           <p style="font-weight: bold; margin-right: 50px">
@@ -34,14 +37,17 @@
       <!-- 구매하기 버튼 -->
       <div>
         <!-- 게시글 작성자는 구매하기 버튼을 볼 수 없게 표시 -->
-        <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout">
-<!--        <div v-else-if="post.isSoldout = false">-->
+        <div
+          v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout"
+        >
+          <!--        <div v-else-if="post.isSoldout = false">-->
           <material-button
-              variant="gradient"
-              color="primary"
-              style="margin-right: 100px"
-              @click="handlePurchaseSubmission"
-          >구매하기</material-button>
+            variant="gradient"
+            color="primary"
+            style="margin-right: 100px"
+            @click="handlePurchaseSubmission"
+            >구매하기</material-button
+          >
         </div>
       </div>
 
@@ -76,7 +82,7 @@
           color="danger"
           style="margin-left: 10px"
           v-if="parseInt(userId) === parseInt(postAuthorId)"
-        >게시글 삭제</material-button
+          >게시글 삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
         <div v-if="token && !post.isSoldout" class="d-flex align-items-center">
@@ -101,18 +107,19 @@
       <div class="comment-form mb-5">
         <div class="input-group">
           <material-input
-              v-model="newComment"
-              class="material-input mb-3"
-              placeholder="댓글을 입력하세요..."
-              style="border: 2px solid #000000"
-              :value="newComment"
-              @input="newComment = $event.target.value"
+            v-model="newComment"
+            class="material-input mb-3"
+            placeholder="댓글을 입력하세요..."
+            style="border: 2px solid #000000"
+            :value="newComment"
+            @input="newComment = $event.target.value"
           ></material-input>
           <material-button
-              @click="handleCommentSubmission"
-              variant="gradient"
-              color="dark"
-          >댓글 등록</material-button>
+            @click="handleCommentSubmission"
+            variant="gradient"
+            color="dark"
+            >댓글 등록</material-button
+          >
         </div>
       </div>
       <!-- 댓글 내용 -->
@@ -136,19 +143,17 @@
             <textarea
               v-else
               v-model="comment.newContent"
-              style="width: 100%; height: 100px;"
+              style="width: 100%; height: 100px"
             ></textarea>
           </div>
-          <div class="p-md-2"
-          v-if ="comment.memberId == userId"
-          >
+          <div class="p-md-2" v-if="comment.memberId == userId">
             <material-button
               v-if="!comment.editMode"
               @click="toggleEditMode(comment)"
               variant="text"
               color="secondary"
               style="margin-right: 8px"
-            >수정</material-button
+              >수정</material-button
             >
             <material-button
               v-else
@@ -156,13 +161,13 @@
               variant="text"
               color="primary"
               style="margin-right: 8px"
-            >저장</material-button
+              >저장</material-button
             >
             <material-button
               @click="deleteComment(comment)"
               variant="text"
               color="danger"
-            >삭제</material-button
+              >삭제</material-button
             >
           </div>
         </div>
@@ -190,7 +195,7 @@ const post = ref({
   price: 0,
   comment: [], // 이 부분을 추가하여 초기에 빈 배열로 설정
   isLiked: false, // 찜 여부를 나타내는 변수 추가
-  isSoldout: Boolean
+  isSoldout: Boolean,
 });
 
 const token = localStorage.getItem("token");
@@ -241,7 +246,7 @@ const updateLikeStatus = async () => {
     }
     // wishData가 존재하면 true, 존재하지 않으면 false로 설정
   } catch (error) {
-    if(token) {
+    if (token) {
       alert("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
     }
   }
@@ -264,7 +269,7 @@ const toggleLike = async () => {
       }
     }
   } catch (error) {
-    if(token){
+    if (token) {
       alert("게시글 찜 상태를 변경하는데 실패했습니다", error);
     } else {
       alert("로그인을 해야 이용 하실 수 있습니다", error);
@@ -287,7 +292,7 @@ const handlePurchaseSubmission = () => {
 
 const store = useStore();
 const purchase = () => {
-  store.commit('allowAccess');
+  store.commit("allowAccess");
   router.push({ path: `/posts/${post.value.id}/purchase` });
 };
 
@@ -357,7 +362,7 @@ const updateComment = async (comment) => {
     // 서버에서 수정된 댓글을 받아온 후, 해당 댓글 객체를 업데이트합니다.
     const updatedComment = response.data;
     // 수정이 완료되면 수정 모드를 해제합니다.
-    alert("댓글이 수정되었습니다", updatedComment)
+    alert("댓글이 수정되었습니다", updatedComment);
     comment.editMode = false;
     // 수정이 완료되면 해당 게시물의 정보를 다시 불러와서 최신 정보를 반영합니다.
     await fetchPost(postId);
@@ -371,7 +376,9 @@ const deleteComment = async (comment) => {
     // 서버에서 댓글을 삭제합니다.
     const postId = JSON.parse(localStorage.getItem("post")).id;
     const commentId = comment.id;
-    const response = await axios.delete(`/posts/${postId}/comments/${commentId}`);
+    const response = await axios.delete(
+      `/posts/${postId}/comments/${commentId}`
+    );
     // 삭제된 댓글을 post.value.comment 배열에서 제거합니다.
     const deleteComment = response.data;
     alert("댓글이 삭제되었습니다", deleteComment);
@@ -380,7 +387,6 @@ const deleteComment = async (comment) => {
     alert("댓글을 삭제하는데 실패했습니다", error);
   }
 };
-
 </script>
 
 <style>
