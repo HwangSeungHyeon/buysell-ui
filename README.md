@@ -69,7 +69,7 @@
 <img src="https://img.shields.io/badge/vercel-000000?style=for-the-badge&logo=vercel&logoColor=white">
 
 ## 서비스 구조
-![BuySell 시스템 아키텍처](https://github.com/HwangSeungHyeon/buysell-ui/assets/57141923/358606a4-92e3-41c7-98ca-07e32d9dda77)
+![BuySell 시스템 아키텍처 (1)](https://github.com/HwangSeungHyeon/buysell-ui/assets/57141923/e709cc0f-de4a-4c00-89e9-a08e49e5c2ea)
 
 
 ## 와이어프레임
