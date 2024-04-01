@@ -3,7 +3,10 @@ import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
 import { onMounted, ref } from "vue";
-const review = ref([]);
+const review = ref({
+  nickname:"",
+  review:[]
+});
 const route = useRoute();
 const memberId = route.params.memberId;
 const ReviewBymemberId = async () => {
@@ -35,7 +38,7 @@ onMounted(() => {
   </div>
   <div class="mysales-container">
     <div class="row">
-      <div v-if="review.length === 0">리뷰가 없어요.</div>
+      <div v-if="review.review.length === 0"><div class="card-body text-center">리뷰가 없어요.</div></div>
       <div v-else>
         <div class="container">
           <div class="row justify-content-center">

@@ -1,20 +1,11 @@
 <script setup>
 import { onMounted, onUnmounted } from "vue";
-
-//example components
-import DefaultNavbar from "../../../examples/navbars/NavbarDefault.vue";
-
-//image
 import bg0 from "@/assets/img/bg9.jpg";
-
-//dep
 import Typed from "typed.js";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
-//sections
-
 const body = document.getElementsByTagName("body")[0];
-//hooks
+
 onMounted(() => {
   body.classList.add("about-us");
   body.classList.add("bg-gray-200");
@@ -64,13 +55,13 @@ onUnmounted(() => {
             </div>
             <router-link to="/mysales">
               <button class="btn bg-white text-dark" type="submit">
-                My Sales products
+                내가 쓴 게시글
               </button>
             </router-link>
             <div>
               <router-link to="/wishlist">
                 <button class="btn bg-white text-dark" type="submit">
-                  WishList
+                  찜 목록 보기
                 </button>
               </router-link>
             </div>
@@ -84,13 +75,16 @@ onUnmounted(() => {
             <div>
               <router-link to="/pages/landing-pages/author">
                 <button class="btn bg-white text-dark" type="submit">
-                  Profile Edit
+                  프로필 수정
                 </button>
               </router-link>
             </div>
             <div>
-              <button class="btn bg-white text-dark" type="submit">
-                Secession
+              <button
+                class="btn bg-white text-dark"
+                type="submit"
+              >
+                탈퇴하기
               </button>
             </div>
           </div>

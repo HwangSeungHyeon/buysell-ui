@@ -58,13 +58,7 @@ const nicknameEdit = async () => {
               alt="Avatar"
             />
           </div>
-          <MaterialButton
-            variant="text"
-            color="success"
-            class="w-auto me-2"
-          >
-            Profile Edit
-          </MaterialButton>
+          <p></p>
           <div class="col-lg-4">
             <form @submit.prevent="nicknameEdit">
               <div class="form-group">
@@ -93,7 +87,7 @@ const nicknameEdit = async () => {
                 class="w-auto me-2"
                 @click="nicknameEdit"
               >
-                NickName Edit
+                닉네임 수정
               </MaterialButton>
             </form>
           </div>
