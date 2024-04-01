@@ -3,7 +3,6 @@ import { onMounted, onUnmounted } from "vue";
 import bg0 from "@/assets/img/bg9.jpg";
 import Typed from "typed.js";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
-import axios from "axios";
 
 const body = document.getElementsByTagName("body")[0];
 
@@ -76,12 +75,15 @@ onUnmounted(() => {
             <div>
               <router-link to="/pages/landing-pages/author">
                 <button class="btn bg-white text-dark" type="submit">
-                  닉네임 수정
+                  프로필 수정
                 </button>
               </router-link>
             </div>
             <div>
-              <button class="btn bg-white text-dark" type="submit">
+              <button
+                class="btn bg-white text-dark"
+                type="submit"
+              >
                 탈퇴하기
               </button>
             </div>
