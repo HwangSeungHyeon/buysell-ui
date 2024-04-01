@@ -1,8 +1,10 @@
 <script>
 import axios from "axios";
+import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
 
 export default {
   name: "Wishlist",
+  components: { NavbarDefault },
   data() {
     return {
       wishlist: [],
@@ -25,20 +27,31 @@ export default {
 };
 </script>
 <template>
-  <div class="wishlist-container">
+  <div class="container position-sticky z-index-sticky top-0">
+    <div class="row">
+      <div class="col-12">
+        <NavbarDefault :sticky="true" />
+      </div>
+    </div>
+  </div>
+  <div class="wishlist-container text-center">
     <h2>My Wishlist</h2>
   </div>
-  <div>
-    <ul class="wishlist-list">
-      <li v-for="item in wishlist" :key="item.id" class="wishlist-item">
-        <div class="wishlist-item-content">
-          {{ item.title }}
-          <p class="item-info">작성자: {{ item.createdName }}</p>
-          <p class="item-info">가격: {{ item.price }}</p>
-          <img :src="item.image" alt="item image" class="item-image" />
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card-columns">
+        <div class="wishlist-list">
+          <div v-for="item in wishlist" :key="item.id" class="wishlist-item">
+            <div class="wishlist-item-content">
+              {{ item.title }}
+              <p class="item-info">작성자: {{ item.createdName }}</p>
+              <p class="item-info">가격: {{ item.price }}</p>
+              <img :src="item.image" alt="item image" class="item-image" />
+            </div>
+          </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>

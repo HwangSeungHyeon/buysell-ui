@@ -62,7 +62,8 @@ const handlePostClick = async (postId) => {
       </div>
     </div>
   </div>
-  <div class="mysales-container">
+  <div class="mysales-container text-center">
+    <h2></h2>
     <h2>내 게시글 목록</h2>
     <div class="container">
       <div class="row justify-content-center">
