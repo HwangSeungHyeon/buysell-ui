@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import bg0 from "@/assets/img/bg9.jpg";
 import Typed from "typed.js";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
@@ -26,6 +26,39 @@ onUnmounted(() => {
   body.classList.remove("about-us");
   body.classList.remove("bg-gray-200");
 });
+//회원탈퇴 관련 내용
+import { useRouter } from "vue-router";
+import axios from "axios";
+const router = useRouter();
+const isAuthenticated = ref(false);
+
+function logout() {
+  localStorage.removeItem("token");
+  isAuthenticated.value = false;
+}
+const signOut = async () => {
+  try {
+    const response = await axios.put("/members/signout", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      // 회원 탈퇴 성공 시
+      logout()
+      alert("탈퇴가 완료 되었습니다.");
+      await router.push("/");
+    } else {
+      // 회원 탈퇴 실패 시
+      alert("탈퇴 요청 중 오류가 발생하였습니다. 관리자에게 문의하세요.");
+      console.error("회원 탈퇴 실패");
+    }
+  } catch (error) {
+    console.error("회원 탈퇴 요청 중 오류 발생:", error);
+    alert("탈퇴가 불가합니다. 관리자에게 문의하세요.");
+  }
+};
 </script>
 <template>
   <div class="container position-sticky z-index-sticky top-0">
@@ -81,6 +114,7 @@ onUnmounted(() => {
             </div>
             <div>
               <button
+                @click="signOut"
                 class="btn bg-white text-dark"
                 type="submit"
               >

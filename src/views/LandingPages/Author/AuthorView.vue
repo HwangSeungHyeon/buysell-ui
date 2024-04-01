@@ -25,7 +25,7 @@ import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
       <span class="mask bg-gradient-dark opacity-8"></span>
     </div>
   </Header>
-  <div class="card card-body blur shadow-blur mx-9 mx-md-9 mt-n6 mb-4">
+  <div class="card card-body blur shadow-blur mx-auto mt-n6 mb-4" style="max-width: 500px;">
     <Profile />
   </div>
 </template>
