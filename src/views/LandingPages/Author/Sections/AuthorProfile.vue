@@ -41,6 +41,7 @@ const nicknameEdit = async () => {
     }
   } catch (error) {
     console.error("닉네임 수정 중 에러 발생:", error);
+    alert("닉네임 변경에 실패하였습니다. 중복 닉네임 등");
   }
 };
 </script>
