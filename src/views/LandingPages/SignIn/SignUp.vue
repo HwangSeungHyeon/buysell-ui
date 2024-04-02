@@ -153,30 +153,6 @@ const back = async () => {
                       이메일 인증
                     </MaterialButton>
                   </div>
-
-                  <div class="mt-4 text-sm text-center">
-                    소셜 로그인
-                    <div class="row mt-3">
-                      <!-- //카카오 로그인-->
-                      <div class="col-2 text-center ms-auto">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-facebook text-yellow text-lg"></i>
-                        </a>
-                      </div>
-                      <!-- //네이버 로그인-->
-                      <div class="col-2 text-center px-1">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-github text-green text-lg"></i>
-                        </a>
-                      </div>
-                      <!--  //구글 로그인-->
-                      <div class="col-2 text-center me-auto">
-                        <a class="btn btn-link px-3" href="javascript:;">
-                          <i class="fa fa-google text-red text-lg"></i>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
                 </form>
               </div>
             </div>

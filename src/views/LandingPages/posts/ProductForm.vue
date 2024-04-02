@@ -231,37 +231,26 @@ onMounted(async () => {
 
 // 서버에서 해당 ID에 해당하는 데이터를 가져오는 함수
 const fetchPost = async (postId) => {
-  try {
-    const response = await axios.get(`/posts/${postId}`);
-    post.value = response.data;
-    // 포스트를 가져온 후 찜 상태를 업데이트
-    await updateLikeStatus();
-    localStorage.setItem("post", JSON.stringify(post.value));
-  } catch (error) {
-    alert("게시글을 불러오는데 실패했습니다:", error);
-  }
+  const response = await axios.get(`/posts/${postId}`);
+  post.value = response.data;
+  // 포스트를 가져온 후 찜 상태를 업데이트
+  await updateLikeStatus();
+  localStorage.setItem("post", JSON.stringify(post.value));
 };
 
 const updateLikeStatus = async () => {
-  try {
-    if(token) {
-      const postId = route.params.postId;
-      const response = await axios.get(`/posts/${postId}/my/wishlist`);
-      const wishData = response.data;
-      post.value.isLiked = wishData.id !== -9;
-    }
-    // wishData가 존재하면 true, 존재하지 않으면 false로 설정
-  } catch (error) {
-    if (token) {
-      alert("게시글의 찜 상태를 가져오는데 실패했습니다:", error);
-    }
+  if (token) {
+    const postId = route.params.postId;
+    const response = await axios.get(`/posts/${postId}/my/wishlist`);
+    const wishData = response.data;
+    post.value.isLiked = wishData.id !== -9;
   }
 };
 
 const toggleLike = async () => {
   try {
     const postId = route.params.postId;
-    if(token) {
+    if (token) {
       const response = await axios.get(`/posts/${postId}/my/wishlist`);
       const wishData = response.data;
       // wishData가 postId와 일치하는 경우 찜 상태가 이미 존재하므로 찜을 해제해야 함

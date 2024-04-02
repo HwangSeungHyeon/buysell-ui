@@ -131,9 +131,9 @@ defineProps({
             <p class="text-dark text-sm font-weight-normal">
               All rights reserved. Copyright ©
               {{ new Date().getFullYear() }}
-              Material Kit by
-              <a href="https://www.creative-tim.com" target="_blank"
-                >Creative Tim</a
+              BuySell by
+              <a href="https://github.com/HwangSeungHyeon/buysell" target="_blank"
+                >40(Four-T)</a
               >.
             </p>
           </div>

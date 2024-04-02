@@ -46,26 +46,20 @@ const nicknameEdit = async () => {
 };
 </script>
 <template>
-  <section class="py-sm-7 py-5 position-relative">
+  <section class="py-sm-7 py-5 position-relative mx-auto" >
     <div class="container">
       <div class="row">
-        <div class="col-12 mx-auto">
-          <div class="blur-shadow-avatar">
-            <MaterialAvatar
-              size="xxl"
-              class="shadow-xl position-relative z-index-2"
-              :image="profilePic"
-              alt="Avatar"
-            />
-          </div>
-          <MaterialButton
-            variant="text"
-            color="success"
-            class="w-auto me-2"
-          >
-            Profile Edit
-          </MaterialButton>
+        <div class="col-12 mx-auto text-center">
           <div class="col-lg-4">
+            <div class="blur-shadow-avatar">
+              <MaterialAvatar
+                size="xxl"
+                class="shadow-xl position-relative z-index-2"
+                :image="profilePic"
+                alt="Avatar"
+              />
+            </div>
+            <p></p>
             <form @submit.prevent="nicknameEdit">
               <div class="form-group">
                 <label for="nickname"></label>
@@ -76,15 +70,16 @@ const nicknameEdit = async () => {
                   disabled
                 />
               </div>
-              <div class="form-group">
+              <div class="form-group text-center">
                 <label for="newNickname"></label>
                 <MaterialInput
-                  class="input-group-outline mb-4"
+                  class="input-group-outline mb-4 col-lg-6 px-0 mx-auto"
                   v-model="newNickname"
                   :label="{ text: 'newNickname', class: 'form-label' }"
                   type="text"
                   :value="newNickname"
                   @input="newNickname = $event.target.value"
+                  style="width: 300px"
                 />
               </div>
               <MaterialButton
@@ -93,7 +88,7 @@ const nicknameEdit = async () => {
                 class="w-auto me-2"
                 @click="nicknameEdit"
               >
-                NickName Edit
+                수정
               </MaterialButton>
             </form>
           </div>
