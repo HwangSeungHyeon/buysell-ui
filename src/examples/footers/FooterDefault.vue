@@ -131,7 +131,7 @@ defineProps({
             <p class="text-dark text-sm font-weight-normal">
               All rights reserved. Copyright ©
               {{ new Date().getFullYear() }}
-              SuySell by
+              BuySell by
               <a href="https://github.com/HwangSeungHyeon/buysell" target="_blank"
                 >40(Four-T)</a
               >.
