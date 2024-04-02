@@ -1,23 +1,50 @@
 <template>
   <nav class="navbar navbar-expand-lg top-0 col-lg-10 mx-auto">
-    <div :class="getContainerClass()">
-      <RouterLink
-        class="navbar-brand d-none d-md-block"
-        :class="getBrandClass()"
-        :to="{ name: 'presentation' }"
-        rel="tooltip"
-        title="Designed and Coded by Creative Tim"
-        data-placement="bottom"
-        style="font-size: 1.5rem;"
-      >
-        <img
-          src="@/assets/img/noooo.png"
-          alt="Vue MK Header"
-          width="126"
-          height="50"
-        />
-      </RouterLink>
-      <section>
+    <div :class="getContainerClass()" class="d-flex justify-content-between">
+      <div class="d-flex align-items-center">
+        <RouterLink
+            class="navbar-brand d-none d-md-block"
+            :class="getBrandClass()"
+            :to="{ name: 'presentation' }"
+            rel="tooltip"
+            title="Designed and Coded by Creative Tim"
+            data-placement="bottom"
+            style="font-size: 1.5rem; margin-top: -11px"
+        >
+          <img
+              src="@/assets/img/noooo.png"
+              alt="Vue MK Header"
+              width="100%"
+              height="40"
+          />
+        </RouterLink>
+        <li class="nav-item dropdown dropdown-hover mx-1" style="list-style: none;">
+          <a
+              role="button"
+              class="nav-link ps-2 d-flex cursor-pointer align-items-center"
+              :class="getTextColor()"
+              id="navbarDropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="white-space: nowrap; display: flex; align-items: center;"
+          >
+            카테고리
+            <img :src="getArrowColor()" alt="down-arrow" class="arrow ms-2 d-lg-block d-none" />
+            <img :src="getArrowColor()" alt="down-arrow" class="arrow ms-1 d-lg-none d-block ms-auto" />
+          </a>
+          <ul
+              class="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3"
+              aria-labelledby="navbarDropdownMenuLink"
+          >
+            <li v-for="category in categories" :key="category.value" @click="selectCategory(category)">
+              <router-link :to="{ name: 'presentation', query: { category: category.value } }" class="dropdown-item">
+                {{ category.label }}
+              </router-link>
+            </li>
+          </ul>
+        </li>
+      </div>
+      <section class="mx-auto">
         <MaterialInput
           class="input-group-dynamic mb-1 me-10"
           icon="search"
@@ -213,6 +240,24 @@ import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
 import MaterialButton from "@/components/MaterialButton.vue";
 
+const categories = [
+  { value: "BEAUTY", label: "뷰티" },
+  { value: "FASHION", label: "의류" },
+  { value: "KITCHEN", label: "주방" },
+  { value: "BOOK", label: "책" },
+  { value: "CHILDCARE", label: "육아" },
+  { value: "INTERIOR", label: "인테리어" },
+  { value: "GAME", label: "게임" },
+  { value: "CAR_SUPPLIES", label: "자동차 용품" },
+  { value: "FOOD", label: "음식" },
+  { value: "SPORTS", label: "스포츠" },
+  { value: "DIGITAL", label: "디지털" },
+  { value: "PET", label: "반려동물" },
+  { value: "OTHERS", label: "기타" },
+];
+
+const router = useRouter();
+const formData = ref({ keyword: '' });
 const isAuthenticated = ref(false);
 
 if (localStorage.getItem("token")) {
@@ -304,8 +349,8 @@ const getTextColor = () => {
 
 const getBrandClass = () => [
   (props.transparent && textDark.value) || !props.transparent
-    ? "text-dark font-weight-bolder ms-sm-3"
-    : "text-white font-weight-bolder ms-sm-3",
+    ? "text-dark font-weight-bolder ms-sm-0"
+    : "text-white font-weight-bolder ms-sm-0",
 ];
 
 const getContainerClass = () => [
@@ -314,14 +359,16 @@ const getContainerClass = () => [
     : "container-fluid px-0",
 ];
 
-const router = useRouter();
-const formData = ref({ keyword: '' });
-
 function performSearch() {
   if (!formData.value.keyword) {
     alert("검색어를 입력해주세요");
     return;
   }
   router.push({ path: '/posts/search', query: { keyword: formData.value.keyword} });
+}
+
+function selectCategory(category) {
+  console.log(category.value);
+  router.push({ name: "presentation", query: { category: category.value } });
 }
 </script>
