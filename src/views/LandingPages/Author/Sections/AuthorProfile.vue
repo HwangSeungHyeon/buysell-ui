@@ -45,6 +45,7 @@ const nicknameEdit = async () => {
   }
 };
 </script>
+
 <template>
   <section class="py-sm-7 py-5 position-relative mx-auto">
     <div class="container">
