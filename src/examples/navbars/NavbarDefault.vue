@@ -10,7 +10,12 @@
         data-placement="bottom"
         style="font-size: 1.5rem;"
       >
-        BuySell
+        <img
+          src="@/assets/img/noooo.png"
+          alt="Vue MK Header"
+          width="126"
+          height="50"
+        />
       </RouterLink>
       <section>
         <MaterialInput
