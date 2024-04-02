@@ -26,7 +26,6 @@ onMounted(async () => {
 });
 const nicknameEdit = async () => {
   if (newNickname.value.length < 2 || newNickname.value.length > 8) {
-    // console.log(newNickname.value.length);
     alert("닉네임은 2자 이상 8자 이하로 입력해야 합니다.");
     return;
   }
@@ -35,8 +34,8 @@ const nicknameEdit = async () => {
       nickname: newNickname.value,
     });
     if (response.status === 200) {
-      alert("닉네임 수정 성공!");
-      location.reload();
+      alert("닉네임 수정 성공!"); // 수정 성공 알림
+      location.reload(); // 페이지 새로고침
     } else {
       console.error("닉네임 수정 실패:", response.data);
     }
@@ -46,7 +45,7 @@ const nicknameEdit = async () => {
 };
 </script>
 <template>
-  <section class="py-sm-7 py-5 position-relative mx-auto" >
+  <section class="py-sm-7 py-5 position-relative mx-auto">
     <div class="container">
       <div class="row">
         <div class="col-12 mx-auto text-center">
@@ -60,37 +59,35 @@ const nicknameEdit = async () => {
               />
             </div>
             <p></p>
-            <form @submit.prevent="nicknameEdit">
-              <div class="form-group">
-                <label for="nickname"></label>
-                <input
-                  type="text"
-                  id="nickname"
-                  v-model="currentNickname"
-                  disabled
-                />
-              </div>
-              <div class="form-group text-center">
-                <label for="newNickname"></label>
-                <MaterialInput
-                  class="input-group-outline mb-4 col-lg-6 px-0 mx-auto"
-                  v-model="newNickname"
-                  :label="{ text: 'newNickname', class: 'form-label' }"
-                  type="text"
-                  :value="newNickname"
-                  @input="newNickname = $event.target.value"
-                  style="width: 300px"
-                />
-              </div>
-              <MaterialButton
-                variant="text"
-                color="success"
-                class="w-auto me-2"
-                @click="nicknameEdit"
-              >
-                수정
-              </MaterialButton>
-            </form>
+            <div class="form-group">
+              <label for="nickname"></label>
+              <input
+                type="text"
+                id="nickname"
+                v-model="currentNickname"
+                disabled
+              />
+            </div>
+            <div class="form-group text-center">
+              <label for="newNickname"></label>
+              <MaterialInput
+                class="input-group-outline mb-4 col-lg-6 px-0 mx-auto"
+                v-model="newNickname"
+                :label="{ text: 'newNickname', class: 'form-label' }"
+                type="text"
+                :value="newNickname"
+                @input="newNickname = $event.target.value"
+                style="width: 300px"
+              />
+            </div>
+            <MaterialButton
+              variant="text"
+              color="success"
+              class="w-auto me-2"
+              @click="nicknameEdit"
+            >
+              수정
+            </MaterialButton>
           </div>
         </div>
       </div>
