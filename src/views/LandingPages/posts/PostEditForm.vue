@@ -186,7 +186,7 @@ onMounted(fetchPostData);
 const submitForm = async () => {
   try {
     const token = localStorage.getItem("token");
-    console.log("token:", token);
+    // console.log("token:", token);
     if (!token) {
       // 토큰이 없으면 로그인 페이지로 리디렉션
       await router.push("/login");
@@ -201,7 +201,7 @@ const submitForm = async () => {
       imageUrl: formData.value.imageUrl
     };
     const postId = JSON.parse(localStorage.getItem("post")).id;
-    console.log("postID", postId);
+    // console.log("postID", postId);
     // Axios를 사용하여 API 호출
     const response = await axios.put(`/posts/${postId}`, postData);
     response.data.id = postId;

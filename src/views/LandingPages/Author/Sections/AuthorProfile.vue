@@ -26,8 +26,8 @@ onMounted(async () => {
 });
 const nicknameEdit = async () => {
   if (newNickname.value.length < 2 || newNickname.value.length > 8) {
-    console.log(newNickname.value.length);
-    console.error("닉네임은 2자 이상 8자 이하로 입력해야 합니다.");
+    // console.log(newNickname.value.length);
+    alert("닉네임은 2자 이상 8자 이하로 입력해야 합니다.");
     return;
   }
   try {
@@ -35,7 +35,7 @@ const nicknameEdit = async () => {
       nickname: newNickname.value,
     });
     if (response.status === 200) {
-      console.log("닉네임 수정 성공!");
+      alert("닉네임 수정 성공!");
       location.reload();
     } else {
       console.error("닉네임 수정 실패:", response.data);

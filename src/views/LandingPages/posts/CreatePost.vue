@@ -40,7 +40,7 @@ const router = useRouter();
 const submitForm = async () => {
   try {
     const token = localStorage.getItem("token");
-    console.log("token:", token);
+    // console.log("token:", token);
     if (!token) {
       // 토큰이 없으면 로그인 페이지로 리디렉션
       await router.push("/pages/landing-pages/basic");
@@ -82,7 +82,7 @@ const handleFileUpload = async (event) => {
     const presignedUrl = presignedUrlResponse.data;
 
     await uploadImage(presignedUrl, file);
-    console.log('이미지 업로드 완료');
+    // console.log('이미지 업로드 완료');
     imageUrl.value = presignedUrl.split('?')[0]; // pre-signed URL에서 쿼리 부분을 제외한 URL을 추출합니다.
   } catch (error) {
     console.error('이미지 업로드 및 URL 저장 실패:', error);
@@ -92,7 +92,7 @@ const handleFileUpload = async (event) => {
 // 이미지 PUT요청
 const uploadImage = async (presignedUrl, file) => {
   try {
-    console.log('presignedUrl, file:', presignedUrl, file)
+    //console.log('presignedUrl, file:', presignedUrl, file)
     const response = await fetch(presignedUrl, {
       method: 'PUT', // 사전 서명된 URL에 대한 HTTP 메소드는 PUT입니다.
       headers: {
@@ -101,7 +101,7 @@ const uploadImage = async (presignedUrl, file) => {
       body: file, // 파일 데이터를 직접 바디에 포함
       mode: 'cors'
     })
-    console.log('이미지 업로드 성공:', response);
+    //console.log('이미지 업로드 성공:', response);
   } catch (error) {
     console.error('이미지 업로드 실패:', error);
     throw error;

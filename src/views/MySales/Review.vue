@@ -12,9 +12,9 @@ const memberId = route.params.memberId;
 const ReviewBymemberId = async () => {
   try {
     const response = await axios.get(`/members/${memberId}/profile/reviews`);
-    console.log("Member ID:", memberId);
+    // console.log("Member ID:", memberId);
     review.value = response.data;
-    console.log("reviews:", review.value);
+    // console.log("reviews:", review.value);
   } catch (error) {
     console.error("리뷰를 가져오는 도중 에러가 발생했습니다.", error);
   }

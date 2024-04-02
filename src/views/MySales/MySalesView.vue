@@ -29,7 +29,7 @@ const fetchPostsBymemberId = async () => {
       `/members/${memberId.value}/profile/posts`
     );
     posts.value = response.data;
-    console.log("posts:", posts.value); // 게시글 목록 출력
+    // console.log("posts:", posts.value); // 게시글 목록 출력
   } catch (error) {
     console.error("게시글을 가져오는 도중 에러가 발생했습니다:", error);
   }
