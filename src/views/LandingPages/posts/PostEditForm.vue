@@ -130,18 +130,19 @@ import MaterialInput from "@/components/MaterialInput.vue";
 import MaterialTextArea from "@/components/MaterialTextArea.vue";
 
 const categories = [
-  { value: "OTHERS", label: "기타" },
+  { value: "BEAUTY", label: "뷰티" },
+  { value: "FASHION", label: "의류" },
   { value: "KITCHEN", label: "주방" },
   { value: "BOOK", label: "책" },
   { value: "CHILDCARE", label: "육아" },
   { value: "INTERIOR", label: "인테리어" },
   { value: "GAME", label: "게임" },
   { value: "CAR_SUPPLIES", label: "자동차 용품" },
-  { value: "BEAUTY", label: "뷰티" },
   { value: "FOOD", label: "음식" },
   { value: "SPORTS", label: "스포츠" },
   { value: "DIGITAL", label: "디지털" },
-  { value: "PET", label: "애완동물" },
+  { value: "PET", label: "반려동물" },
+  { value: "OTHERS", label: "기타" },
 ];
 
 setMaterialInput();
