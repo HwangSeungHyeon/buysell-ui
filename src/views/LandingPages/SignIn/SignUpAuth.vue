@@ -25,9 +25,10 @@ const sendEmailVerification = async () => {
     alert(
       "이메일 인증 링크 전송에 성공했습니다 이메일 확인 후 로그인을 진행해주세요", response
     );
-    await router.push("/login");
+    await router.push("/");
   } catch (error) {
-    alert("이메일 전송에 실패했습니다");
+    alert("가입된 정보가 없습니다 회원가입을 먼저 진행해주세요");
+    await router.push("/login");
   }
 };
 </script>
@@ -63,11 +64,12 @@ const sendEmailVerification = async () => {
                   <h4
                     class="text-white font-weight-bolder text-center mt-2 mb-0"
                   >
-                    이메일 인증 링크 전송
+                    이메일 인증 링크 재전송
                   </h4>
                 </div>
               </div>
               <div class="card-body">
+                <h6 >이메일 인증을 실패하거나 다시 받고 싶으 실 경우 가입에 사용하신 이메일을 입력 하신 후 전송 버튼을 눌러주세요.</h6>
                 <form role="form" class="text-start">
                   <MaterialInput
                     v-model="email"
@@ -96,7 +98,7 @@ const sendEmailVerification = async () => {
                       color="success"
                       @click.prevent="sendEmailVerification"
                     >
-                      인증하기
+                      전송
                     </MaterialButton>
                   </div>
                 </form>

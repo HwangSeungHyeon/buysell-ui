@@ -36,7 +36,7 @@ const signUp = async () => {
     const response = await axios.post("/members/signup", formData);
    
     // /auth 경로로 이동
-    await router.push("/auth");
+    await router.push("/");
     alert(
       "이메일 인증 링크 전송에 성공했습니다 이메일 확인 후 로그인을 진행해주세요", response
     );
