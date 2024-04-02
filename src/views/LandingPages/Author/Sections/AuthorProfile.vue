@@ -35,8 +35,8 @@ const nicknameEdit = async () => {
       nickname: newNickname.value,
     });
     if (response.status === 200) {
-      alert("닉네임 수정 성공!");
       location.reload();
+      alert("닉네임 수정 성공!");
     } else {
       console.error("닉네임 수정 실패:", response.data);
     }
