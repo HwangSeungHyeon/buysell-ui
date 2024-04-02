@@ -20,9 +20,9 @@
             >
               BuySell
             </h1>
-            <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '500' }">
-              버리지마세요. 필요한 사람을 찾아보세요. 지금.
-            </p>
+<!--            <p class="lead text-white px-5 mt-3" :style="{ fontWeight: '500' }">-->
+<!--              버리지마세요. 필요한 사람을 찾아보세요. 지금.-->
+<!--            </p>-->
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, nextTick } from "vue";
+import {onMounted, onUnmounted, ref, nextTick, watch} from "vue";
 import axios from "axios";
 import { useRouter } from "vue-router";
 import NavbarDefault from "../..//examples/navbars/NavbarDefault.vue";
@@ -123,6 +123,7 @@ import moment from "moment";
 const router = useRouter();
 const body = document.getElementsByTagName("body")[0];
 
+const category = ref(null);
 const selectedSort = ref("createdAt,desc");
 const posts = ref([]);
 const page = ref(0);
@@ -168,10 +169,16 @@ const changeSort = (sortCriteria) => {
   }
 };
 
-const fetchPosts = async () => {
+const fetchPosts = async (reset = false) => {
+  if (reset) {
+    posts.value = [];
+    page.value = 0;
+  }
+
   try {
     const response = await axios.get("/posts", {
       params: {
+        category: category.value,
         page: page.value,
         size: 12,
         sort: selectedSort.value
@@ -199,9 +206,10 @@ const fetchPosts = async () => {
   }
 };
 
-const loadMore = async () => {
-  fetchPosts();
-};
+watch(() => router.currentRoute.value.query, (query) => {
+  category.value = query.category || null;
+  fetchPosts(true); // 카테고리 변경 시 게시물 목록을 리셋하고 새로운 데이터를 불러옵니다.
+}, { immediate: true });
 
 onMounted(async () => {
   body.classList.add("presentation-page");
@@ -209,6 +217,9 @@ onMounted(async () => {
   await nextTick(); // DOM 업데이트 대기
   observerTarget.value = document.getElementById('observer-target');
   initIntersectionObserver();
+  if (router.currentRoute.value.query.category) {
+    category.value = router.currentRoute.value.query.category;
+  }
 });
 
 onUnmounted(() => {
@@ -217,6 +228,12 @@ onUnmounted(() => {
     observer.value.disconnect();
   }
 });
+
+const loadMore = async () => {
+  if (observer.value) {
+    fetchPosts();
+  }
+};
 
 const navigateToDetail = (postId) => {
   router.push({ name: "posts", params: { postId } });

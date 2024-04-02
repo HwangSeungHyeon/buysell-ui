@@ -49,8 +49,8 @@
                 </p>
                 <div class="row">
                   <div class="col-12">
-                    <div class="d-flex justify-content-between">
-                      <p class="card-text small m-0">작성자: {{ post.createdName }}</p>
+                    <div class="d-flex justify-content-center">
+<!--                      <p class="card-text small m-0">작성자: {{ post.createdName }}</p>-->
                       <p class="card-text m-0">{{ Number(post.price).toLocaleString() }}원</p>
                       <!--                      <p class="card-text small m-0">{{ formatDate(post.updatedAt) }}</p>-->
                     </div>
