@@ -131,12 +131,17 @@ const formatPhoneNumber = (event) => {
 const validateAndPay = async () => {
   if (address.value && phoneNumber.value) {
     try {
-      await axios.post(`/posts/${post.value.id}/orders`, {
-        address: address.value,
-        phoneNumber: phoneNumber.value
-      });
-      alert("주문되었습니다.");
-      router.push('/');
+      if (Number(accountBalance.value) < Number(post.value.price)) {
+        alert("계좌 잔액이 부족합니다.");
+        return;
+      }else{
+        await axios.post(`/posts/${post.value.id}/orders`, {
+          address: address.value,
+          phoneNumber: phoneNumber.value
+        });
+        alert("주문되었습니다.");
+        router.push('/');
+      }
     } catch (error) {
       alert("주문에 실패했습니다.");
     }
