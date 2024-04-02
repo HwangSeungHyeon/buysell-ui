@@ -8,30 +8,35 @@
   </div>
   <section>
     <!-- 상품 정보 표시 -->
-    <div class="container py-3" style="width: 60%">
-      <div class="post-header text-center mb-5">
-        <div class="post-title">
-          <h4>상품명: {{ post.title }}</h4>
-        </div>
-        <div class="post-author">
-          <h4>
-            작성자:
-            <router-link :to="{ path: `/othersales/${post.memberId}` }">{{
-              post.createdName
-            }}</router-link>
-          </h4>
-        </div>
+    <div class="post-header mb-5" style="width: 60%; margin-left: 250px">
+      <div class="post-title" style="margin-right: 100px">
+        <h4>상품명: {{ post.title }}</h4>
       </div>
-      <div class="product-info py-6">
+      <div class="post-author">
+        <h4>
+          작성자:
+          <router-link :to="{ path: `/othersales/${post.memberId}` }">{{post.createdName }}</router-link>
+        </h4>
+      </div>
+    </div>
+    <div class="container py-3" style="width: 60%">
+      <div class="card card-body blur shadow-blur" style="">
         <div class="product-details">
-          <div>
-            <!-- 이미지를 화면 너비에 맞춰 표시 -->
+          <div style="text-align: center;">
             <img :src="post.imageUrl" :style="{ width: '60%' }" alt="Image" />
           </div>
-          <p style="font-weight: bold">가격: ₩{{ post.price }}</p>
-          <p style="font-weight: bold; margin-right: 50px">
-            내용: {{ post.content }}
-          </p>
+            <p style="text-align:  ;font-weight: bold">가격: ₩{{ post.price }}</p>
+          <h6 style="justify-content: start;">내용:</h6> <MaterialTextArea
+            style="
+              width: 60%;
+              height: 100%;
+              font-weight: bold;
+              margin-right: 50px;
+              border: 2px solid #000000;
+            "
+          >
+           {{ post.content }}
+          </MaterialTextArea>
         </div>
       </div>
       <!-- 구매하기 버튼 -->
@@ -186,6 +191,7 @@ import router from "@/router";
 import getUserId from "./getUserId";
 import { useStore } from "vuex";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
+import MaterialTextArea from "@/components/MaterialTextArea.vue";
 const route = useRoute();
 const post = ref({
   memberId: 0,
