@@ -190,7 +190,7 @@ const router = createRouter({
         if (store.state.isAccessAllowed){
           next();
         } else{
-          alert("접근이 제한되었습니다.");
+          alert("구매 버튼을 눌러야만 접근 가능한 페이지입니다.");
           next('/');
         }
       }
