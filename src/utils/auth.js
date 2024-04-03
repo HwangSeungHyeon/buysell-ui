@@ -27,7 +27,7 @@ function checkAccessToken(token) {
 function logout() {
   localStorage.removeItem("token");
   isAuthenticated.value = false;
-  alert("로그아웃 되었습니다.");
+  alert("로그아웃 되었습니다");
 }
 
 // 초기화 함수: 페이지 로드 시 토큰 확인

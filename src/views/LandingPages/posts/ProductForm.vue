@@ -50,75 +50,46 @@
           </MaterialTextArea>
         </div>
       </div>
-      <!-- 구매하기 버튼 -->
-      <div>
+      <!-- 게시글 수정, 찜하기 -->
+      <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <router-link :to="{ name: 'presentation' }">
+          <MaterialButton variant="gradient" color="secondary">목록</MaterialButton>
+        </router-link>
+        <div>
+          <router-link v-if="parseInt(userId) === parseInt(postAuthorId)" :to="{ name: 'postedit', params: { postId: post.id } }">
+            <material-button variant="gradient" color="secondary">수정</material-button>
+          </router-link>
+          <material-button @click="deletePost" variant="gradient" color="danger" style="margin-left: 10px;" v-if="parseInt(userId) === parseInt(postAuthorId)">삭제</material-button>
+        </div>
+        <!-- 구매하기 버튼 -->
         <!-- 게시글 작성자는 구매하기 버튼을 볼 수 없게 표시 -->
-        <div
-          v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout"
+        <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout"
         >
           <!--        <div v-else-if="post.isSoldout = false">-->
           <material-button
             variant="gradient"
             color="primary"
-            style="margin-right: 100px"
-            @click="handlePurchaseSubmission"
-            >구매하기</material-button
+            @click="handlePurchaseSubmission">구매하기</material-button
           >
         </div>
       </div>
-
-      <!-- 게시글 수정, 찜하기 -->
-      <div style="margin-top: 20px">
-        <router-link :to="{ name: 'presentation' }" class="no-style-link">
-          <MaterialButton
-            variant="gradient"
-            color="secondary"
-            style="justify-content: left"
-          >
-            목록
-          </MaterialButton>
-        </router-link>
-        <!-- postId를 postEdit 라우트에 전달 -->
-        <router-link
-          v-if="parseInt(userId) === parseInt(postAuthorId)"
-          :to="{ name: 'postedit', params: { postId: post.id } }"
-          class="no-style-link"
-        >
-          <material-button
-            variant="gradient"
-            color="secondary"
-            style="justify-content: end; margin-left: 630px"
-          >
-            수정
-          </material-button>
-        </router-link>
-        <material-button
-          @click="deletePost"
-          variant="gradient"
-          color="danger"
-          style="margin-left: 10px"
-          v-if="parseInt(userId) === parseInt(postAuthorId)"
-          >삭제</material-button
-        >
-        <!-- 게시글 찜 버튼 -->
-        <div v-if="token && !post.isSoldout" class="d-flex align-items-center">
-          <img
-            v-if="!post.isLiked"
-            src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
-            alt="빈 하트"
-            @click="toggleLike"
-            class="heart-icon mr-1"
-          />
-          <img
-            v-else
-            src="https://velog.velcdn.com/images/codekmj/post/4bbae38a-1ca5-4f6b-add4-7ead3cd70d71/image.jpg"
-            alt="꽉 찬 하트"
-            @click="toggleLike"
-            class="heart-icon mr-1"
-          />
-        </div>
+      <!-- 게시글 찜 버튼 -->
+      <div v-if="token && !post.isSoldout" class="d-flex align-items-center">
+        <img
+          v-if="!post.isLiked"
+          src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
+          alt="빈 하트"
+          @click="toggleLike"
+          class="heart-icon mr-1"
+        />
+        <img
+          v-else
+          src="https://velog.velcdn.com/images/codekmj/post/4bbae38a-1ca5-4f6b-add4-7ead3cd70d71/image.jpg"
+          alt="꽉 찬 하트"
+          @click="toggleLike"
+          class="heart-icon mr-1"
+        />
       </div>
-
       <!-- 댓글 작성칸 -->
       <div class="comment-form mb-5" style="margin-top: 20px">
         <div class="input-group">
