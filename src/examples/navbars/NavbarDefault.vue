@@ -96,7 +96,7 @@
               <button
                 v-if="isAuthenticated"
                 class="btn btn-sm mb-0"
-                @click="logout"
+                @click="handleLogout"
                 :class="action.color"
               >
                 로그아웃
@@ -239,6 +239,7 @@ import MaterialInput from "@/components/MaterialInput.vue";
 import ArrDark from "@/assets/img/down-arrow-dark.svg";
 import DownArrWhite from "@/assets/img/down-arrow-white.svg";
 import MaterialButton from "@/components/MaterialButton.vue";
+import { checkAccessToken } from "@/utils/auth";
 
 const categories = [
   { value: "BEAUTY", label: "뷰티" },
@@ -259,16 +260,60 @@ const categories = [
 const router = useRouter();
 const formData = ref({ keyword: '' });
 const isAuthenticated = ref(false);
-
 if (localStorage.getItem("token")) {
   isAuthenticated.value = true;
 }
+if (router) {
+  router.beforeEach((to, from, next) => {
+    const token = localStorage.getItem("token");
 
-function logout() {
-  localStorage.removeItem("token");
-  isAuthenticated.value = false;
-  alert("로그아웃 되었습니다.");
+    if (token) {
+      // 토큰이 있는 경우 로그인 상태로 설정
+      isAuthenticated.value = true;
+      // 토큰 체크 및 만료 시간 확인
+      checkAccessToken(token);
+    } else {
+      // 토큰이 없는 경우 로그아웃 상태로 설정
+      isAuthenticated.value = false;
+    }
+
+    next(); // 반드시 next()를 호출해야 다음 단계로 진행합니다.
+  });
 }
+
+function handleLogout() {
+  checkAccessToken()
+  router.push(`/`);
+}
+
+// const logoutTimer = ref(10);
+//
+// onMounted(() => {
+//   checkAuthentication();
+//   setInterval(decrementTimer, 1000);
+// });
+//
+// function checkAuthentication() {
+//   const token = localStorage.getItem("token");
+//   isAuthenticated.value = !!token;
+// }
+//
+// function decrementTimer() {
+//   if (isAuthenticated.value && logoutTimer.value > 0) {
+//     logoutTimer.value--;
+//   } else {
+//     clearInterval();
+//     logout();
+//   }
+// }
+//
+// function logout() {
+//   localStorage.removeItem("token");
+//   isAuthenticated.value = false;
+//   logoutTimer.value = 0;
+//
+//
+// }
 
 const props = defineProps({
   action: {
