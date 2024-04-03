@@ -40,13 +40,16 @@
 
 ## 주요기능
 
-- 기능 1
-
-- 기능 2
-
-- 기능 3
-
-- 기능 4
+- 이메일과 비밀번호를 이용한 로그인
+- 소셜 로그인: 카카오, 네이버, 구글
+- 자기 프로필 수정
+- 회원 탈퇴
+- 판매 게시글 등록, 수정, 삭제
+- 댓글 등록, 수정, 삭제
+- 자신이 등록한 게시글 목록 확인
+- 다른 사람의 판매 제품 구매
+- 판매자 평점 확인
+- 판매자 게시글 목록 확인
 
 
 ## 개발기간
@@ -130,7 +133,116 @@
 ## 프로젝트 파일 구조
 
 ```
-
+├─assets
+│  ├─css
+│  ├─fonts
+│  ├─img
+│  │  ├─examples
+│  │  ├─illustrations
+│  │  ├─logos
+│  │  │  ├─gray-logos
+│  │  │  ├─medium-logos
+│  │  │  ├─small-logos
+│  │  │  └─white-logos
+│  │  ├─shapes
+│  │  └─small-logos
+│  ├─js
+│  │  ├─core
+│  │  └─plugins
+│  │      └─presentation-page
+│  └─scss
+│      └─material-kit
+│          ├─bootstrap
+│          │  ├─forms
+│          │  ├─helpers
+│          │  ├─mixins
+│          │  ├─utilities
+│          │  └─vendor
+│          ├─cards
+│          ├─custom
+│          ├─forms
+│          ├─mixins
+│          ├─plugins
+│          │  └─free
+│          └─variables
+├─components
+├─examples
+│  ├─cards
+│  │  ├─blogCards
+│  │  ├─counterCards
+│  │  ├─infoCards
+│  │  ├─reviewCards
+│  │  ├─rotatingCards
+│  │  └─teamCards
+│  ├─footers
+│  ├─navbars
+│  └─tables
+├─layouts
+│  └─sections
+│      ├─attention-catchers
+│      │  ├─alerts
+│      │  │  └─components
+│      │  ├─modals
+│      │  │  └─components
+│      │  └─tooltips-popovers
+│      │      └─components
+│      ├─components
+│      ├─elements
+│      │  ├─avatars
+│      │  │  └─components
+│      │  ├─badges
+│      │  │  └─components
+│      │  ├─breadcrumbs
+│      │  ├─button-groups
+│      │  │  └─components
+│      │  ├─buttons
+│      │  │  └─components
+│      │  ├─dropdowns
+│      │  │  └─components
+│      │  ├─progress-bars
+│      │  │  └─components
+│      │  ├─toggles
+│      │  │  └─components
+│      │  └─typography
+│      │      └─components
+│      ├─input-areas
+│      │  ├─forms
+│      │  │  └─components
+│      │  └─inputs
+│      │      └─components
+│      ├─navigation
+│      │  ├─nav-tabs
+│      │  │  └─components
+│      │  ├─navbars
+│      │  │  └─components
+│      │  └─pagination
+│      │      └─components
+│      └─page-sections
+│          ├─features
+│          │  └─components
+│          └─page-headers
+│              └─components
+├─router
+├─stores
+├─utils
+└─views
+    ├─LandingPages
+    │  ├─AboutUs
+    │  │  └─Sections
+    │  ├─Author
+    │  │  └─Sections
+    │  ├─components
+    │  ├─ContactUs
+    │  ├─posts
+    │  └─SignIn
+    ├─MySales
+    ├─Pay
+    │  └─Components
+    ├─Presentation
+    │  ├─Components
+    │  └─Sections
+    │      └─Data
+    └─WishList
 ```
 
 ## 기술적 의사결정
@@ -138,22 +250,30 @@
 <summary> S3 </summary>
 <div markdown="1">
     - [도입 이유]
+      - 버킷에서 설정한 유저만이 접근할 수 있어 보안성이 높아짐
+      - 클라이언트가 직접 S3 버킷에 접근해 파일을 업로드할 수 있어 백엔드 서버의 부담이 줄어듬
     - [문제상황]
+      - IAM의 사용자 수가 5000개로 제한되어있어, 서비스 규모가 커질 때에 적용하기 힘들어짐
+      - AWS SDK를 사용할 때, ACCESS KEY와 SECRET KEY의 정보가 노출될 우려가 있음
     - [해결방안]
+      - 예상하는 이용자 수를 고려하면 IAM의 사용자 5000개 제한은 충분하다고 판단 됨
+      - KEY정보 노출 위험을 줄이기 위해 코드 내에서 KEY를 다루지 않고 환경변수에서만 관리하도록 해야함
     - [의사 결정]
+      - 보안을 최우선으로 고려하는 방향으로 KEY 노출의 위험은 줄이고, 서버의 부하를 줄일 수 있는 Presigned URl 방식을 채택함
 </div>
 </details>
 
 <details>
-<summary> CI/CD </summary>
+<summary> Vercel </summary>
 <div markdown="1">
     - [도입 이유]
+      - 애플리케이션을 실제 사용자가 접근할 수 있도록 하기 위함
     - [문제상황]
+      - 프론트 개발기간을 짧게 계획했기 때문에 러닝커브를 줄이고 빠르게 배포해야 함
     - [해결방안]
+      -  백엔드 서버와 프론트 서버를 같은 EC2 인스턴스 내에 배포
+      - EC2 인스턴스에는 백엔드 서버만 올리고, 프론트 서버는 vercel로 배포
     - [의사 결정]
+      - 프론트 엔드 서버와 백엔드 서버를 분리 후 연동 방식 공부하고, vercel을 이용하면 짧은 시간 내에 쉽게 CI/CD를 구축 가능하기 때문에 vercel 채택
 </div>
 </details>
-
-
-## Trouble Shooting
-
