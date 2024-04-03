@@ -8,7 +8,7 @@
   </div>
   <section>
     <!-- 상품 정보 표시 -->
-    <div class="post-header mb-5" style="width: 60%; margin-left: 250px">
+    <div class="post-header mb-5" style="width: 60%; margin-left: 300px">
       <div class="post-title" style="margin-right: 100px">
         <h4>상품명: {{ post.title }}</h4>
       </div>
@@ -25,17 +25,24 @@
           <div style="text-align: center;">
             <img :src="post.imageUrl" :style="{ width: '60%' }" alt="Image" />
           </div>
-            <p style="text-align:  ;font-weight: bold">가격: ₩{{ post.price }}</p>
-          <h6 style="justify-content: start;">내용:</h6> <MaterialTextArea
+          <div style="margin-right: 250px; margin-top: 20px">
+            <p style="text-align: center ;margin-right: 90px ;font-weight: bold">가격: ₩{{ post.price }}</p>
+          </div>
+        </div>
+        <h6 style="margin-left: 170px">내용:</h6>
+        <div style="text-align: center; margin-left: 170px">
+
+          <MaterialTextArea
             style="
-              width: 60%;
+              width: 75%;
               height: 100%;
               font-weight: bold;
+              text-align: center;
               margin-right: 50px;
               border: 2px solid #000000;
             "
           >
-           {{ post.content }}
+            {{ post.content }}
           </MaterialTextArea>
         </div>
       </div>
@@ -57,7 +64,7 @@
       </div>
 
       <!-- 게시글 수정, 찜하기 -->
-      <div>
+      <div style="margin-top: 20px">
         <router-link :to="{ name: 'presentation' }" class="no-style-link">
           <MaterialButton
             variant="gradient"
@@ -76,9 +83,9 @@
           <material-button
             variant="gradient"
             color="secondary"
-            style="justify-content: end"
+            style="justify-content: end; margin-left: 630px"
           >
-            게시글 수정
+            수정
           </material-button>
         </router-link>
         <material-button
@@ -87,7 +94,7 @@
           color="danger"
           style="margin-left: 10px"
           v-if="parseInt(userId) === parseInt(postAuthorId)"
-          >게시글 삭제</material-button
+          >삭제</material-button
         >
         <!-- 게시글 찜 버튼 -->
         <div v-if="token && !post.isSoldout" class="d-flex align-items-center">
@@ -109,7 +116,7 @@
       </div>
 
       <!-- 댓글 작성칸 -->
-      <div class="comment-form mb-5">
+      <div class="comment-form mb-5" style="margin-top: 20px">
         <div class="input-group">
           <material-input
             v-model="newComment"
