@@ -256,7 +256,6 @@ const categories = [
   { value: "PET", label: "반려동물" },
   { value: "OTHERS", label: "기타" },
 ];
-
 const router = useRouter();
 const formData = ref({ keyword: '' });
 const isAuthenticated = ref(false);
@@ -266,7 +265,6 @@ if (localStorage.getItem("token")) {
 if (router) {
   router.beforeEach((to, from, next) => {
     const token = localStorage.getItem("token");
-
     if (token) {
       // 토큰이 있는 경우 로그인 상태로 설정
       isAuthenticated.value = true;
@@ -276,49 +274,16 @@ if (router) {
       // 토큰이 없는 경우 로그아웃 상태로 설정
       isAuthenticated.value = false;
     }
-
     next(); // 반드시 next()를 호출해야 다음 단계로 진행합니다.
   });
 }
-
 function handleLogout() {
   checkAccessToken()
   localStorage.removeItem(`token`);
   isAuthenticated.value=false;
   alert("로그아웃 되었습니다")
-
   router.push(`/`);
 }
-
-// const logoutTimer = ref(10);
-//
-// onMounted(() => {
-//   checkAuthentication();
-//   setInterval(decrementTimer, 1000);
-// });
-//
-// function checkAuthentication() {
-//   const token = localStorage.getItem("token");
-//   isAuthenticated.value = !!token;
-// }
-//
-// function decrementTimer() {
-//   if (isAuthenticated.value && logoutTimer.value > 0) {
-//     logoutTimer.value--;
-//   } else {
-//     clearInterval();
-//     logout();
-//   }
-// }
-//
-// function logout() {
-//   localStorage.removeItem("token");
-//   isAuthenticated.value = false;
-//   logoutTimer.value = 0;
-//
-//
-// }
-
 const props = defineProps({
   action: {
     type: Object,
