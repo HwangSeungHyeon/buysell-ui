@@ -8,38 +8,42 @@
   </div>
   <section>
     <!-- 상품 정보 표시 -->
-    <div class="post-header mb-5" style="width: 60%; margin-left: 300px">
-      <div class="post-title" style="margin-right: 100px">
-        <h4>상품명: {{ post.title }}</h4>
-      </div>
-      <div class="post-author">
-        <h4>
-          작성자:
-          <router-link :to="{ path: `/othersales/${post.memberId}` }">{{post.createdName }}</router-link>
-        </h4>
+    <div class="container py-3" style="width: 60%">
+      <div class="post-header text-center mb-5">
+        <div class="post-title">
+          <h4>상품명: {{ post.title }}</h4>
+        </div>
+        <div class="post-author">
+          <h4>
+            작성자:
+            <router-link :to="{ path: `/othersales/${post.memberId}` }">{{
+                post.createdName
+              }}</router-link>
+          </h4>
+        </div>
       </div>
     </div>
-    <div class="container py-3" style="width: 60%">
-      <div class="card card-body blur shadow-blur" style="">
+    <div class="container py-3" >
+      <div class="card card-body blur shadow-blur" >
         <div class="product-details">
           <div style="text-align: center;">
             <img :src="post.imageUrl" :style="{ width: '60%' }" alt="Image" />
           </div>
-          <div style="margin-right: 250px; margin-top: 20px">
-            <p style="text-align: center ;margin-right: 90px ;font-weight: bold">가격: ₩{{ post.price }}</p>
+          <div style="margin-top: 20px; width: 580px; text-align: center">
+            <p style="font-weight: bold">가격: {{ post.price }}원</p>
           </div>
         </div>
-        <h6 style="margin-left: 170px">내용:</h6>
-        <div style="text-align: center; margin-left: 170px">
-
+        <h6 style="margin-top: 20px; width: 460px; text-align: center">
+          내용:
+        </h6>
+        <div style="text-align: center;%">
           <MaterialTextArea
             style="
-              width: 75%;
-              height: 100%;
+              text-align: left;
+              display: inline-block;
               font-weight: bold;
-              text-align: center;
-              margin-right: 50px;
               border: 2px solid #000000;
+              width: 60%;
             "
           >
             {{ post.content }}
