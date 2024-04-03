@@ -51,25 +51,14 @@ const extractCookie = (cookieName) => {
   }
   return null;
 };
-// 쿠키에서 토큰을 삭제하는 함수
-const deleteCookie = (cookieName) => {
-  // 만료된 날짜를 생성합니다 (과거로 설정하여 쿠키를 삭제합니다)
-  const expireDate = new Date();
-  expireDate.setFullYear(expireDate.getFullYear() - 1);
-
-  // 만료된 쿠키를 설정하여 삭제합니다
-  document.cookie = `${cookieName}=; expires=${expireDate.toUTCString()}; path=/; domain=${domain}`;
-};
 // 쿠키에서 토큰 값을 추출합니다.
 const token = extractCookie("token");
 
 if (token) {
   // 토큰을 session storage에 저장합니다.
   localStorage.setItem("token", token);
-  deleteCookie("token");
+  document.cookie = `token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain}`;
 }
-
-
 
 const app = createApp(App);
 // eslint-disable-next-line vue/no-reserved-component-names
@@ -80,4 +69,3 @@ app.use(router);
 app.use(materialKit);
 app.use(store);
 app.mount("#app");
-

@@ -17,94 +17,81 @@
           <h4>
             작성자:
             <router-link :to="{ path: `/othersales/${post.memberId}` }">{{
-              post.createdName
-            }}</router-link>
+                post.createdName
+              }}</router-link>
           </h4>
         </div>
       </div>
-      <div class="product-info py-6">
+    </div>
+    <div class="container py-3" >
+      <div class="card card-body blur shadow-blur" >
         <div class="product-details">
-          <div>
-            <!-- 이미지를 화면 너비에 맞춰 표시 -->
+          <div style="text-align: center;">
             <img :src="post.imageUrl" :style="{ width: '60%' }" alt="Image" />
           </div>
-          <p style="font-weight: bold">가격: ₩{{ post.price }}</p>
-          <p style="font-weight: bold; margin-right: 50px">
-            내용: {{ post.content }}
-          </p>
+          <div style="margin-top: 20px; width: 580px; text-align: center">
+            <p style="font-weight: bold">가격: {{ post.price }}원</p>
+          </div>
+        </div>
+        <h6 style="margin-top: 20px; width: 460px; text-align: center">
+          내용:
+        </h6>
+        <div style="text-align: center;%">
+          <MaterialTextArea
+            style="
+              text-align: left;
+              display: inline-block;
+              font-weight: bold;
+              border: 2px solid #000000;
+              width: 60%;
+            "
+          >
+            {{ post.content }}
+          </MaterialTextArea>
         </div>
       </div>
-      <!-- 구매하기 버튼 -->
-      <div>
+      <!-- 게시글 수정, 찜하기 -->
+      <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <router-link :to="{ name: 'presentation' }">
+          <MaterialButton variant="gradient" color="secondary">목록</MaterialButton>
+        </router-link>
+        <div>
+          <router-link v-if="parseInt(userId) === parseInt(postAuthorId)" :to="{ name: 'postedit', params: { postId: post.id } }">
+            <material-button variant="gradient" color="secondary">수정</material-button>
+          </router-link>
+          <material-button @click="deletePost" variant="gradient" color="danger" style="margin-left: 10px;" v-if="parseInt(userId) === parseInt(postAuthorId)">삭제</material-button>
+        </div>
+        <!-- 구매하기 버튼 -->
         <!-- 게시글 작성자는 구매하기 버튼을 볼 수 없게 표시 -->
-        <div
-          v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout"
+        <div v-if="parseInt(userId) !== parseInt(postAuthorId) && !post.isSoldout"
         >
           <!--        <div v-else-if="post.isSoldout = false">-->
           <material-button
             variant="gradient"
             color="primary"
-            style="margin-right: 100px"
-            @click="handlePurchaseSubmission"
-            >구매하기</material-button
+            @click="handlePurchaseSubmission">구매하기</material-button
           >
         </div>
       </div>
-
-      <!-- 게시글 수정, 찜하기 -->
-      <div>
-        <router-link :to="{ name: 'presentation' }" class="no-style-link">
-          <MaterialButton
-            variant="gradient"
-            color="secondary"
-            style="justify-content: left"
-          >
-            목록
-          </MaterialButton>
-        </router-link>
-        <!-- postId를 postEdit 라우트에 전달 -->
-        <router-link
-          v-if="parseInt(userId) === parseInt(postAuthorId)"
-          :to="{ name: 'postedit', params: { postId: post.id } }"
-          class="no-style-link"
-        >
-          <material-button
-            variant="gradient"
-            color="secondary"
-            style="justify-content: end"
-          >
-            게시글 수정
-          </material-button>
-        </router-link>
-        <material-button
-          @click="deletePost"
-          variant="gradient"
-          color="danger"
-          style="margin-left: 10px"
-          v-if="parseInt(userId) === parseInt(postAuthorId)"
-          >게시글 삭제</material-button
-        >
-        <!-- 게시글 찜 버튼 -->
-        <div v-if="token && !post.isSoldout" class="d-flex align-items-center">
-          <img
-            v-if="!post.isLiked"
-            src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
-            alt="빈 하트"
-            @click="toggleLike"
-            class="heart-icon mr-1"
-          />
-          <img
-            v-else
-            src="https://velog.velcdn.com/images/codekmj/post/4bbae38a-1ca5-4f6b-add4-7ead3cd70d71/image.jpg"
-            alt="꽉 찬 하트"
-            @click="toggleLike"
-            class="heart-icon mr-1"
-          />
-        </div>
+      <!-- 게시글 찜 버튼 -->
+      <div v-if="token && !post.isSoldout" class="d-flex align-items-center">
+        <img
+          v-if="!post.isLiked"
+          src="https://velog.velcdn.com/images/codekmj/post/6dbd31d7-e8f7-4e74-a756-4b5ab722591f/image.png"
+          alt="빈 하트"
+          @click="toggleLike"
+          class="heart-icon mr-1"
+        />
+        <img
+          v-else
+          src="https://velog.velcdn.com/images/codekmj/post/4bbae38a-1ca5-4f6b-add4-7ead3cd70d71/image.jpg"
+          alt="꽉 찬 하트"
+          @click="toggleLike"
+          class="heart-icon mr-1"
+        />
       </div>
-
       <!-- 댓글 작성칸 -->
-      <div class="comment-form mb-5">
+      <div class="comment-form mb-5" style="margin-top: 20px">
         <div class="input-group">
           <material-input
             v-model="newComment"
@@ -186,6 +173,7 @@ import router from "@/router";
 import getUserId from "./getUserId";
 import { useStore } from "vuex";
 import NavbarDefault from "@/examples/navbars/NavbarDefault.vue";
+import MaterialTextArea from "@/components/MaterialTextArea.vue";
 const route = useRoute();
 const post = ref({
   memberId: 0,
