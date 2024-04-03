@@ -129,18 +129,20 @@ const formatPhoneNumber = (event) => {
 };
 
 const validateAndPay = async () => {
-  console.log("Address:", address.value, "Phone Number:", phoneNumber.value); // 디버깅을 위한 로그
-
   if (address.value && phoneNumber.value) {
     try {
-      await axios.post(`/posts/${post.value.id}/orders`, {
-        address: address.value,
-        phoneNumber: phoneNumber.value
-      });
-      alert("주문되었습니다.");
-      router.push('/');
+      if (Number(accountBalance.value) < Number(post.value.price)) {
+        alert("계좌 잔액이 부족합니다.");
+        return;
+      }else{
+        await axios.post(`/posts/${post.value.id}/orders`, {
+          address: address.value,
+          phoneNumber: phoneNumber.value
+        });
+        alert("주문되었습니다.");
+        router.push('/');
+      }
     } catch (error) {
-      console.error("주문 생성 오류:", error);
       alert("주문에 실패했습니다.");
     }
   } else {

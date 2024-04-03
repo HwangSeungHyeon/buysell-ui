@@ -413,7 +413,7 @@ function performSearch() {
 }
 
 function selectCategory(category) {
-  console.log(category.value);
+  // console.log(category.value);
   router.push({ name: "presentation", query: { category: category.value } });
 }
 </script>

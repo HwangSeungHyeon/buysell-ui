@@ -23,11 +23,11 @@ const useMemberId = () => {
   const route = useRoute();
   const memberId = route.params.memberId;
 
-  if (memberId) {
-    console.log("Current memberId:", memberId);
-  } else {
-    console.error("MemberId not found in current route.");
-  }
+  // if (memberId) {
+  //   console.log("Current memberId:", memberId);
+  // } else {
+  //   console.error("MemberId not found in current route.");
+  // }
   return memberId;
 };
 
@@ -39,9 +39,9 @@ const fetchPostsBymemberId = async () => {
   const memberId = useMemberId(); // useMemberId 함수를 setup 함수 내에서 호출
   try {
     const response = await axios.get(`/members/${memberId}/profile/posts`);
-    console.log("Member ID:", memberId);
+    // console.log("Member ID:", memberId);
     posts.value = response.data;
-    console.log("posts:", posts.value); // 게시글 목록 출력
+    // console.log("posts:", posts.value); // 게시글 목록 출력
   } catch (error) {
     console.error("게시글을 가져오는 도중 에러가 발생했습니다.", error);
   }
