@@ -38,6 +38,8 @@ import SearchResults from "@/views/Presentation/SearchResults.vue";
 import OtherSalesView from "@/views/MySales/OtherSalesView.vue";
 import store from "@/store";
 import Review from "@/views/MySales/Review.vue";
+import PurchaseHistory from "@/views/MySales/PurchaseHistory.vue";
+import CreateReview from "@/views/MySales/CreateReview.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -245,6 +247,16 @@ const router = createRouter({
       name: "review",
       component: Review,
     },
+    {
+      path: "/PurchaseHistory",
+      name: "PurchaseHistory",
+      component: PurchaseHistory,
+    },
+    {
+      path: "/posts/:postId/reviews",
+      name: "CreateReviews",
+      component: CreateReview
+    }
   ],
 });
 
