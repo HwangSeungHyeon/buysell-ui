@@ -106,6 +106,13 @@ const signOut = async () => {
               </router-link>
             </div>
             <div>
+              <router-link to="/PurchaseHistory">
+                <button class="btn bg-white text-dark" type="submit">
+                  구매 내역
+                </button>
+              </router-link>
+            </div>
+            <div>
               <router-link to="/pages/landing-pages/author">
                 <button class="btn bg-white text-dark" type="submit">
                   프로필 수정
