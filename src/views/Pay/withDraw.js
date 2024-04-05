@@ -21,7 +21,7 @@ export function withDraw(){
             return;
         }
 
-        if (Number(formData.value.money) > accountBalance.value) {
+        if (Number(formData.value.money) >= accountBalance.value) {
             alert("출금할 금액을 확인해주세요.");
             return;
         }
